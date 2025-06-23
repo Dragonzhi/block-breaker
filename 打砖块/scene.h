@@ -1,0 +1,16 @@
+#pragma once
+#include<graphics.h>
+class scene
+{
+public:
+	scene() {}
+	~scene() {}
+
+	virtual void on_update(float delta) {}
+	virtual void on_input(const ExMessage& msg) {}
+	virtual void on_enter(){}
+	virtual void on_exit() {}
+	virtual void on_render() {}
+
+private:
+};
