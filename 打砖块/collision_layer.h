@@ -3,6 +3,7 @@
 enum class CollisionLayer
 {
 	None,
-	Player,
-	Enemy
+	Paddle,
+	Brick,
+	Ball
 };

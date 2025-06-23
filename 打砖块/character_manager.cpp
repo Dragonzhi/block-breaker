@@ -1,39 +1,36 @@
 #include "character_manager.h"
-#include "player.h"
-#include "bullet_time_manager.h"
+#include "paddle.h"
 
-BrickManager* BrickManager::manager = nullptr;
+CharacterManager* CharacterManager::manager = nullptr;
 
-BrickManager* BrickManager::instance()
+CharacterManager* CharacterManager::instance()
 {
     if (!manager)
-        manager = new BrickManager();
+        manager = new CharacterManager();
     return manager;
 }
 
-void BrickManager::on_input(const ExMessage& msg)
+void CharacterManager::on_input(const ExMessage& msg)
 {
     player->on_input(msg);
 }
 
-void BrickManager::on_update(float delta)
+void CharacterManager::on_update(float delta)
 {
     player->on_update(delta);
 }
 
-void BrickManager::on_render()
+void CharacterManager::on_render()
 {
-    BulletTimeManager::instance()->post_process();
     player->on_render();
 }
 
-BrickManager::BrickManager()
+CharacterManager::CharacterManager()
 {
-    player = new Player();
+    player = new Paddle();
 }
 
-BrickManager::~BrickManager()
+CharacterManager::~CharacterManager()
 {
     delete player;
-    delete enemy;
 }

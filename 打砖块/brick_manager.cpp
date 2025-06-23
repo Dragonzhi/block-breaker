@@ -1,8 +1,4 @@
 #include "brick_manager.h"
-BrickManager::BrickManager()
-{
-}
+BrickManager::BrickManager() = default;
 
-BrickManager::~BrickManager()
-{
-}
+BrickManager::~BrickManager() = default;

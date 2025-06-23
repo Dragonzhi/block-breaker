@@ -2,15 +2,10 @@
 
 #include "character.h"
 
-class BrickManager
+class CharacterManager
 {
 public:
-    static BrickManager* instance();
-
-    Character* get_enemy()
-    {
-        return enemy;
-    }
+    static CharacterManager* instance();
 
     Character* get_player()
     {
@@ -22,12 +17,10 @@ public:
     void on_render();
 
 private:
-    static BrickManager* manager;
-
-    Character* enemy = nullptr;
+    static CharacterManager* manager;
     Character* player = nullptr;
 
 private:
-    BrickManager();
-    ~BrickManager();
+    CharacterManager();
+    ~CharacterManager();
 };

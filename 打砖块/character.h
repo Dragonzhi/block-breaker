@@ -4,12 +4,13 @@
 #include "animation.h"
 #include "collision_box.h"
 #include "state_machine.h"
+#include "game_object.h"
 
 #include <string>
 #include <graphics.h>
 #include <unordered_map>
 
-class Character
+class Character : public GameObject
 {
 public:
     Character();
@@ -66,9 +67,9 @@ public:
         timer_invulnerable_status.restart();
     }
 
-    virtual void on_input(const ExMessage& msg);
-    virtual void on_update(float delta);
-    virtual void on_render();
+    //virtual void on_input(const ExMessage& msg);
+    //virtual void on_update(float delta);
+    //virtual void on_render();
 
     virtual void on_hurt();
 
@@ -87,8 +88,8 @@ protected:
     const float GRAVITY = 980 * 2;                                   // 重力大小
 
     int hp = 10;                                                     // 角色生命值
-    Vector2 position;                                                // 角色脚底位置
-    Vector2 velocity;                                                // 角色速度
+    //Vector2 position;                                                // 角色脚底位置
+    //Vector2 velocity;                                                // 角色速度
     float logic_height = 0;                                          // 角色的逻辑高度
     bool is_facing_left = true;                                      // 当前角色是否朝向左
     StateMachine state_machine;                                      // 角色逻辑状态机
