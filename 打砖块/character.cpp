@@ -34,8 +34,6 @@ void Character::decrease_hp() {
 	on_hurt();
 }
 
-void Character::on_input(const ExMessage& msg){}
-
 void Character::on_update(float delta) {
 	//std::cout << "Delta: " << delta << " seconds" << std::endl;
 	state_machine.on_update(delta);

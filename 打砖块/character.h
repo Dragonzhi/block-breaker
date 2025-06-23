@@ -22,22 +22,6 @@ public:
         return hp;
     }
 
-    void set_position(const Vector2& pos) {
-        position = pos;
-    }
-
-    const Vector2& get_position() const {
-        return position;
-    }
-
-    void set_velocity(const Vector2& velocity) {
-        this->velocity = velocity;
-    }
-
-    const Vector2& get_velocity() const {
-        return velocity;
-    }
-
     Vector2 get_logic_center() const {
         return Vector2(position.x, position.y - logic_height / 2);
     }
@@ -67,9 +51,8 @@ public:
         timer_invulnerable_status.restart();
     }
 
-    //virtual void on_input(const ExMessage& msg);
-    //virtual void on_update(float delta);
-    //virtual void on_render();
+    virtual void on_update(float delta) override;
+    virtual void on_render() override;
 
     virtual void on_hurt();
 
@@ -88,8 +71,8 @@ protected:
     const float GRAVITY = 980 * 2;                                   // 重力大小
 
     int hp = 10;                                                     // 角色生命值
-    //Vector2 position;                                                // 角色脚底位置
-    //Vector2 velocity;                                                // 角色速度
+    //Vector2 position;                                              // 角色脚底位置
+    //Vector2 velocity;                                              // 角色速度
     float logic_height = 0;                                          // 角色的逻辑高度
     bool is_facing_left = true;                                      // 当前角色是否朝向左
     StateMachine state_machine;                                      // 角色逻辑状态机

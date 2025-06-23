@@ -1,5 +1,4 @@
 #include "character_manager.h"
-#include "paddle.h"
 
 CharacterManager* CharacterManager::manager = nullptr;
 
@@ -18,16 +17,20 @@ void CharacterManager::on_input(const ExMessage& msg)
 void CharacterManager::on_update(float delta)
 {
     player->on_update(delta);
+    ball->on_update(delta);
 }
 
 void CharacterManager::on_render()
 {
     player->on_render();
+    ball->on_render();
 }
 
 CharacterManager::CharacterManager()
 {
     player = new Paddle();
+    ball = new Ball();
+    ball->set_paddle(player);
 }
 
 CharacterManager::~CharacterManager()

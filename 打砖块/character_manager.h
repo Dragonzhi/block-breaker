@@ -1,6 +1,8 @@
 #pragma once
 
 #include "character.h"
+#include "ball.h"
+#include "paddle.h"
 
 class CharacterManager
 {
@@ -18,7 +20,8 @@ public:
 
 private:
     static CharacterManager* manager;
-    Character* player = nullptr;
+    Paddle* player = nullptr;
+    Ball* ball = nullptr;
 
 private:
     CharacterManager();

@@ -15,7 +15,7 @@ static const vector<ImageResInfo> image_info_list = {
 	{ "background", _T(R"(resources\background.png)")},
 	{ "paddle_blue_right",   _T(R"(resources\paddleBlu.png)") },
 	{ "paddle_blue_move_right",	_T(R"(resources\paddleBlu_move.png)") },
-	//{ "player_dead_right",		_T(R"(resources\player\dead.png)") },
+	{ "ball",		_T(R"(resources\ballBlue.png)") },
 	//{ "player_fall_right",		_T(R"(resources\player\fall.png)") },
 	//{ "player_idle_right",		_T(R"(resources\player\idle.png)") },
 	//{ "player_jump_right",		_T(R"(resources\player\jump.png)") },

@@ -43,7 +43,7 @@ void PlayerIdleState::on_update(float delta)
 
 void PlayerMoveState::on_enter()
 {
-    CharacterManager::instance()->get_player()->set_animation("run");
+    CharacterManager::instance()->get_player()->set_animation("move");
     //play_audio(_T("player_run"), true);
 }
 
