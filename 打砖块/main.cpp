@@ -57,14 +57,14 @@ int main(int argc, char** argv)
     {
         while (peekmessage(&msg))
         {
-            CharacterManager::instance()->on_input(msg);
+            BrickManager::instance()->on_input(msg);
         }
 
         steady_clock::time_point frame_start = steady_clock::now();
         duration<float> delta = duration<float>(frame_start - last_tick);
 
         // 处理更新
-        CharacterManager::instance()->on_update(delta.count());
+        BrickManager::instance()->on_update(delta.count());
         CollisionManager::instance()->process_collide();
 
         setbkcolor(RGB(0, 0, 0));
@@ -72,7 +72,7 @@ int main(int argc, char** argv)
 
         // 处理绘图
         draw_background();
-        CharacterManager::instance()->on_render();
+        BrickManager::instance()->on_render();
         CollisionManager::instance()->on_debug_render();
 
         FlushBatchDraw();

@@ -2,37 +2,37 @@
 #include "player.h"
 #include "bullet_time_manager.h"
 
-CharacterManager* CharacterManager::manager = nullptr;
+BrickManager* BrickManager::manager = nullptr;
 
-CharacterManager* CharacterManager::instance()
+BrickManager* BrickManager::instance()
 {
     if (!manager)
-        manager = new CharacterManager();
+        manager = new BrickManager();
     return manager;
 }
 
-void CharacterManager::on_input(const ExMessage& msg)
+void BrickManager::on_input(const ExMessage& msg)
 {
     player->on_input(msg);
 }
 
-void CharacterManager::on_update(float delta)
+void BrickManager::on_update(float delta)
 {
     player->on_update(delta);
 }
 
-void CharacterManager::on_render()
+void BrickManager::on_render()
 {
     BulletTimeManager::instance()->post_process();
     player->on_render();
 }
 
-CharacterManager::CharacterManager()
+BrickManager::BrickManager()
 {
     player = new Player();
 }
 
-CharacterManager::~CharacterManager()
+BrickManager::~BrickManager()
 {
     delete player;
     delete enemy;

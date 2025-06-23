@@ -1,21 +1,11 @@
 #pragma once
 
-#include "character.h"
+#include <graphics.h>
 
 class BrickManager
 {
 public:
     static BrickManager* instance();
-
-    Character* get_enemy()
-    {
-        return enemy;
-    }
-
-    Character* get_player()
-    {
-        return player;
-    }
 
     void on_input(const ExMessage& msg);
     void on_update(float delta);
@@ -23,9 +13,6 @@ public:
 
 private:
     static BrickManager* manager;
-
-    Character* enemy = nullptr;
-    Character* player = nullptr;
 
 private:
     BrickManager();
