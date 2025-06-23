@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\brick">
+      <UniqueIdentifier>{b5791744-717c-48a4-993a-ee9d2b970430}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -95,12 +98,6 @@
     <ClInclude Include="camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="brick_manager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="brick.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="state_machine.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -124,6 +121,15 @@
     </ClInclude>
     <ClInclude Include="game_object.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="brick.h">
+      <Filter>头文件\brick</Filter>
+    </ClInclude>
+    <ClInclude Include="brick_manager.h">
+      <Filter>头文件\brick</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

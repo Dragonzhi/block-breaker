@@ -26,6 +26,7 @@ private:
 	bool is_right_key_down = false;
 	bool is_shot_key_down = false;
 
+	int mouse_x = 0;
 	bool has_ball = true;
 
 	Animation animation_idle_left;

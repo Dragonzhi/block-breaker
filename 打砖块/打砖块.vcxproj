@@ -160,6 +160,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="player_state_node.h" />
     <ClInclude Include="resources_manager.h" />
+    <ClInclude Include="scene.h" />
     <ClInclude Include="state_machine.h" />
     <ClInclude Include="state_node.h" />
     <ClInclude Include="timer.h" />

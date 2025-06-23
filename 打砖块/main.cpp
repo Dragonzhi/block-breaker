@@ -25,7 +25,7 @@ static void draw_background()
 }
 
 
-const int FPS = 60;  // 帧率值
+const int FPS = 144;  // 帧率值
 
 
 int main(int argc, char** argv)

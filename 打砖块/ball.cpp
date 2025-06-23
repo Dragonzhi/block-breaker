@@ -2,13 +2,17 @@
 #include "character_manager.h"
 
 Ball::Ball() {
-    
-	hurt_box = CollisionManager::instance()->create_collision_box();
     position = { 300, 300 };            // 初始化球的位置
     velocity = { speed/2, -speed };           // 初始化球的速度
+    hurt_box = CollisionManager::instance()->create_collision_box();
     hurt_box->set_size({ 20, 20 });     // 设置碰撞盒大小
     hurt_box->set_layer_src(CollisionLayer::Ball);
     hurt_box->set_layer_dst(CollisionLayer::Paddle);
+    hurt_box->set_on_collide([&]() {
+            CollisionBox* paddle_hurt_box = paddle->get_hurt_box();
+            reverse_y();
+            position.y = paddle_hurt_box->get_position().y - hurt_box->get_size().y - 1.0f;
+        });
     set_gravity_enabled(false);
 
     // 设置动画参数
@@ -37,16 +41,16 @@ void Ball::on_update(float delta) {
     }
 
     // 检查是否碰到paddle
-    if (paddle) {
-        CollisionBox* paddle_hurt_box = paddle->get_hurt_box();
+    /*if (paddle) {
+        
         if (hurt_box->get_position().x + hurt_box->get_size().x >= paddle_hurt_box->get_position().x &&
             hurt_box->get_position().x <= paddle_hurt_box->get_position().x + paddle_hurt_box->get_size().x &&
             hurt_box->get_position().y + hurt_box->get_size().y >= paddle_hurt_box->get_position().y &&
             hurt_box->get_position().y <= paddle_hurt_box->get_position().y + paddle_hurt_box->get_size().y) {
-            reverse_y();
-            position.y = paddle_hurt_box->get_position().y - hurt_box->get_size().y - 1.0f;
+            
+            
         }
-    }
+    }*/
 
     ball_animation.on_update(delta);
     ball_animation.set_position(position);

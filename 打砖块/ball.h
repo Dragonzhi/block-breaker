@@ -25,6 +25,10 @@ public:
 		speed = val;
 	}
 
+	void set_damage(int val) {
+		damage = val;
+	}
+
 	float get_speed() const {
 		return speed;
 	}
@@ -48,7 +52,7 @@ private:
 
 	bool is_enable = true;
 	float speed = 200.0f;
-	int damage;
+	int damage = 1;
 
 };
 

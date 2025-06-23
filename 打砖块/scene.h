@@ -1,10 +1,10 @@
 #pragma once
 #include<graphics.h>
-class scene
+class Scene
 {
 public:
-	scene() {}
-	~scene() {}
+	Scene() {}
+	~Scene() {}
 
 	virtual void on_update(float delta) {}
 	virtual void on_input(const ExMessage& msg) {}

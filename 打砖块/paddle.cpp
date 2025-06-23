@@ -95,6 +95,10 @@ void Paddle::on_input(const ExMessage& msg) {
 	case WM_LBUTTONUP:
 		is_shot_key_down = false;
 		break;
+	case WM_MOUSEMOVE:
+		// 记录鼠标的 x 坐标
+		mouse_x = msg.x;
+		break;
 	default:
 		break;
 	}
@@ -103,7 +107,8 @@ void Paddle::on_input(const ExMessage& msg) {
 
 void Paddle::on_update(float delta) {
 	if (hp > 0)
-		velocity.x = get_move_axis() * SPEED_MOVE;
+		//velocity.x = get_move_axis() * SPEED_MOVE;
+		position.x = mouse_x;
 
 	if (get_move_axis() != 0)
 		is_facing_left = (get_move_axis() < 0);
