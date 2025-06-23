@@ -12,44 +12,18 @@ struct AtlasResInfo {
 };
 
 static const vector<ImageResInfo> image_info_list = {  
-	{ "background", _T(R"(resources\background.png)")},
-	{ "paddle_blue_right",   _T(R"(resources\paddleBlu.png)") },
-	{ "paddle_blue_move_right",	_T(R"(resources\paddleBlu_move.png)") },
-	{ "ball",		_T(R"(resources\ballBlue.png)") },
-	//{ "player_fall_right",		_T(R"(resources\player\fall.png)") },
-	//{ "player_idle_right",		_T(R"(resources\player\idle.png)") },
-	//{ "player_jump_right",		_T(R"(resources\player\jump.png)") },
-	//{ "player_run_right",		_T(R"(resources\player\run.png)") },
-	//{ "player_roll_right",		_T(R"(resources\player\roll.png)") },
-	//  
-	//{ "player_vfx_attack_down",		_T(R"(resources\player\vfx_attack_down.png)") },
-	//{ "player_vfx_attack_left",		_T(R"(resources\player\vfx_attack_left.png)") },
-	//{ "player_vfx_attack_right",	_T(R"(resources\player\vfx_attack_right.png)") },
-	//{ "player_vfx_attack_up",		_T(R"(resources\player\vfx_attack_up.png)")},
-	//{ "player_vfx_jump",			_T(R"(resources\player\vfx_jump.png)") },
-	//{ "player_vfx_land",			_T(R"(resources\player\vfx_land.png)") },
+	{ "background",					_T(R"(resources\background.png)")},
+	{ "paddle_blue_right",			_T(R"(resources\paddleBlu.png)") },
+	{ "paddle_blue_move_right",		_T(R"(resources\paddleBlu_move.png)") },
+	{ "ball",						_T(R"(resources\ballBlue.png)") },
+	{ "brick_blue",					_T(R"(resources\element_blue_rectangle_glossy.png)") },
+	{ "brick_red",					_T(R"(resources\element_red_rectangle_glossy.png)") },
+	{ "brick_yellow",				_T(R"(resources\element_yellow_rectangle_glossy.png)") }
 };
 
 static const vector<AtlasResInfo> atlas_info_list = {
-	/*{ "barb_break",	_T(R"(resources\enemy\barb_break\%d.png)"), 3 },
-	{ "barb_loose",	_T(R"(resources\enemy\barb_loose\%d.png)"), 5 },
-	{ "silk",		_T(R"(resources\enemy\silk\%d.png)"),		9 },
-	{ "sword_left",	_T(R"(resources\enemy\sword\%d.png)"),		3 },
-
-	{ "enemy_aim_left",              _T(R"(resources\enemy\aim\%d.png)"),			 9 },
-	{ "enemy_dash_in_air_left",      _T(R"(resources\enemy\dash_in_air\%d.png)"),    2 },
-	{ "enemy_dash_on_floor_left",    _T(R"(resources\enemy\dash_on_floor\%d.png)"),  2 },
-	{ "enemy_fall_left",             _T(R"(resources\enemy\fall\%d.png)"),           4 },
-	{ "enemy_idle_left",             _T(R"(resources\enemy\idle\%d.png)"),           6 },
-	{ "enemy_jump_left",             _T(R"(resources\enemy\jump\%d.png)"),           8 },
-	{ "enemy_run_left",              _T(R"(resources\enemy\run\%d.png)"),            8 },
-	{ "enemy_squat_left",            _T(R"(resources\enemy\squat\%d.png)"),          10 },
-	{ "enemy_throw_barb_left",       _T(R"(resources\enemy\throw_barb\%d.png)"),     8 },
-	{ "enemy_throw_silk_left",       _T(R"(resources\enemy\throw_silk\%d.png)"),     17 },
-	{ "enemy_throw_sword_left",      _T(R"(resources\enemy\throw_sword\%d.png)"),    16 },
-
-	{ "enemy_vfx_dash_in_air_left",  _T(R"(resources\enemy\vfx_dash_in_air\%d.png)"),  5 },
-	{ "enemy_vfx_dash_on_floor_left",_T(R"(resources\enemy\vfx_dash_on_floor\%d.png)"),6 },*/
+	/*{ "barb_break",	_T(R"(resources\enemy\barb_break\%d.png)"), 3 }
+	*/
 };
 
 
