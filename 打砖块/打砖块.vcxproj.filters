@@ -42,16 +42,7 @@
     <ClCompile Include="brick.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="state_machine.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="bullet_time_manager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="player_state_node.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="paddle.cpp">
@@ -98,19 +89,7 @@
     <ClInclude Include="camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="state_machine.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="state_node.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="bullet_time_manager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="player_state_node.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="paddle.h">

@@ -49,6 +49,8 @@ private:
 
 	Animation ball_animation;
 
+	bool is_shot_key_down = false;
+
 	bool is_enable = true;
 	float speed = 200.0f;
 	int damage = 1;

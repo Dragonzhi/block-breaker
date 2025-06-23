@@ -12,6 +12,7 @@ CharacterManager* CharacterManager::instance()
 void CharacterManager::on_input(const ExMessage& msg)
 {
     player->on_input(msg);
+    ball->on_input(msg);
 }
 
 void CharacterManager::on_update(float delta)

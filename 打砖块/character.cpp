@@ -1,4 +1,5 @@
 #include "character.h"
+#include "collision_manager.h"
 
 Character::Character() {
     hit_box = CollisionManager::instance()->create_collision_box();
@@ -33,6 +34,7 @@ void Character::decrease_hp() {
     on_hurt();
 }
 
+void Character::on_input(const ExMessage& msg) {}
 
 void Character::on_update(float delta) {
     if (hp <= 0)
@@ -56,19 +58,16 @@ void Character::on_update(float delta) {
 
     if (is_invulnerable)
         timer_invulnerable_blink.on_update(delta);
+
+    if (!current_animation) return;
+
+    current_animation->on_update(delta);
+    current_animation->set_position(position);
 }
 
 void Character::on_render() {
-    if (is_invulnerable && is_blink_invisible) return;
-    // 这里不再需要状态机相关的动画切换
+    if (!current_animation || (is_invulnerable && is_blink_invisible)) return;
+    current_animation->on_render();
 }
 
 void Character::on_hurt() {}
-
-void Character::switch_state(const string& id) {
-    // 去掉状态切换逻辑
-}
-
-void Character::set_animation(const string& id) {
-    // 去掉动画切换逻辑
-}
