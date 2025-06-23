@@ -14,6 +14,10 @@ public:
         return player;
     }
 
+    Character* get_ball() {
+        return ball;
+    }
+
     void on_input(const ExMessage& msg);
     void on_update(float delta);
     void on_render();
