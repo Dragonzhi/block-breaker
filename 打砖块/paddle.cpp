@@ -25,7 +25,21 @@ Paddle::Paddle() {
 		animation_idle_right.set_anchor_mode(Animation::AnchorMode::BottomCentered);
 		animation_idle_right.add_frame(ResourcesManager::instance()->find_image("paddle_blue_right"), 1);
 	}
+	//{
+	//	AnimationGroup& animation_move = animation_pool["move"];
 
+	//	Animation& animation_move_left = animation_move.left;
+	//	animation_move_left.set_interval(0.1f);
+	//	animation_move_left.set_loop(true);
+	//	animation_move_left.set_anchor_mode(Animation::AnchorMode::BottomCentered);
+	//	animation_move_left.add_frame(ResourcesManager::instance()->find_image("paddle_blue_move_left"), 1);
+
+	//	Animation& animation_move_right = animation_move.right;
+	//	animation_move_right.set_interval(0.1f);
+	//	animation_move_right.set_loop(true);
+	//	animation_move_right.set_anchor_mode(Animation::AnchorMode::BottomCentered);
+	//	animation_move_right.add_frame(ResourcesManager::instance()->find_image("paddle_blue_move_right"), 1);
+	//}
 	// ×´Ì¬»ú
 	{
 		state_machine.register_state("idle", new PlayerIdleState());

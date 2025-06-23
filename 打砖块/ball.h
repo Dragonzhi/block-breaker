@@ -4,6 +4,8 @@
 #include "collision_box.h"
 #include "collision_manager.h"
 #include "paddle.h"
+#include "resources_manager.h"
+
 
 class Ball : public Character
 {
@@ -37,13 +39,23 @@ public:
 	void reverse_y() {
 		velocity.y = -velocity.y;
 	}
+private:
+	struct BallColor
+	{
+		COLOR16 r;
+		COLOR16 g;
+		COLOR16 b;
+	};
 
 private:
 	CollisionBox* hurt_box = nullptr;
 	Paddle* paddle = nullptr;
 
+	Animation ball_animation;
+
 	bool is_enable = true;
 	float speed = 200.0f;
+
 
 };
 
