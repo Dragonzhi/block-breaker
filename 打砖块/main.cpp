@@ -8,8 +8,9 @@
 #include <iostream>
 #include <thread>
 
-using namespace std;
 
+using namespace std;
+//
 static void draw_background()
 {
     static IMAGE* img_background = ResourcesManager::instance()->find_image("background");
