@@ -5,7 +5,7 @@
 #include "collision_box.h"
 #include "state_machine.h"
 #include "game_object.h"
-
+#include "collision_manager.h"
 #include <string>
 #include <graphics.h>
 #include <unordered_map>

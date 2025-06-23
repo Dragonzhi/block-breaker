@@ -45,7 +45,6 @@ public:
 	}
 
 private:
-	//CollisionBox* hurt_box = nullptr;
 	Paddle* paddle = nullptr;
 
 	Animation ball_animation;

@@ -33,7 +33,7 @@ void Ball::on_update(float delta) {
     hurt_box->set_position(position);
 
     // ÆÁÄ»±ßÔµÅö×²¼ì²â
-    if (position.x <= 0 || position.x + hurt_box->get_size().x >= getwidth()) {
+    if (position.x <= 0 || position.x >= getwidth()) {
         reverse_x();
     }
     if (position.y <= 0) {

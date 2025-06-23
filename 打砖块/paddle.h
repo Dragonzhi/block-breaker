@@ -15,23 +15,14 @@ public:
 		return has_ball;
 	}
 
-	int get_move_axis() const {
-		return is_right_key_down - is_left_key_down;
-	}
+	//int get_move_axis() const {
+	//	
+	//}
 
 private:
-	float SPEED_MOVE = 400.0f;
-
-	bool is_left_key_down = false;
-	bool is_right_key_down = false;
-	bool is_shot_key_down = false;
-
 	int mouse_x = 0;
 	bool has_ball = true;
 
-	Animation animation_idle_left;
-	Animation animation_idle_right;
-	Animation animation_move_left;
-	Animation animation_move_right;
+	Animation paddle_animation;
 };
 
