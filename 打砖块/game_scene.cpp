@@ -1,19 +1,23 @@
 #include "game_scene.h"
 #include "character_manager.h"
 #include "collision_manager.h"
+#include "brick_manager.h"
 
 GameScene::GameScene() {
     img_background = ResourcesManager::instance()->find_image("background");
+    BrickManager::instance()->fillUpperHalfRandomly(1280, 720);
 }
 GameScene::~GameScene() {}
 
 void GameScene::on_update(float delta)  {
 	CharacterManager::instance()->on_update(delta);
 	CollisionManager::instance()->process_collide();
+    BrickManager::instance()->on_update(delta);
 }
 
 void GameScene::on_input(const ExMessage& msg)  {
 	CharacterManager::instance()->on_input(msg);
+    BrickManager::instance()->on_input(msg);
 }
 
 void GameScene::on_enter()  {
@@ -32,6 +36,7 @@ void GameScene::on_render()  {
     };
     putimage_ex(img_background, &rect_dst);
 
+    BrickManager::instance()->on_render();
 	CharacterManager::instance()->on_render();
 	CollisionManager::instance()->on_debug_render();
 

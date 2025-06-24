@@ -52,7 +52,7 @@ private:
 	bool is_shot_key_down = false;
 	float radius;
 	bool is_enable = false;
-	float speed = 200.0f;
+	float speed = 350.0f;
 	int damage = 1;
 
 };

@@ -13,6 +13,7 @@ Brick::~Brick() {
 }
 
 void Brick::on_update(float delta) {
+	hurt_box->set_position(Vector2(position.x, position.y));
 	animation_brick.on_update(delta);
 	animation_brick.set_position(position);
 }
@@ -42,10 +43,16 @@ void Brick::init() {
 	animation_brick.set_anchor_mode(Animation::AnchorMode::Centered);
 
 	hurt_box = CollisionManager::instance()->create_collision_box();
-	hurt_box->set_size({ 40, 20 });     // 设置碰撞盒大小
+	hurt_box->set_size({ 60, 30 });     // 设置碰撞盒大小
 	hurt_box->set_layer_src(CollisionLayer::Brick);
 	hurt_box->set_layer_dst(CollisionLayer::Ball);
-
+	hurt_box->set_on_collide([this]() {
+		//if (is_destoryed){
+		//	is_active = false;
+		//}
+		cout << position.x << " " << position.y ;
+		cout << "Brick hurt" << endl;
+		});
 }
 
 void Brick::on_input(const ExMessage& msg) {}

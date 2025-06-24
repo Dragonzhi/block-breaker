@@ -4,19 +4,30 @@
 Ball::Ball() {
     //paddle = CharacterManager::instance()->get_player();
     
-    position = { 300, 300 };            // 初始化球的位置
-    velocity = { speed/2, -speed };           // 初始化球的速度
+    position = { 0, 700 };            // 初始化球的位置
+    velocity = { 0, 0 };           // 初始化球的速度
     enable_through_floor = true;
+    set_gravity_enabled(false);
+
+    hit_box->set_size({ 20, 20 });    
+    hit_box->set_layer_src(CollisionLayer::Ball);
+    hit_box->set_layer_dst(CollisionLayer::Brick);
+    hit_box->set_on_collide([this]() {
+        cout << position.x << " " << position.y;
+        cout << "Ball -> Brick" << endl;
+        });
+
     hurt_box->set_size({ 20, 20 });     // 设置碰撞盒大小
     hurt_box->set_layer_src(CollisionLayer::Ball);
     hurt_box->set_layer_dst(CollisionLayer::Paddle);
-    hurt_box->set_on_collide([&]() {
+    hurt_box->set_on_collide([this]() {
             CollisionBox* paddle_hurt_box = paddle->get_hurt_box();
             reverse_y();
             position.y = paddle_hurt_box->get_position().y - hurt_box->get_size().y - 1.0f;
         });
-    set_gravity_enabled(false);
+
     radius = hurt_box->get_size().y / 2;
+
     // 设置动画参数
     ball_animation.set_interval(0.1f); // 帧间隔时间
     ball_animation.set_loop(true); // 循环播放
@@ -73,7 +84,7 @@ void Ball::on_update(float delta) {
     }
 
     if (!is_enable) {
-        cout << last_position.x - position.x << endl;
+        //cout << last_position.x - position.x << endl;
         CollisionBox* paddle_hurt_box = paddle->get_hurt_box();
         position.x = paddle_hurt_box->get_position().x;
         position.y = paddle_hurt_box->get_position().y - 30.0f;

@@ -46,6 +46,9 @@ public:
 		return type;
 	}
 
+	bool check_is_active() const {
+		return is_active;
+	}
 
 private:
 	int counts;					//需要被击打的次数
