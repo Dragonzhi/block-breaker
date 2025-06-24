@@ -15,9 +15,19 @@ void SceneManager::on_input(const ExMessage& msg)
     switch (msg.message)
     {
     case WM_KEYUP:
-        // "Q"
-        if (msg.vkcode == 0x51) {
-            switch_to(SceneManager::SceneType::Menu);
+        switch (type)
+        {
+        case SceneManager::SceneType::Menu:
+            switch_to(SceneManager::SceneType::Game);
+            break;
+        case SceneManager::SceneType::Game:
+            // "Q"
+            if (msg.vkcode == 0x51) {
+                switch_to(SceneManager::SceneType::Menu);
+            }
+            break;
+        default:
+            break;
         }
         break;
     default:

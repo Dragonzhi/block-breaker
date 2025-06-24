@@ -31,6 +31,7 @@ public:
 		default:
 			break;
 		}
+		this->type = type;
 		current_scene->on_enter();
 	}
 
@@ -44,6 +45,7 @@ private:
 	Scene* current_scene = nullptr;
 	Scene* game_scene;
 	Scene* menu_scene;
+	SceneType type;
 private:
 	SceneManager();
 	~SceneManager();
