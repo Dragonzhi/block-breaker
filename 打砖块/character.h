@@ -80,6 +80,7 @@ protected:
     float logic_height = 0;                                          // 角色逻辑高度
     bool is_facing_left = true;                                      // 当前角色是否面朝左边
     bool enable_gravity = true;                                      // 是否启用重力模式
+    bool enable_through_floor = false;                               // 是否穿过地板
     bool is_invulnerable = false;                                    // 当前是否无敌
     Timer timer_invulnerable_blink;                                  // 无敌闪烁状态计时器
     Timer timer_invulnerable_status;                                 // 无敌状态计时器

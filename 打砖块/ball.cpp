@@ -2,10 +2,11 @@
 #include "character_manager.h"
 
 Ball::Ball() {
-    paddle = CharacterManager::instance()->get_player();
+    //paddle = CharacterManager::instance()->get_player();
     
     position = { 300, 300 };            // 初始化球的位置
     velocity = { speed/2, -speed };           // 初始化球的速度
+    enable_through_floor = true;
     hurt_box->set_size({ 20, 20 });     // 设置碰撞盒大小
     hurt_box->set_layer_src(CollisionLayer::Ball);
     hurt_box->set_layer_dst(CollisionLayer::Paddle);
@@ -23,6 +24,11 @@ Ball::Ball() {
 
     // 添加动画帧
     ball_animation.add_frame(ResourcesManager::instance()->find_image("ball"), 1);
+    current_animation = &ball_animation;
+
+    timer_last_position.set_one_shot(false);
+    timer_last_position.set_wait_time(0.1f);
+    timer_last_position.set_on_timeout([&]() {last_position = position; });
 }
 
 Ball::~Ball() {
@@ -30,13 +36,14 @@ Ball::~Ball() {
 }
 
 void Ball::on_update(float delta) {
-    //cout << position.x << " " << position.y << endl;
-    position += velocity * delta;
-    /*hurt_box->set_position(position);*/
 
-    // 左边界碰撞 (添加位置修正)
+    timer_last_position.on_update(delta);
+
+    Character::on_update(delta);
+
+    // 左边界碰撞
     if (position.x - radius <= 0) {
-        position.x = radius;  // 防止嵌入边界
+        position.x = radius; 
         reverse_x();
     }
     // 右边界碰撞
@@ -53,29 +60,32 @@ void Ball::on_update(float delta) {
         // 防止高速穿透
         if (velocity.y < 0) velocity.y = -velocity.y;
     }
+    else if (position.y > getheight()) {
+        is_enable = false;
+        velocity = { 0,0 };
+    }
 
     if (is_shot_key_down) {
         is_enable = true;
-        velocity = {0, -speed};
-        is_shot_key_down = false;  // 重置按键状态
+        velocity.x = -(last_position.x - position.x) * 5.0f;
+        velocity.y = -speed;
+        is_shot_key_down = false; 
     }
 
     if (!is_enable) {
+        cout << last_position.x - position.x << endl;
         CollisionBox* paddle_hurt_box = paddle->get_hurt_box();
         position.x = paddle_hurt_box->get_position().x;
         position.y = paddle_hurt_box->get_position().y - 30.0f;
+
     }
 
-    ball_animation.on_update(delta);
-    ball_animation.set_position(position);
-
-    Character::on_update(delta);
 }
 
 void Ball::on_render() {
     /*setfillcolor(RGB(255,100,100));
     solidcircle((int)position.x, (int)position.y, 10);*/
-    ball_animation.on_render();
+    Character::on_render();
 }
 
 void Ball::on_input(const ExMessage& msg){

@@ -33,7 +33,7 @@ int main(int argc, char** argv)
     using namespace std::chrono;
 
     HWND hwnd = initgraph(1280, 720, EW_SHOWCONSOLE);
-    SetWindowText(hwnd, _T("Hollow Katana"));
+    SetWindowText(hwnd, _T("´ò×©¿é"));
 
     try
     {

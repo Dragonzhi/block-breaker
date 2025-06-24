@@ -3,8 +3,11 @@
 
 Paddle::Paddle() {
     is_facing_left = false;
-    position = { 250, 600 };
+    position = { 250, 600};
+
     logic_height = 25;
+    enable_through_floor = true;
+    set_gravity_enabled(false);
 
     hurt_box->set_size({ 100,20 });
     hurt_box->set_layer_src(CollisionLayer::Paddle);

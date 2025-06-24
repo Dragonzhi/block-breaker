@@ -15,9 +15,7 @@ public:
 		return has_ball;
 	}
 
-	//int get_move_axis() const {
-	//	
-	//}
+
 
 private:
 	int mouse_x = 0;

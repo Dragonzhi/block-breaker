@@ -46,12 +46,12 @@ public:
 
 private:
 	Character* paddle = nullptr;
-
+	Timer timer_last_position;
 	Animation ball_animation;
-
+	Vector2 last_position;
 	bool is_shot_key_down = false;
 	float radius;
-	bool is_enable = true;
+	bool is_enable = false;
 	float speed = 200.0f;
 	int damage = 1;
 

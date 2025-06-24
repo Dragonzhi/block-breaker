@@ -44,7 +44,7 @@ void Character::on_update(float delta) {
 
     position += velocity * delta;
 
-    if (position.y >= FLOOR_Y) {
+    if (position.y >= FLOOR_Y && !enable_through_floor) {
         position.y = FLOOR_Y;
         velocity.y = 0;
     }
