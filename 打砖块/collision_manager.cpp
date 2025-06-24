@@ -28,38 +28,101 @@ void CollisionManager::destroy_collision_box(CollisionBox* collision_box) {
 	delete collision_box;
 
 }
-
 void CollisionManager::process_collide() {
-	for (CollisionBox* collision_box_src : collision_box_list) {
-		if (!collision_box_src->enabled || collision_box_src->layer_dst == CollisionLayer::None) {
-			continue;
-		}
-		for (CollisionBox* collision_box_dst : collision_box_list) {
-			if (!collision_box_dst->enabled || collision_box_src == collision_box_dst
-				|| collision_box_src->layer_dst != collision_box_dst->layer_src) {
-				continue;
-			}
-			bool is_collide_x = (max(collision_box_src->position.x + collision_box_src->size.x / 2,
-				collision_box_dst->position.x + collision_box_dst->size.x / 2)
-				- min(collision_box_src->position.x - collision_box_src->size.x / 2,
-					collision_box_dst->position.x - collision_box_dst->size.x / 2)
-				<= collision_box_src->size.x + collision_box_dst->size.x);
+    //for (CollisionBox* src : collision_box_list) {
+    //    if (!src->enabled || src->layer_dst == CollisionLayer::None) {
+    //        continue;
+    //    }
 
-			bool is_collide_y = (max(collision_box_src->position.y + collision_box_src->size.y / 2,
-				collision_box_dst->position.y + collision_box_dst->size.y / 2)
-				- min(collision_box_src->position.y - collision_box_src->size.y / 2,
-					collision_box_dst->position.y - collision_box_dst->size.y / 2)
-				<= collision_box_src->size.y + collision_box_dst->size.y);
+    //    for (CollisionBox* dst : collision_box_list) {
+    //        // 跳过无效检测
+    //        if (!dst->enabled || src == dst) {
+    //            continue;
+    //        }
 
-			if (is_collide_x && is_collide_y && collision_box_dst->on_collide) {
-				collision_box_dst->on_collide();
-				printf("Collide: SRC(%d)->DST(%d)\n",
-					(int)collision_box_src->layer_src, (int)collision_box_dst->layer_src);
-			}
-		}
-	}
+    //        // 双向检测条件：src想检测dst 且 dst想检测src
+    //        bool should_collide = (src->layer_dst == dst->layer_src) &&
+    //            (dst->layer_dst == src->layer_src);
+
+    //        // 单向检测条件：src想检测dst 且 dst接受任意碰撞
+    //        bool one_way_collide = (src->layer_dst == dst->layer_src) &&
+    //            (dst->layer_dst == CollisionLayer::None);
+
+    //        if (!should_collide && !one_way_collide) {
+    //            continue;
+    //        }
+
+    //        // 精确碰撞检测
+    //        float src_left = src->position.x - src->size.x / 2;
+    //        float src_right = src->position.x + src->size.x / 2;
+    //        float src_top = src->position.y - src->size.y / 2;
+    //        float src_bottom = src->position.y + src->size.y / 2;
+
+    //        float dst_left = dst->position.x - dst->size.x / 2;
+    //        float dst_right = dst->position.x + dst->size.x / 2;
+    //        float dst_top = dst->position.y - dst->size.y / 2;
+    //        float dst_bottom = dst->position.y + dst->size.y / 2;
+
+    //        bool is_colliding = src_right > dst_left &&
+    //            src_left < dst_right &&
+    //            src_bottom > dst_top &&
+    //            src_top < dst_bottom;
+
+    //        if (is_colliding) {
+    //            // 优先执行dst的回调（被碰撞方的处理）
+    //            if (dst->on_collide) {
+    //                dst->on_collide(src, dst);
+    //                printf("Collide: %s(%d) -> %s(%d)\n",
+    //                    get_layer_name(src->layer_src), (int)src->layer_src,
+    //                    get_layer_name(dst->layer_src), (int)dst->layer_src);
+    //            }
+
+    //            // 如果双向检测，再执行src的回调（主动碰撞方的处理）
+    //            if (should_collide && src->on_collide) {
+    //                src->on_collide(dst, src);
+    //            }
+    //        }
+    //    }
+    //}
+    for (auto src : collision_box_list) {
+        if (!src->enabled || src->layer_dst == CollisionLayer::None) continue;
+
+        for (auto dst : collision_box_list) {
+            if (!dst->enabled || src == dst) continue;
+
+            // 双向检测条件
+            if (src->layer_dst == dst->layer_src) {
+                // AABB碰撞检测（优化版）
+                bool is_colliding =
+                    src->position.x + src->size.x / 2 > dst->position.x - dst->size.x / 2 &&
+                    src->position.x - src->size.x / 2 < dst->position.x + dst->size.x / 2 &&
+                    src->position.y + src->size.y / 2 > dst->position.y - dst->size.y / 2 &&
+                    src->position.y - src->size.y / 2 < dst->position.y + dst->size.y / 2;
+
+                if (is_colliding) {
+                    // 优先执行被碰撞方的回调
+                    if (dst->on_collide) dst->on_collide(src, dst);
+
+                    // 如果src也有回调且需要双向处理（如Paddle）
+                    if (src->on_collide && dst->layer_dst == src->layer_src) {
+                        src->on_collide(dst, src);
+                    }
+                }
+            }
+        }
+    }
 }
 
+// 辅助函数（需添加到类中）
+const char* CollisionManager::get_layer_name(CollisionLayer layer) {
+    switch (layer) {
+    case CollisionLayer::None: return "None";
+    case CollisionLayer::Paddle: return "Paddle";
+    case CollisionLayer::Brick: return "Brick";
+    case CollisionLayer::Ball: return "Ball";
+    default: return "Unknown";
+    }
+}
 void CollisionManager::on_debug_render() {
 	for (CollisionBox* collision_box : collision_box_list) {
 		setlinecolor(collision_box->enabled ? RGB(255, 195, 195) : RGB(115, 115, 175));

@@ -14,6 +14,8 @@ public:
     void process_collide();
     void on_debug_render();
 
+    const char* get_layer_name(CollisionLayer layer);
+
 private:
     static CollisionManager* manager;
     std::vector<CollisionBox*> collision_box_list;

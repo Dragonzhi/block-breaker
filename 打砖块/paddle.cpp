@@ -12,7 +12,7 @@ Paddle::Paddle() {
     hurt_box->set_size({ 100,20 });
     hurt_box->set_layer_src(CollisionLayer::Paddle);
     hurt_box->set_layer_dst(CollisionLayer::Ball);
-    //hurt_box->set_on_collide([this]() {
+    //hurt_box->set_on_collide([this](CollisionBox* src, CollisionBox* dst) {
     //        
     //    });
     // ≥ı ºªØ∂Øª≠

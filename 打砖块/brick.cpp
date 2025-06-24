@@ -13,14 +13,18 @@ Brick::Brick(int x, int y, int cnt, int points, Type type) : counts(cnt), points
 	hurt_box = CollisionManager::instance()->create_collision_box();
 	hurt_box->set_size({ 60, 30 });     // 设置碰撞盒大小
 	hurt_box->set_layer_src(CollisionLayer::Brick);
-	hurt_box->set_layer_dst(CollisionLayer::None);
-	hurt_box->set_on_collide([this]() {
-		counts--;
-		if (counts <= 0) {
-			is_active = false;
+	hurt_box->set_layer_dst(CollisionLayer::Ball);
+	hurt_box->set_on_collide([this](CollisionBox* src, CollisionBox* dst) {
+		if (src->get_layer_src() == CollisionLayer::Ball) {
+			counts--;
+			cout << "Brick被击中，剩余生命: " << counts << endl;
+
+			if (counts <= 0) {
+				is_active = false;
+				CollisionManager::instance()->destroy_collision_box(hurt_box);
+				cout << "Brick被摧毁" << endl;
+			}
 		}
-		cout << position.x << " " << position.y;
-		cout << "Brick hurt" << endl;
 		});
 
 	init();

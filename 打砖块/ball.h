@@ -17,6 +17,9 @@ public:
 	void on_input(const ExMessage& msg) override;
 	void on_render() override;
 
+	void handle_paddle_collision(CollisionBox* paddle_box);
+	void handle_brick_collision(CollisionBox* brick_box);
+
 	void set_paddle(Character* paddle) {
 		this->paddle = paddle;
 	}

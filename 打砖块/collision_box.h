@@ -32,7 +32,7 @@ public:
         enabled = flag;
     }
 
-    void set_on_collide(std::function<void()> callback) {
+    void set_on_collide(std::function<void(CollisionBox*, CollisionBox*)> callback) {
         on_collide = callback;
     }
 
@@ -44,11 +44,19 @@ public:
         layer_dst = layer;
     }
 
+    CollisionLayer get_layer_src() const {
+        return layer_src;
+    }
+
+    CollisionLayer get_layer_dst() const {
+        return layer_dst;
+    }
+
 private:
     Vector2 size;
     Vector2 position;
     bool enabled = true;
-    std::function<void()> on_collide;
+    std::function<void(CollisionBox*, CollisionBox*)> on_collide;
     CollisionLayer layer_src = CollisionLayer::None;
     CollisionLayer layer_dst = CollisionLayer::None;
 

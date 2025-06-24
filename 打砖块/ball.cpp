@@ -11,22 +11,24 @@ Ball::Ball() {
 
     hit_box->set_size({ 20, 20 });    
     hit_box->set_layer_src(CollisionLayer::Ball);
-    hit_box->set_layer_dst(CollisionLayer::Brick);
-    hit_box->set_on_collide([this]() {
-        cout << " Ball -> Brick" << endl;
-        });
-
+    hit_box->set_layer_dst(CollisionLayer::None);
 
     hurt_box->set_size({ 20, 20 });     // 设置碰撞盒大小
     hurt_box->set_layer_src(CollisionLayer::Ball);
-    hurt_box->set_layer_dst(CollisionLayer::Paddle);
-    hurt_box->set_on_collide([this]() {
-        cout << " Ball -> Paddle" << endl;
-        CollisionBox* paddle_hurt_box = paddle->get_hurt_box();
-        reverse_y();
-        position.y -= 1.0f;
+    hurt_box->set_layer_dst(CollisionLayer::None);
+
+    // 设置碰撞回调
+    hit_box->set_on_collide([this](CollisionBox* other, CollisionBox* self) {
+        if (other->get_layer_src() == CollisionLayer::Brick) {
+            handle_brick_collision(other);
+        }
         });
 
+    hurt_box->set_on_collide([this](CollisionBox* other, CollisionBox* self) {
+        if (other->get_layer_src() == CollisionLayer::Paddle) {
+            handle_paddle_collision(other);
+        }
+        });
     radius = hurt_box->get_size().y / 2;
 
     // 设置动画参数
@@ -45,6 +47,46 @@ Ball::Ball() {
 
 Ball::~Ball() {
 
+}
+
+
+// 处理砖块碰撞
+void Ball::handle_brick_collision(CollisionBox* brick_box) {
+    // 计算碰撞法线（基于相对位置）
+    Vector2 brick_center = brick_box->get_position();
+    Vector2 normal = { 0, 0 };
+
+    // 判断碰撞方向（左右/上下）
+    float overlapX = (hit_box->get_size().x / 2 + brick_box->get_size().x / 2) - abs(position.x - brick_center.x);
+    float overlapY = (hit_box->get_size().y / 2 + brick_box->get_size().y / 2) - abs(position.y - brick_center.y);
+
+    // 从最小重叠方向反弹
+    if (overlapX < overlapY) {
+        normal.x = (position.x < brick_center.x) ? -1 : 1; // 左/右碰撞
+    }
+    else {
+        normal.y = (position.y < brick_center.y) ? -1 : 1; // 上/下碰撞
+    }
+
+    // 根据法线反弹
+    if (normal.x != 0) velocity.x = -velocity.x;
+    if (normal.y != 0) velocity.y = -velocity.y;
+
+    // 防止卡入砖块
+    position.x += normal.x * overlapX * 0.5f;
+    position.y += normal.y * overlapY * 0.5f;
+}
+
+// 处理平台碰撞
+void Ball::handle_paddle_collision(CollisionBox* paddle_box) {
+    // 动态计算反弹角度
+    float paddle_center = paddle_box->get_position().x;
+    float relative_intersect = (position.x - paddle_center) / (paddle_box->get_size().x / 2);
+    float bounce_angle = relative_intersect * 45.0f;  // 最大45度
+
+    velocity.x = speed * sin(bounce_angle * 3.14159f / 180.0f);
+    velocity.y = -abs(speed * cos(bounce_angle * 3.14159f / 180.0f));  // 确保向上反弹
+    printf("Ball 碰撞 Paddle，角度 %.1f 度\n", bounce_angle);
 }
 
 void Ball::on_update(float delta) {
