@@ -13,17 +13,18 @@ Ball::Ball() {
     hit_box->set_layer_src(CollisionLayer::Ball);
     hit_box->set_layer_dst(CollisionLayer::Brick);
     hit_box->set_on_collide([this]() {
-        cout << position.x << " " << position.y;
-        cout << "Ball -> Brick" << endl;
+        cout << " Ball -> Brick" << endl;
         });
+
 
     hurt_box->set_size({ 20, 20 });     // ÉèÖÃÅö×²ºÐ´óÐ¡
     hurt_box->set_layer_src(CollisionLayer::Ball);
     hurt_box->set_layer_dst(CollisionLayer::Paddle);
     hurt_box->set_on_collide([this]() {
-            CollisionBox* paddle_hurt_box = paddle->get_hurt_box();
-            reverse_y();
-            position.y = paddle_hurt_box->get_position().y - hurt_box->get_size().y - 1.0f;
+        cout << " Ball -> Paddle" << endl;
+        CollisionBox* paddle_hurt_box = paddle->get_hurt_box();
+        reverse_y();
+        position.y -= 1.0f;
         });
 
     radius = hurt_box->get_size().y / 2;
@@ -51,6 +52,7 @@ void Ball::on_update(float delta) {
     timer_last_position.on_update(delta);
 
     Character::on_update(delta);
+    hit_box->set_position(position);
 
     // ×ó±ß½çÅö×²
     if (position.x - radius <= 0) {

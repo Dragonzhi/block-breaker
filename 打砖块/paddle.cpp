@@ -3,7 +3,7 @@
 
 Paddle::Paddle() {
     is_facing_left = false;
-    position = { 250, 600};
+    position = { 250, 650};
 
     logic_height = 25;
     enable_through_floor = true;
@@ -12,7 +12,9 @@ Paddle::Paddle() {
     hurt_box->set_size({ 100,20 });
     hurt_box->set_layer_src(CollisionLayer::Paddle);
     hurt_box->set_layer_dst(CollisionLayer::Ball);
-
+    //hurt_box->set_on_collide([this]() {
+    //        
+    //    });
     // ≥ı ºªØ∂Øª≠
     paddle_animation.set_interval(0.1f);
     paddle_animation.set_loop(true);

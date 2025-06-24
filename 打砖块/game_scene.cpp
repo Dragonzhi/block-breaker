@@ -10,9 +10,10 @@ GameScene::GameScene() {
 GameScene::~GameScene() {}
 
 void GameScene::on_update(float delta)  {
+    BrickManager::instance()->on_update(delta);
 	CharacterManager::instance()->on_update(delta);
 	CollisionManager::instance()->process_collide();
-    BrickManager::instance()->on_update(delta);
+
 }
 
 void GameScene::on_input(const ExMessage& msg)  {

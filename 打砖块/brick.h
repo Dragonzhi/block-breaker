@@ -50,6 +50,10 @@ public:
 		return is_active;
 	}
 
+	CollisionBox* get_collision_box() const {
+		return hurt_box;
+	}
+
 private:
 	int counts;					//需要被击打的次数
 	int points;					//分数

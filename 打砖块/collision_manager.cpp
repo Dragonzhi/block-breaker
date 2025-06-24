@@ -51,9 +51,11 @@ void CollisionManager::process_collide() {
 					collision_box_dst->position.y - collision_box_dst->size.y / 2)
 				<= collision_box_src->size.y + collision_box_dst->size.y);
 
-			if (is_collide_x && is_collide_y && collision_box_dst->on_collide)
+			if (is_collide_x && is_collide_y && collision_box_dst->on_collide) {
 				collision_box_dst->on_collide();
-			 
+				printf("Collide: SRC(%d)->DST(%d)\n",
+					(int)collision_box_src->layer_src, (int)collision_box_dst->layer_src);
+			}
 		}
 	}
 }

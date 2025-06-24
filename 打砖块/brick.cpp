@@ -5,6 +5,24 @@ Brick::Brick(int x, int y, int cnt, int points, Type type) : counts(cnt), points
 	position.x = x;
 	position.y = y;
 	this->type = type;
+
+	animation_brick.set_interval(0.1f);
+	animation_brick.set_loop(true);
+	animation_brick.set_anchor_mode(Animation::AnchorMode::Centered);
+
+	hurt_box = CollisionManager::instance()->create_collision_box();
+	hurt_box->set_size({ 60, 30 });     // 设置碰撞盒大小
+	hurt_box->set_layer_src(CollisionLayer::Brick);
+	hurt_box->set_layer_dst(CollisionLayer::None);
+	hurt_box->set_on_collide([this]() {
+		counts--;
+		if (counts <= 0) {
+			is_active = false;
+		}
+		cout << position.x << " " << position.y;
+		cout << "Brick hurt" << endl;
+		});
+
 	init();
 }
 
@@ -37,22 +55,6 @@ void Brick::init() {
 	default:
 		break;
 	}
-
-	animation_brick.set_interval(0.1f); 
-	animation_brick.set_loop(true);
-	animation_brick.set_anchor_mode(Animation::AnchorMode::Centered);
-
-	hurt_box = CollisionManager::instance()->create_collision_box();
-	hurt_box->set_size({ 60, 30 });     // 设置碰撞盒大小
-	hurt_box->set_layer_src(CollisionLayer::Brick);
-	hurt_box->set_layer_dst(CollisionLayer::Ball);
-	hurt_box->set_on_collide([this]() {
-		//if (is_destoryed){
-		//	is_active = false;
-		//}
-		cout << position.x << " " << position.y ;
-		cout << "Brick hurt" << endl;
-		});
 }
 
 void Brick::on_input(const ExMessage& msg) {}

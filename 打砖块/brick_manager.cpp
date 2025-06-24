@@ -58,10 +58,10 @@ void BrickManager::fillUpperHalfRandomly(int screenWidth, int screenHeight)
 {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> xDist(0, screenWidth - 40);
-    std::uniform_int_distribution<> yDist(0, screenHeight / 2 - 20);
+    std::uniform_int_distribution<> xDist(0, screenWidth - 60);
+    std::uniform_int_distribution<> yDist(0, screenHeight / 2 - 30);
 
-    const int maxAttempts = 100; // 最大尝试次数
+    const int maxAttempts = 10; // 最大尝试次数
     int attempts = 0;
 
     while (attempts < maxAttempts)
@@ -88,15 +88,21 @@ bool BrickManager::isOverlapping(const Brick* newBrick)
     for (Brick* existingBrick : bricks)
     {
         // 简单的矩形重叠检测
+        int width = newBrick->get_collision_box()->get_size().x;
+        int height = newBrick->get_collision_box()->get_size().y;
+
         int newLeft = newBrick->get_position().x;
-        int newRight = newLeft + 40;
+        int newRight = newLeft + width;
         int newTop = newBrick->get_position().y;
-        int newBottom = newTop + 20;
+        int newBottom = newTop + height;
+
+        width = existingBrick->get_collision_box()->get_size().x;
+        height = existingBrick->get_collision_box()->get_size().y;
 
         int existingLeft = existingBrick->get_position().x;
-        int existingRight = existingLeft + 40;
+        int existingRight = existingLeft + width;
         int existingTop = existingBrick->get_position().y;
-        int existingBottom = existingTop + 20;
+        int existingBottom = existingTop + height;
 
         if (!(newRight < existingLeft || newLeft > existingRight || newBottom < existingTop || newTop > existingBottom))
         {
