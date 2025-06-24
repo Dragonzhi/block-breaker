@@ -1,5 +1,6 @@
 #include "paddle.h"
 #include "resources_manager.h"
+#include "ball.h"
 
 Paddle::Paddle() {
     is_facing_left = false;
@@ -9,13 +10,18 @@ Paddle::Paddle() {
     enable_through_floor = true;
     set_gravity_enabled(false);
 
+    hurt_box->set_owner(this);
     hurt_box->set_size({ 100,20 });
     hurt_box->set_layer_src(CollisionLayer::Paddle);
     hurt_box->set_layer_dst(CollisionLayer::Ball);
-    //hurt_box->set_on_collide([this](CollisionBox* src, CollisionBox* dst) {
-    //        
-    //    });
-    // ³õÊ¼»¯¶¯»­
+    hurt_box->set_on_collide([this](CollisionBox* src, CollisionBox* dst) {
+        if (src && src->get_layer_src() == CollisionLayer::Ball) {
+            Ball* ball = dynamic_cast<Ball*>(src->get_owner());
+            if (ball) {
+                ball->handle_paddle_collision(this->hurt_box);
+            }
+        }
+        });
     paddle_animation.set_interval(0.1f);
     paddle_animation.set_loop(true);
     paddle_animation.set_anchor_mode(Animation::AnchorMode::BottomCentered);

@@ -2,7 +2,7 @@
 
 #include "vector2.h"
 #include "collision_layer.h"
-
+#include "game_object.h"
 #include <functional>
 
 class CollisionManager;
@@ -52,7 +52,16 @@ public:
         return layer_dst;
     }
 
+    void set_owner(GameObject* owner) {
+        this->owner = owner;
+    }
+
+    GameObject* get_owner() const {
+        return owner;
+    }
+
 private:
+    GameObject* owner = nullptr;
     Vector2 size;
     Vector2 position;
     bool enabled = true;

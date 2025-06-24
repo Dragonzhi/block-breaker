@@ -53,7 +53,9 @@ public:
 		}
 		return Vector2(x / len, y / len);
 	}
-
-private:
+	// µã»ý
+	float dot(const Vector2& other) const {
+		return x * other.x + y * other.y;
+	}
 
 };

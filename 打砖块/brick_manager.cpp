@@ -58,10 +58,10 @@ void BrickManager::fillUpperHalfRandomly(int screenWidth, int screenHeight)
 {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> xDist(0, screenWidth - 60);
-    std::uniform_int_distribution<> yDist(0, screenHeight / 2 - 30);
+    std::uniform_int_distribution<> xDist(30, screenWidth - 60);
+    std::uniform_int_distribution<> yDist(30, screenHeight / 2 - 30);
 
-    const int maxAttempts = 10; // 最大尝试次数
+    const int maxAttempts = 50; // 最大尝试次数
     int attempts = 0;
 
     while (attempts < maxAttempts)

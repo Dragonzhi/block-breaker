@@ -10,7 +10,7 @@
 
 using namespace std;
 
-const int FPS = 144;  // 帧率值
+const int FPS = 1;  // 帧率值
 
 int main(int argc, char** argv)
 {
@@ -30,9 +30,13 @@ int main(int argc, char** argv)
         MessageBox(hwnd, err_msg, _T("资源加载失败"), MB_OK | MB_ICONERROR);
         return -1;
     }
+    steady_clock::time_point last_tick;
+    nanoseconds frame_duration;
 
-    const nanoseconds frame_duration(static_cast<long long>(1e9 / FPS));
-    steady_clock::time_point last_tick = steady_clock::now();
+    if (FPS != 1) {
+        nanoseconds frame_duration(static_cast<long long>(1e9 / FPS));
+        steady_clock::time_point last_tick = steady_clock::now();
+    }
 
     ExMessage msg;
     bool is_quit = false;
@@ -63,9 +67,13 @@ int main(int argc, char** argv)
         FlushBatchDraw();
 
         last_tick = frame_start;
-        nanoseconds sleep_duration = frame_duration - (steady_clock::now() - frame_start);
-        if (sleep_duration > nanoseconds(0))
-            std::this_thread::sleep_for(sleep_duration);
+
+        if (FPS != 1) {
+            nanoseconds sleep_duration = frame_duration - (steady_clock::now() - frame_start);
+            if (sleep_duration > nanoseconds(0))
+                std::this_thread::sleep_for(sleep_duration);
+        }
+
     }
     EndBatchDraw();
 

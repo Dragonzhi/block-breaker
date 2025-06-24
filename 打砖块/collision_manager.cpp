@@ -84,29 +84,26 @@ void CollisionManager::process_collide() {
     //        }
     //    }
     //}
-    for (auto src : collision_box_list) {
-        if (!src->enabled || src->layer_dst == CollisionLayer::None) continue;
+    for (auto dst : collision_box_list) {
+        if (!dst->enabled || dst->layer_dst == CollisionLayer::None) continue;
 
-        for (auto dst : collision_box_list) {
-            if (!dst->enabled || src == dst) continue;
+        for (auto src : collision_box_list) {
+            if (!src->enabled || src == dst) continue;
 
-            // 双向检测条件
-            if (src->layer_dst == dst->layer_src) {
-                // AABB碰撞检测（优化版）
+            // 关键修改：检查dst是否想检测src的类型
+            if (dst->layer_dst == src->layer_src) {
+                // AABB碰撞检测
                 bool is_colliding =
                     src->position.x + src->size.x / 2 > dst->position.x - dst->size.x / 2 &&
                     src->position.x - src->size.x / 2 < dst->position.x + dst->size.x / 2 &&
                     src->position.y + src->size.y / 2 > dst->position.y - dst->size.y / 2 &&
                     src->position.y - src->size.y / 2 < dst->position.y + dst->size.y / 2;
 
-                if (is_colliding) {
-                    // 优先执行被碰撞方的回调
-                    if (dst->on_collide) dst->on_collide(src, dst);
-
-                    // 如果src也有回调且需要双向处理（如Paddle）
-                    if (src->on_collide && dst->layer_dst == src->layer_src) {
-                        src->on_collide(dst, src);
-                    }
+                if (is_colliding && dst->on_collide) {
+                    dst->on_collide(src, dst);
+                    printf("Collision: %s -> %s\n",
+                        get_layer_name(src->layer_src),
+                        get_layer_name(dst->layer_src));
                 }
             }
         }
