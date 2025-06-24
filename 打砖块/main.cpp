@@ -10,7 +10,7 @@
 
 using namespace std;
 
-const int FPS = 1;  // 帧率值
+const int FPS = 144;  // 帧率值
 
 int main(int argc, char** argv)
 {

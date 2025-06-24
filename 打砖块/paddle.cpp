@@ -6,12 +6,12 @@ Paddle::Paddle() {
     is_facing_left = false;
     position = { 250, 650};
 
-    logic_height = 25;
+    logic_height = 30;
     enable_through_floor = true;
     set_gravity_enabled(false);
 
     hurt_box->set_owner(this);
-    hurt_box->set_size({ 100,20 });
+    hurt_box->set_size({ 100,5 });
     hurt_box->set_layer_src(CollisionLayer::Paddle);
     hurt_box->set_layer_dst(CollisionLayer::Ball);
     hurt_box->set_on_collide([this](CollisionBox* src, CollisionBox* dst) {

@@ -125,3 +125,14 @@ inline void stop_audio(LPCTSTR id)
 inline int range_random(int min_num, int max_num) {
     return min_num + rand() % (max_num - min_num + 1);
 }
+
+template<typename T>
+T min_ex(std::initializer_list<T> values) {
+    T min_val = *values.begin();
+    for (const T& v : values) {
+        if (v < min_val) {
+            min_val = v;
+        }
+    }
+    return min_val;
+}
