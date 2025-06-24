@@ -17,7 +17,7 @@ public:
 	void on_input(const ExMessage& msg) override;
 	void on_render() override;
 
-	void set_paddle(Paddle* paddle) {
+	void set_paddle(Character* paddle) {
 		this->paddle = paddle;
 	}
 
@@ -45,12 +45,12 @@ public:
 	}
 
 private:
-	Paddle* paddle = nullptr;
+	Character* paddle = nullptr;
 
 	Animation ball_animation;
 
 	bool is_shot_key_down = false;
-
+	float radius;
 	bool is_enable = true;
 	float speed = 200.0f;
 	int damage = 1;

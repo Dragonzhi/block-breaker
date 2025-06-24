@@ -31,7 +31,7 @@ CharacterManager::CharacterManager()
 {
     player = new Paddle();
     ball = new Ball();
-    ball->set_paddle(player);
+
 }
 
 CharacterManager::~CharacterManager()
