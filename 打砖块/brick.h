@@ -16,14 +16,9 @@ private:
 		Powerup
 	};
 public:
-	Brick(int x, int y, int cnt = 1, int points = 1, Type type = Type::Normal) : counts(cnt), points(points) {
-		position.x = x;
-		position.y = y;
-		this->type = type;
-		init();
-	}
+	Brick(int x, int y, int cnt = 1, int points = 1, Type type = Type::Normal);
 
-	~Brick() = default;
+	~Brick();
 
 	void on_update(float delta) override;
 	void on_render() override;

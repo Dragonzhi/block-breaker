@@ -1,5 +1,17 @@
 #include "brick.h"
 
+
+Brick::Brick(int x, int y, int cnt, int points, Type type) : counts(cnt), points(points) {
+	position.x = x;
+	position.y = y;
+	this->type = type;
+	init();
+}
+
+Brick::~Brick() {
+	CollisionManager::instance()->destroy_collision_box(hurt_box);
+}
+
 void Brick::on_update(float delta) {
 	animation_brick.on_update(delta);
 	animation_brick.set_position(position);
@@ -33,7 +45,6 @@ void Brick::init() {
 	hurt_box->set_size({ 40, 20 });     // ÉèÖÃÅö×²ºÐ´óÐ¡
 	hurt_box->set_layer_src(CollisionLayer::Brick);
 	hurt_box->set_layer_dst(CollisionLayer::Ball);
-
 
 }
 

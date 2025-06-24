@@ -12,6 +12,6 @@ public:
 	void on_exit() override ;
 	void on_render() override ;
 private:
-
+	IMAGE* img_background;
 };
 

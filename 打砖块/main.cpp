@@ -10,20 +10,6 @@
 
 using namespace std;
 
-static void draw_background()
-{
-    static IMAGE* img_background = ResourcesManager::instance()->find_image("background");
-    static Rect rect_dst =
-    {
-        (getwidth() - img_background->getwidth()) / 2,
-        (getheight() - img_background->getheight()) / 2,
-        img_background->getwidth(),
-        img_background->getheight()
-    };
-    putimage_ex(img_background, &rect_dst);
-}
-
-
 const int FPS = 144;  // 帧率值
 
 int main(int argc, char** argv)
@@ -72,7 +58,6 @@ int main(int argc, char** argv)
         cleardevice();
 
         // 处理绘图
-        draw_background();
         SceneManager::instance()->on_render();
 
         FlushBatchDraw();
