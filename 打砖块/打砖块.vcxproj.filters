@@ -16,6 +16,15 @@
     <Filter Include="头文件\brick">
       <UniqueIdentifier>{b5791744-717c-48a4-993a-ee9d2b970430}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\utils">
+      <UniqueIdentifier>{c85a105e-4501-4e9f-a748-f78c58058871}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\scene">
+      <UniqueIdentifier>{b67242c0-f227-46bc-8021-a36a46f54586}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\collision">
+      <UniqueIdentifier>{149914cb-9318-4dd3-a835-c6ed34204db6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,42 +60,24 @@
     <ClCompile Include="ball.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="menu_scene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="game_scene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_manager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="animation.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="atlas.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="collision_box.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="collision_layer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="collision_manager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="resources_manager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="timer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="util.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="vector2.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="character.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="character_manager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="bullet_time_manager.h">
@@ -101,14 +92,50 @@
     <ClInclude Include="game_object.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="scene.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="brick.h">
       <Filter>头文件\brick</Filter>
     </ClInclude>
     <ClInclude Include="brick_manager.h">
       <Filter>头文件\brick</Filter>
+    </ClInclude>
+    <ClInclude Include="animation.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="atlas.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="vector2.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="timer.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>头文件\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="collision_box.h">
+      <Filter>头文件\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="collision_layer.h">
+      <Filter>头文件\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="collision_manager.h">
+      <Filter>头文件\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>头文件\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="menu_scene.h">
+      <Filter>头文件\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="game_scene.h">
+      <Filter>头文件\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_manager.h">
+      <Filter>头文件\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

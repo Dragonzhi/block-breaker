@@ -1,6 +1,5 @@
-#include "character_manager.h"
-#include "collision_manager.h"
 #include "resources_manager.h"
+#include "scene_manager.h"
 #include "util.h"
 
 #include <chrono>
@@ -10,7 +9,7 @@
 
 
 using namespace std;
-//
+
 static void draw_background()
 {
     static IMAGE* img_background = ResourcesManager::instance()->find_image("background");
@@ -26,7 +25,6 @@ static void draw_background()
 
 
 const int FPS = 144;  // 帧率值
-
 
 int main(int argc, char** argv)
 {
@@ -54,27 +52,28 @@ int main(int argc, char** argv)
     bool is_quit = false;
 
     BeginBatchDraw();
+
+    SceneManager::instance()->set_current_scene(SceneManager::SceneType::Game);
+
     while (!is_quit)
     {
         while (peekmessage(&msg))
         {
-            CharacterManager::instance()->on_input(msg);
+            SceneManager::instance()->on_input(msg);
         }
 
         steady_clock::time_point frame_start = steady_clock::now();
         duration<float> delta = duration<float>(frame_start - last_tick);
 
         // 处理更新
-        CharacterManager::instance()->on_update(delta.count());
-        CollisionManager::instance()->process_collide();
+        SceneManager::instance()->on_update(delta.count());
 
         setbkcolor(RGB(0, 0, 0));
         cleardevice();
 
         // 处理绘图
         draw_background();
-        CharacterManager::instance()->on_render();
-        CollisionManager::instance()->on_debug_render();
+        SceneManager::instance()->on_render();
 
         FlushBatchDraw();
 
