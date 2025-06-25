@@ -61,7 +61,7 @@ void Ball::handle_brick_collision(CollisionBox* brick_box, const CollisionBox::C
 
     // 应用恢复系数
     const float restitution = 0.95f;
-    if (velocity.x >= 200 && velocity.x >=200) {
+    if (velocity.x >= 300 && velocity.x >=300) {
         velocity = tangent_velocity + normal_velocity * restitution;
     }
     else {
@@ -114,8 +114,14 @@ void Ball::on_update(float delta) {
         if (velocity.y < 0) velocity.y = -velocity.y;
     }
     else if (position.y > getheight()) {
-        is_enable = false;
-        velocity = { 0,0 };
+        if (is_undead) {
+            position.y = getheight() - 1.0f;
+            reverse_y();
+        }
+        else {
+            is_enable = false;
+            velocity = { 0,0 };
+        }
     }
 
     if (is_shot_key_down) {

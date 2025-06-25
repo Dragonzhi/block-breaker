@@ -41,7 +41,9 @@ void BrickManager::on_update(float delta)
             delete brick;
         }
         else {
-            brick->on_update(delta);
+            if (brick) {
+                brick->on_update(delta);
+            }
         }
     }
 }

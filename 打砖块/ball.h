@@ -28,10 +28,6 @@ public:
 		speed = val;
 	}
 
-	void set_damage(int val) {
-		damage = val;
-	}
-
 	float get_speed() const {
 		return speed;
 	}
@@ -51,6 +47,14 @@ public:
 		return is_enable;
 	}
 
+	void set_undead(bool flag) {
+		is_undead = flag;
+	}
+
+	bool get_undead() const {
+		return is_undead;
+	}
+
 private:
 	Character* paddle = nullptr;
 	Timer timer_last_position;
@@ -59,8 +63,8 @@ private:
 	bool is_shot_key_down = false;
 	float radius;
 	bool is_enable = false;
-	float speed = 350.0f;
-	int damage = 1;
-
+	float speed = 400.0f;
+	
+	bool is_undead = true;
 };
 
