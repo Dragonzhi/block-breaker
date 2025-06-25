@@ -74,6 +74,10 @@ bool is_collide_rect_rect(const CollisionBox* rect1, const CollisionBox* rect2, 
 }
 
 bool is_collide_circle_rect(const CollisionBox* circle, const CollisionBox* rect, Vector2& normal, float& penetration) {
+
+    // 添加激活状态检查
+    if (!circle->get_enabled() || !rect->get_enabled()) return false;
+
     // 1. 计算矩形边界
     float rect_left = rect->get_position().x - rect->get_size().x / 2;
     float rect_right = rect->get_position().x + rect->get_size().x / 2;
@@ -115,6 +119,12 @@ bool is_collide_circle_rect(const CollisionBox* circle, const CollisionBox* rect
     }
     // 计算穿透深度
     penetration = max(0.0f, radius - distance);
+
+    // 在返回true前添加额外检查：
+    if (penetration < 0.5f) { // 增加穿透阈值
+        return false;
+    }
+
     return true;
 }
 bool is_collide_circle_circle(const CollisionBox* circle1, const CollisionBox* circle2, Vector2& normal) {
@@ -196,6 +206,7 @@ void CollisionManager::process_collide() {
 
                 // 触发回调（参数顺序修正为 (src, dst, info)）
                 if (src->on_collide) {
+                    printf("-----------碰撞回调开始--------------\n");
                     src->on_collide(dst, src, info);
                 }
 

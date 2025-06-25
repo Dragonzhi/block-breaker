@@ -7,7 +7,8 @@
 #include <iostream>
 #include <thread>
 
-
+int WINDOWS_WIDTH = 1280;
+int WINDOWS_HEIGHT = 720;
 using namespace std;
 
 const int FPS = 144;  // Ö¡ÂÊÖµ
@@ -16,7 +17,7 @@ int main(int argc, char** argv)
 {
     using namespace std::chrono;
 
-    HWND hwnd = initgraph(1280, 720, EW_SHOWCONSOLE);
+    HWND hwnd = initgraph(WINDOWS_WIDTH, WINDOWS_HEIGHT, EW_SHOWCONSOLE);
     SetWindowText(hwnd, _T("´ò×©¿é"));
 
     try

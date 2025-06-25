@@ -2,6 +2,8 @@
 #include "character_manager.h"
 #include "brick.h"
 
+#include <random>
+
 Ball::Ball() {
     //paddle = CharacterManager::instance()->get_player();
     
@@ -40,33 +42,148 @@ Ball::Ball() {
 Ball::~Ball() {
 
 }
+bool Ball::check_trajectory_collision(const Vector2& start, const Vector2& end, CollisionBox* brick_box, CollisionBox::CollisionInfo& out_info) {
+    // 获取砖块的边界
+    Vector2 brick_size = brick_box->get_size();
+    Vector2 brick_pos = brick_box->get_position();
+
+    float brick_left = brick_pos.x - brick_size.x / 2;
+    float brick_right = brick_pos.x + brick_size.x / 2;
+    float brick_top = brick_pos.y - brick_size.y / 2;
+    float brick_bottom = brick_pos.y + brick_size.y / 2;
+
+    // 获取球的半径
+    float radius = this->radius;
+
+    // 扩展砖块边界以考虑球的半径
+    float expanded_left = brick_left - radius;
+    float expanded_right = brick_right + radius;
+    float expanded_top = brick_top - radius;
+    float expanded_bottom = brick_bottom + radius;
+
+    // 使用 slab 算法检测射线与扩展后的砖块的碰撞
+    Vector2 ray = end - start;
+    float length = ray.length();
+    if (length < 0.0001f) return false; // 忽略极小的移动
+
+    Vector2 direction = ray.normalize();
+    float t_min = 0.0f;
+    float t_max = length;
+
+    // 检查 X 轴
+    if (std::abs(direction.x) < 0.0001f) {
+        // 平行于 X 轴
+        if (start.x < expanded_left || start.x > expanded_right) return false;
+    }
+    else {
+        float inv_direction = 1.0f / direction.x;
+        float t1 = (expanded_left - start.x) * inv_direction;
+        float t2 = (expanded_right - start.x) * inv_direction;
+
+        if (t1 > t2) std::swap(t1, t2);
+        t_min = max(t_min, t1);
+        t_max = min(t_max, t2);
+
+        if (t_min > t_max) return false;
+    }
+
+    // 检查 Y 轴
+    if (std::abs(direction.y) < 0.0001f) {
+        // 平行于 Y 轴
+        if (start.y < expanded_top || start.y > expanded_bottom) return false;
+    }
+    else {
+        float inv_direction = 1.0f / direction.y;
+        float t1 = (expanded_top - start.y) * inv_direction;
+        float t2 = (expanded_bottom - start.y) * inv_direction;
+
+        if (t1 > t2) std::swap(t1, t2);
+        t_min = max(t_min, t1);
+        t_max = min(t_max, t2);
+
+        if (t_min > t_max) return false;
+    }
+
+    // 如果有碰撞，计算碰撞点和法线
+    if (t_min <= length) {
+        Vector2 collision_point = start + direction * t_min;
+
+        // 初始化碰撞信息
+        out_info.normal = Vector2(0, 0);
+        out_info.penetration = radius;
+
+        // 找到最近的边
+        float left_dist = std::abs(collision_point.x - brick_left);
+        float right_dist = std::abs(collision_point.x - brick_right);
+        float top_dist = std::abs(collision_point.y - brick_top);
+        float bottom_dist = std::abs(collision_point.y - brick_bottom);
+
+        float min_dist = min_ex({ left_dist, right_dist, top_dist, bottom_dist });
+
+        if (min_dist == left_dist) out_info.normal = Vector2(-1, 0);
+        else if (min_dist == right_dist) out_info.normal = Vector2(1, 0);
+        else if (min_dist == top_dist) out_info.normal = Vector2(0, -1);
+        else out_info.normal = Vector2(0, 1);
+
+        // 计算穿透深度
+        out_info.penetration = radius - min_dist;
+        out_info.src = this->hurt_box;
+        out_info.dst = brick_box;
+
+        return true;
+    }
+
+    return false;
+}
 
 void Ball::handle_brick_collision(CollisionBox* brick_box, const CollisionBox::CollisionInfo& info) {
+    Brick* brick = dynamic_cast<Brick*>(brick_box->get_owner());
+    if (!brick) return; // 检查砖块有效性
+
+    // 添加最小穿透阈值
+    const float MIN_PENETRATION = 1.0f;
+    if (info.penetration < MIN_PENETRATION) {
+        return; // 忽略微小穿透
+    }
     // 保存修正前位置
     Vector2 original_position = position;
 
-    // 应用位置修正
-    position += info.normal * info.penetration * 1.1f;
+    //// 应用位置修正
+    //position += info.normal * info.penetration * 1.1f;
 
-    // 防止修正后超出屏幕底部
-    const float screen_bottom = getheight();
-    if (position.y > screen_bottom - radius) {
-        position.y = screen_bottom - radius;
-    }
+    //// 防止修正后超出屏幕底部
+    //const float screen_bottom = getheight();
+    //if (position.y > screen_bottom - radius) {
+    //    position.y = screen_bottom - radius;
+    //}
+    //// 使用碰撞法线进行反弹
+    //float dot_product = velocity.dot(info.normal);
+    //Vector2 tangent_velocity = velocity - dot_product * info.normal;
+    //Vector2 normal_velocity = -dot_product * info.normal;
 
-    // 使用碰撞法线进行反弹
-    float dot_product = velocity.dot(info.normal);
-    Vector2 tangent_velocity = velocity - dot_product * info.normal;
-    Vector2 normal_velocity = -dot_product * info.normal;
+    //// 应用恢复系数
+    //const float restitution = 0.95f;
+    //if (velocity.x >= 300 && velocity.x >=300) {
+    //    velocity = tangent_velocity + normal_velocity * restitution;
+    //}
+    //else {
+    //    velocity = tangent_velocity + normal_velocity;
+    //}
+        // 位置修正（带阻尼）
+    Vector2 correction = info.normal * (info.penetration + 0.5f) * 0.8f;
+    position += correction;
 
-    // 应用恢复系数
-    const float restitution = 0.95f;
-    if (velocity.x >= 300 && velocity.x >=300) {
-        velocity = tangent_velocity + normal_velocity * restitution;
-    }
-    else {
-        velocity = tangent_velocity + normal_velocity;
-    }
+    // 速度反射（带随机扰动防止重复碰撞）
+    float restitution = 0.9f;
+    float dot = velocity.dot(info.normal);
+    velocity -= (1.0f + restitution) * dot * info.normal;
+
+    // 添加随机扰动
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dist(-0.1f, 0.1f);
+    velocity.x += dist(gen) * 50.0f;
+    velocity.y += dist(gen) * 50.0f;
 
     // 调试输出
     printf("碰撞修正: (%.1f,%.1f) → (%.1f,%.1f), 法线(%.2f,%.2f), 穿透%.2f\n",
@@ -88,6 +205,13 @@ void Ball::handle_paddle_collision(CollisionBox* paddle_box) {
 }
 
 void Ball::on_update(float delta) {
+
+    if (velocity.x > 1000.0f) {
+        velocity.x = 1000.0f;
+    }
+    if (velocity.y > 1000.0f) {
+        velocity.y = 1000.0f;
+    }
 
     timer_last_position.on_update(delta);
 

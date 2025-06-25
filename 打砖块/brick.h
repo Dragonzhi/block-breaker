@@ -69,10 +69,11 @@ private:
 	int points;					//分数
 	bool is_destoryed = true;		//是否可以被破坏
 	bool is_active = true;
+
 	Type type;
 	CollisionBox* hurt_box;
 	float cooldown_timer = 0.0f; // 冷却计时器（秒）
-	const float COOLDOWN_TIME = 0.01f; // 冷却时间（秒）
+	const float COOLDOWN_TIME = 0.02f; // 冷却时间（秒）
 	Animation animation_brick;
 };
 

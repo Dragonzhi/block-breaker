@@ -19,7 +19,8 @@ public:
 
 	void handle_paddle_collision(CollisionBox* paddle_box);
 	void handle_brick_collision(CollisionBox* brick_box, const CollisionBox::CollisionInfo& info);
-
+	bool check_trajectory_collision(const Vector2& start, const Vector2& end, CollisionBox* brick_box, CollisionBox::CollisionInfo& out_info);
+	
 	void set_paddle(Character* paddle) {
 		this->paddle = paddle;
 	}
@@ -65,6 +66,6 @@ private:
 	bool is_enable = false;
 	float speed = 400.0f;
 	
-	bool is_undead = true;
+	bool is_undead = false;
 };
 

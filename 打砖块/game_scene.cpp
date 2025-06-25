@@ -3,9 +3,12 @@
 #include "collision_manager.h"
 #include "brick_manager.h"
 
+extern int WINDOWS_WIDTH;
+extern int WINDOWS_HEIGHT;
+
 GameScene::GameScene() {
     img_background = ResourcesManager::instance()->find_image("background");
-    BrickManager::instance()->fillUpperHalfRandomly_int(1280, 720);
+    BrickManager::instance()->fillUpperHalfRandomly_int(WINDOWS_WIDTH, WINDOWS_HEIGHT);
 }
 GameScene::~GameScene() {}
 

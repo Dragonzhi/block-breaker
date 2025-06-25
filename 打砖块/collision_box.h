@@ -39,6 +39,10 @@ public:
         position = pos;
     }
 
+    bool get_enabled()const {
+        return enabled;
+    }
+
     void set_enabled(bool flag) {
         enabled = flag;
     }

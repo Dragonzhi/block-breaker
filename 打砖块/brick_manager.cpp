@@ -31,21 +31,23 @@ void BrickManager::on_input(const ExMessage& msg)
     }
 }
 
-void BrickManager::on_update(float delta)
-{
-    for (Brick* brick : bricks)
-    {
-        if (!brick->check_is_active()) {
-            bricks.erase(std::remove(bricks.begin(), bricks.end(), brick),
-                bricks.end());
-            delete brick;
-        }
-        else {
-            if (brick) {
-                brick->on_update(delta);
-            }
-        }
+void BrickManager::on_update(float delta) {
+    // 更新所有砖块
+    for (Brick* brick : bricks) {
+        brick->on_update(delta);
     }
+
+    // 然后移除砖块
+    bricks.erase(
+        std::remove_if(bricks.begin(), bricks.end(),
+            [](Brick* brick) {
+                if (!brick->check_is_active()) {
+                    delete brick;
+                    return true;
+                }
+                return false;
+            }),
+        bricks.end());
 }
 
 void BrickManager::on_render()

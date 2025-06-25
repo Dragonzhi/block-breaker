@@ -4,7 +4,7 @@
 
 Paddle::Paddle() {
     is_facing_left = false;
-    position = { 250, 650};
+    position = { 250, getheight() - 100.0f};
 
     logic_height = 30;
     enable_through_floor = true;

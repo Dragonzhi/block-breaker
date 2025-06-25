@@ -17,14 +17,13 @@ Brick::Brick(int x, int y, Type type) {
 	hurt_box->set_layer_dst(CollisionLayer::Ball);
 	hurt_box->set_on_collide([this](CollisionBox* src, CollisionBox* dst, const CollisionBox::CollisionInfo& info) {
 		if (src && src->get_layer_src() == CollisionLayer::Ball) {
-			if (check_can_destoryed()) {
-				on_hit();
-			}
-			
 			// 手动触发球的反弹（因为球不主动检测砖块）
 			Ball* ball = dynamic_cast<Ball*>(src->get_owner());
 			if (ball) {
 				ball->handle_brick_collision(this->hurt_box, info);
+			}
+			if (check_can_destoryed()) {
+				on_hit();
 			}
 		}
 		});
@@ -35,8 +34,7 @@ Brick::~Brick() {
 	CollisionManager::instance()->destroy_collision_box(hurt_box);
 }
 void Brick::on_hit() {
-	// 如果处于冷却时间，则忽略此次碰撞
-	if (!can_be_hit()) return;
+	if (!is_active || !can_be_hit()) return; // 双重检查
 
 	counts--;
 	cooldown_timer = COOLDOWN_TIME; // 重置冷却时间
@@ -52,6 +50,8 @@ void Brick::on_hit() {
 }
 
 void Brick::on_update(float delta) {
+	if (!is_active) return;
+
 	if (cooldown_timer > 0) {
 		cooldown_timer -= delta;
 		hurt_box->set_enabled(false);
