@@ -19,8 +19,13 @@ public:
 
 	void handle_paddle_collision(CollisionBox* paddle_box);
 	void handle_brick_collision(CollisionBox* brick_box, const CollisionBox::CollisionInfo& info);
-	bool check_trajectory_collision(const Vector2& start, const Vector2& end, CollisionBox* brick_box, CollisionBox::CollisionInfo& out_info);
-	
+	Vector2 get_reflection_vector(const Vector2& incident, const Vector2& normal) const;
+	void apply_collision_physics(const Vector2& normal);
+
+	void print_collision_debug(const Vector2& original_pos,
+		const Vector2& original_vel,
+		const CollisionBox::CollisionInfo& info);
+
 	void set_paddle(Character* paddle) {
 		this->paddle = paddle;
 	}

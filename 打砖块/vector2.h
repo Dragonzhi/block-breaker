@@ -77,5 +77,14 @@ public:
 	float dot(const Vector2& other) const {
 		return x * other.x + y * other.y;
 	}
+	// 弧度制旋转（返回新向量）
+	Vector2 rotate(float radians) const {
+		float cosVal = cos(radians);
+		float sinVal = sin(radians);
+		return Vector2(
+			x * cosVal - y * sinVal,
+			x * sinVal + y * cosVal
+		);
+	}
 
 };
