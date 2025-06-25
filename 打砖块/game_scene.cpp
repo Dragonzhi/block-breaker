@@ -2,6 +2,7 @@
 #include "character_manager.h"
 #include "collision_manager.h"
 #include "brick_manager.h"
+#include "score_manager.h"
 
 extern int WINDOWS_WIDTH;
 extern int WINDOWS_HEIGHT;
@@ -46,5 +47,9 @@ void GameScene::on_render()  {
 	CharacterManager::instance()->on_render();
 	CollisionManager::instance()->on_debug_render();
 
+    settextcolor(RGB(255, 255, 255));
+    TCHAR str_cmd[128];
+    _stprintf_s(str_cmd, _T("Score: %d"), ScoreManager::instance()->getScore());
+    outtextxy(15, getheight() - 20, str_cmd);
 
 }

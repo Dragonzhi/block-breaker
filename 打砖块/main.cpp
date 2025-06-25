@@ -40,7 +40,7 @@ int main(int argc, char** argv)
 
     BeginBatchDraw();
 
-    SceneManager::instance()->set_current_scene(SceneManager::SceneType::Game);
+    SceneManager::instance()->set_current_scene(SceneManager::SceneType::Menu);
 
     while (!is_quit)
     {

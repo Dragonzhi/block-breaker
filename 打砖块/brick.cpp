@@ -25,6 +25,7 @@ Brick::Brick(int x, int y, Type type) {
 			if (check_can_destoryed()) {
 				on_hit();
 			}
+
 		}
 		});
 	init();
@@ -74,6 +75,8 @@ void Brick::init() {
 	{
 	case Brick::Normal:
 		animation_brick.add_frame(ResourcesManager::instance()->find_image("brick_blue"), 1);
+		counts = 1;
+		points = 1;
 		break;
 	case Brick::Streng:
 		animation_brick.add_frame(ResourcesManager::instance()->find_image("brick_red"), 1);

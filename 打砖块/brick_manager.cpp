@@ -1,4 +1,5 @@
 #include "brick_manager.h"
+#include "score_manager.h"
 #include <random>
 
 BrickManager* BrickManager::manager = nullptr;
@@ -42,6 +43,8 @@ void BrickManager::on_update(float delta) {
         std::remove_if(bricks.begin(), bricks.end(),
             [](Brick* brick) {
                 if (!brick->check_is_active()) {
+                    ScoreManager::instance()->addPoints(brick->get_points());
+                    //printf("%d\n", brick->get_points());
                     delete brick;
                     return true;
                 }

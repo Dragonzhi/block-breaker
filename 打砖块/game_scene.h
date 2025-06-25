@@ -13,5 +13,6 @@ public:
 	void on_render() override ;
 private:
 	IMAGE* img_background;
+	int AllPoints = 0;
 };
 

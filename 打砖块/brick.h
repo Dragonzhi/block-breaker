@@ -65,8 +65,8 @@ public:
 	}
 
 private:
-	int counts;					//需要被击打的次数
-	int points;					//分数
+	int counts = 1;					//需要被击打的次数
+	int points = 1;					//分数
 	bool is_destoryed = true;		//是否可以被破坏
 	bool is_active = true;
 
