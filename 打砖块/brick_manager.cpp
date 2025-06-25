@@ -53,7 +53,42 @@ void BrickManager::on_render()
         brick->on_render();
     }
 }
+void BrickManager::fillUpperHalfRandomly_int(int screenWidth, int screenHeight)
+{
+    const int brickWidth = 60;   // 砖块宽度
+    const int brickHeight = 30;  // 砖块高度
+    const int marginX = 10;      // 水平边距
+    const int marginY = 10;      // 垂直边距
+    const int startY = 30;       // 起始Y坐标
+    // 随机数生成器
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> typeDist(0, 2); // 0=Normal, 1=Streng, 2=Powerup
 
+    // 计算每行可以放置多少个砖块
+    int bricksPerRow = (screenWidth - 2 * marginX) / brickWidth;
+
+    // 计算可以放置多少行砖块（在上半屏）
+    int rows = (screenHeight / 2 - startY - marginY) / brickHeight;
+
+    // 计算实际使用的总宽度和总高度，以便居中显示
+    int totalWidth = bricksPerRow * brickWidth;
+    int startX = (screenWidth - totalWidth) / 2 + brickWidth / 2;
+
+    // 生成整齐排列的砖块
+    for (int row = 0; row < rows; ++row)
+    {
+        for (int col = 0; col < bricksPerRow; ++col)
+        {
+            int x = startX + col * brickWidth;
+            int y = startY + row * brickHeight;
+            // 随机选择砖块类型
+            Brick::Type randomType = static_cast<Brick::Type>(typeDist(gen));
+
+            bricks.push_back(new Brick(x, y, randomType));
+        }
+    }
+}
 void BrickManager::fillUpperHalfRandomly(int screenWidth, int screenHeight)
 {
     std::random_device rd;

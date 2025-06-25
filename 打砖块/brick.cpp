@@ -1,7 +1,7 @@
 #include "brick.h"
 
 
-Brick::Brick(int x, int y, int cnt, int points, Type type) : counts(cnt), points(points) {
+Brick::Brick(int x, int y, Type type) {
 	position.x = x;
 	position.y = y;
 	this->type = type;
@@ -58,9 +58,13 @@ void Brick::init() {
 		break;
 	case Brick::Streng:
 		animation_brick.add_frame(ResourcesManager::instance()->find_image("brick_red"), 1);
+		counts = 2;
+		points = 2;
 		break;
 	case Brick::Powerup:
 		animation_brick.add_frame(ResourcesManager::instance()->find_image("brick_yellow"), 1);
+		counts = 3;
+		points = 3;
 		break;
 	default:
 		break;

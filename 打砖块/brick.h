@@ -8,7 +8,7 @@
 
 class Brick : public GameObject
 {
-private:
+public:
 	enum Type
 	{
 		Normal,
@@ -16,7 +16,7 @@ private:
 		Powerup
 	};
 public:
-	Brick(int x, int y, int cnt = 1, int points = 1, Type type = Type::Normal);
+	Brick(int x, int y, Type type = Type::Normal);
 
 	~Brick();
 

@@ -5,7 +5,7 @@
 
 GameScene::GameScene() {
     img_background = ResourcesManager::instance()->find_image("background");
-    BrickManager::instance()->fillUpperHalfRandomly(1280, 720);
+    BrickManager::instance()->fillUpperHalfRandomly_int(1280, 720);
 }
 GameScene::~GameScene() {}
 

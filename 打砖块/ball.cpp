@@ -141,7 +141,7 @@ void Ball::on_input(const ExMessage& msg){
     if (is_enable) return;
 
     // 只在球未激活时处理发射
-    if (msg.message == WM_LBUTTONDOWN) {
+    if (msg.message == WM_LBUTTONUP) {
         is_shot_key_down = true;
     }
 }
