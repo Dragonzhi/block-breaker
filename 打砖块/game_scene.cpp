@@ -25,7 +25,9 @@ void GameScene::on_enter()  {
 
 }
 
-void GameScene::on_exit()  {}
+void GameScene::on_exit()  {
+    
+}
 
 void GameScene::on_render()  {
     Rect rect_dst =

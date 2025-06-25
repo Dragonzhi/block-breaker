@@ -94,7 +94,7 @@ bool is_collide_circle_rect(const CollisionBox* circle, const CollisionBox* rect
     if (distance_sq > radius * radius) {
         return false;
     }
-    float distance;
+    float distance = 0.0f;
     // 5. 计算碰撞法线
     if (distance_sq > 0) {
         distance = std::sqrt(distance_sq);
@@ -106,13 +106,15 @@ bool is_collide_circle_rect(const CollisionBox* circle, const CollisionBox* rect
         Vector2 to_center = rect->get_position() - circle->get_position();
         if (to_center.x == 0 && to_center.y == 0) {
             normal = Vector2(0, 1);  // 默认向上
+            distance = radius; // 完全重合时设为半径
         }
         else {
             normal = to_center.normalize();
+            distance = 0; // 视为完全穿透
         }
     }
     // 计算穿透深度
-    penetration = radius - distance;
+    penetration = max(0.0f, radius - distance);
     return true;
 }
 bool is_collide_circle_circle(const CollisionBox* circle1, const CollisionBox* circle2, Vector2& normal) {
@@ -194,7 +196,6 @@ void CollisionManager::process_collide() {
 
                 // 触发回调（参数顺序修正为 (src, dst, info)）
                 if (src->on_collide) {
-                    printf("回调");
                     src->on_collide(dst, src, info);
                 }
 
