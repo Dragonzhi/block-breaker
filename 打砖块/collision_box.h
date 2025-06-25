@@ -12,6 +12,17 @@ class CollisionBox
     friend class CollisionManager;
 
 public:
+    enum class CollisionBoxType {
+        Rectangle,
+        Circle
+    };
+    struct CollisionInfo {
+        CollisionBox* src;
+        CollisionBox* dst;
+        Vector2 normal;
+        float penetration;
+    };
+public:
     void set_size(const Vector2& size) {
         this->size = size;
     }
@@ -32,7 +43,7 @@ public:
         enabled = flag;
     }
 
-    void set_on_collide(std::function<void(CollisionBox*, CollisionBox*)> callback) {
+    void set_on_collide(std::function<void(CollisionBox*, CollisionBox*, const CollisionInfo& info)> callback) {
         on_collide = callback;
     }
 
@@ -60,15 +71,22 @@ public:
         return owner;
     }
 
+    void set_type(CollisionBoxType type) {
+        this->type = type;
+    }
+
+    CollisionBoxType get_type() const {
+        return type;
+    }
 private:
     GameObject* owner = nullptr;
     Vector2 size;
     Vector2 position;
     bool enabled = true;
-    std::function<void(CollisionBox*, CollisionBox*)> on_collide;
+    std::function<void(CollisionBox*, CollisionBox*, const CollisionInfo& info)> on_collide;
     CollisionLayer layer_src = CollisionLayer::None;
     CollisionLayer layer_dst = CollisionLayer::None;
-
+    CollisionBoxType type = CollisionBoxType::Rectangle;
 private:
     CollisionBox() = default;
     ~CollisionBox() = default;

@@ -30,11 +30,31 @@ public:
 		return Vector2(x - vec.x, y - vec.y);
 	}
 
-	float operator*(const Vector2& vec)const {
-		return x * vec.x + y * vec.y;
+	friend Vector2 operator-(const Vector2& lhs, float rhs) {
+		return Vector2(lhs.x - rhs, lhs.y - rhs);
 	}
 
-	Vector2 operator*(float val) const {
+	friend Vector2 operator-(float lhs, const Vector2& rhs) {
+		return Vector2(lhs - rhs.x, lhs - rhs.y);
+	}
+
+	Vector2 operator - (int val) const {
+		return Vector2(x - val, y - val);
+	}
+
+	friend Vector2 operator*(const Vector2& lhs, float val) {
+		return Vector2(lhs.x * val, lhs.y * val);
+	}
+
+	friend Vector2 operator*(float val, const Vector2& rhs) {
+		return Vector2(rhs.x * val, rhs.y * val);
+	}
+
+	Vector2 operator*(const Vector2& rhs) const {
+		return Vector2(x * rhs.x, y * rhs.y);
+	}
+
+	Vector2 operator*(int val) const {
 		return Vector2(x * val, y * val);
 	}
 

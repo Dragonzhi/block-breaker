@@ -18,7 +18,7 @@ public:
 	void on_render() override;
 
 	void handle_paddle_collision(CollisionBox* paddle_box);
-	void handle_brick_collision(CollisionBox* brick_box);
+	void handle_brick_collision(CollisionBox* brick_box, const CollisionBox::CollisionInfo& info);
 
 	void set_paddle(Character* paddle) {
 		this->paddle = paddle;
@@ -45,6 +45,10 @@ public:
 	}
 	void reverse_y() {
 		velocity.y = -velocity.y;
+	}
+
+	bool get_enable() const {
+		return is_enable;
 	}
 
 private:

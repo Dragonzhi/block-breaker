@@ -14,7 +14,7 @@ Paddle::Paddle() {
     hurt_box->set_size({ 100,5 });
     hurt_box->set_layer_src(CollisionLayer::Paddle);
     hurt_box->set_layer_dst(CollisionLayer::Ball);
-    hurt_box->set_on_collide([this](CollisionBox* src, CollisionBox* dst) {
+    hurt_box->set_on_collide([this](CollisionBox* src, CollisionBox* dst, const CollisionBox::CollisionInfo& info) {
         if (src && src->get_layer_src() == CollisionLayer::Ball) {
             Ball* ball = dynamic_cast<Ball*>(src->get_owner());
             if (ball) {

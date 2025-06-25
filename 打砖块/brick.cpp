@@ -15,7 +15,7 @@ Brick::Brick(int x, int y, int cnt, int points, Type type) : counts(cnt), points
 	hurt_box->set_size({ 60, 30 });     // 设置碰撞盒大小
 	hurt_box->set_layer_src(CollisionLayer::Brick);
 	hurt_box->set_layer_dst(CollisionLayer::Ball);
-	hurt_box->set_on_collide([this](CollisionBox* src, CollisionBox* dst) {
+	hurt_box->set_on_collide([this](CollisionBox* src, CollisionBox* dst, const CollisionBox::CollisionInfo& info) {
 		if (src && src->get_layer_src() == CollisionLayer::Ball) {
 			counts--;
 			cout << "Brick被击中，剩余生命: " << counts << endl;
@@ -24,7 +24,7 @@ Brick::Brick(int x, int y, int cnt, int points, Type type) : counts(cnt), points
 			// 手动触发球的反弹（因为球不主动检测砖块）
 			Ball* ball = dynamic_cast<Ball*>(src->get_owner());
 			if (ball) {
-				ball->handle_brick_collision(this->hurt_box);
+				ball->handle_brick_collision(this->hurt_box, info);
 			}
 
 			if (counts <= 0) {
