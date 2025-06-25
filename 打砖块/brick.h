@@ -26,6 +26,12 @@ public:
 	
 	void init();
 
+	void on_hit(); // 砖块被击中时的逻辑
+
+	bool can_be_hit() const {
+		return cooldown_timer <= 0;
+	}
+
 	int get_points() const {
 		return points;
 	}
@@ -54,6 +60,10 @@ public:
 		return hurt_box;
 	}
 
+	bool check_can_destoryed() const {
+		return is_destoryed;
+	}
+
 private:
 	int counts;					//需要被击打的次数
 	int points;					//分数
@@ -61,7 +71,8 @@ private:
 	bool is_active = true;
 	Type type;
 	CollisionBox* hurt_box;
-
+	float cooldown_timer = 0.0f; // 冷却计时器（秒）
+	const float COOLDOWN_TIME = 0.01f; // 冷却时间（秒）
 	Animation animation_brick;
 };
 

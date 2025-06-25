@@ -61,7 +61,12 @@ void Ball::handle_brick_collision(CollisionBox* brick_box, const CollisionBox::C
 
     // 应用恢复系数
     const float restitution = 0.95f;
-    velocity = tangent_velocity + normal_velocity * restitution;
+    if (velocity.x >= 200 && velocity.x >=200) {
+        velocity = tangent_velocity + normal_velocity * restitution;
+    }
+    else {
+        velocity = tangent_velocity + normal_velocity;
+    }
 
     // 调试输出
     printf("碰撞修正: (%.1f,%.1f) → (%.1f,%.1f), 法线(%.2f,%.2f), 穿透%.2f\n",

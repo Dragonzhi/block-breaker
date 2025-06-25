@@ -17,19 +17,14 @@ Brick::Brick(int x, int y, Type type) {
 	hurt_box->set_layer_dst(CollisionLayer::Ball);
 	hurt_box->set_on_collide([this](CollisionBox* src, CollisionBox* dst, const CollisionBox::CollisionInfo& info) {
 		if (src && src->get_layer_src() == CollisionLayer::Ball) {
-			counts--;
-			cout << "Brick被击中，剩余生命: " << counts << endl;
-			printf("Brick回调被触发！坐标(%.1f,%.1f)\n", position.x, position.y);
-
+			if (check_can_destoryed()) {
+				on_hit();
+			}
+			
 			// 手动触发球的反弹（因为球不主动检测砖块）
 			Ball* ball = dynamic_cast<Ball*>(src->get_owner());
 			if (ball) {
 				ball->handle_brick_collision(this->hurt_box, info);
-			}
-
-			if (counts <= 0) {
-				is_active = false;
-				cout << "Brick被摧毁" << endl;
 			}
 		}
 		});
@@ -39,8 +34,32 @@ Brick::Brick(int x, int y, Type type) {
 Brick::~Brick() {
 	CollisionManager::instance()->destroy_collision_box(hurt_box);
 }
+void Brick::on_hit() {
+	// 如果处于冷却时间，则忽略此次碰撞
+	if (!can_be_hit()) return;
+
+	counts--;
+	cooldown_timer = COOLDOWN_TIME; // 重置冷却时间
+
+	// 日志输出（调试用）
+	std::cout << "Brick被击中，剩余生命: " << counts << std::endl;
+
+	if (counts <= 0) {
+		// 砖块被摧毁的逻辑
+		std::cout << "Brick被摧毁" << std::endl;
+		is_active = false;
+	}
+}
 
 void Brick::on_update(float delta) {
+	if (cooldown_timer > 0) {
+		cooldown_timer -= delta;
+		hurt_box->set_enabled(false);
+	}
+	else {
+		hurt_box->set_enabled(true);
+	}
+	
 	hurt_box->set_position(Vector2(position.x, position.y));
 	animation_brick.on_update(delta);
 	animation_brick.set_position(position);
