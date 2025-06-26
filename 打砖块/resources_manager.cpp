@@ -18,7 +18,8 @@ static const vector<ImageResInfo> image_info_list = {
 	{ "brick_blue",					_T(R"(resources\element_blue_rectangle_glossy.png)") },
 	{ "brick_red",					_T(R"(resources\element_red_rectangle_glossy.png)") },
 	{ "brick_yellow",				_T(R"(resources\element_yellow_rectangle_glossy.png)") },
-	{ "menu_background",			_T(R"(resources\background_menu.png)") }
+	{ "menu_background",			_T(R"(resources\background_menu.png)") },
+	{ "button",                      _T(R"(resources\buttonDefault.png)")}
 };
 
 static const vector<AtlasResInfo> atlas_info_list = {
