@@ -49,8 +49,8 @@ public:
 		velocity.y = -velocity.y;
 	}
 
-	bool get_enable() const {
-		return is_enable;
+	void set_enable(bool flag) {
+		is_enable = flag;
 	}
 
 	void set_undead(bool flag) {

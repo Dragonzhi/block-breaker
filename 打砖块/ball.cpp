@@ -186,7 +186,7 @@ void Ball::on_render() {
 }
 
 void Ball::on_input(const ExMessage& msg){
-    if (is_enable) return;
+    if (is_enable || paddle->get_hp() <= 0) return;
 
     // 只在球未激活时处理发射
     if (msg.message == WM_LBUTTONUP) {

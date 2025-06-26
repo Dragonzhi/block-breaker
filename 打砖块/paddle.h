@@ -15,10 +15,14 @@ public:
 		return has_ball;
 	}
 
+	int get_max_hp() const {
+		return max_hp;
+	}
+
 private:
 	int mouse_x = 0;
 	bool has_ball = true;
-
+	int max_hp = 3;
 	Animation paddle_animation;
 };
 

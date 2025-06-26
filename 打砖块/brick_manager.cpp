@@ -60,6 +60,7 @@ void BrickManager::on_render()
         brick->on_render();
     }
 }
+
 void BrickManager::fillUpperHalfRandomly_int(int screenWidth, int screenHeight)
 {
     const int brickWidth = 70;   // ×©¿é¿í¶È
@@ -96,6 +97,7 @@ void BrickManager::fillUpperHalfRandomly_int(int screenWidth, int screenHeight)
         }
     }
 }
+
 void BrickManager::fillUpperHalfRandomly(int screenWidth, int screenHeight)
 {
     std::random_device rd;
@@ -153,3 +155,19 @@ bool BrickManager::isOverlapping(const Brick* newBrick)
     }
     return false;
 }
+
+void BrickManager::clearAllBricks() {
+    for (Brick* brick : bricks) {
+        delete brick;
+    }
+
+    bricks.clear();
+
+    // SoundManager::instance()->playSound("clear");
+}
+
+void BrickManager::rest(int screenWidth, int screenHeight) {
+    clearAllBricks();
+    fillUpperHalfRandomly_int(screenWidth, screenHeight);
+}
+
