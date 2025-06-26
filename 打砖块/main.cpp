@@ -38,6 +38,10 @@ int main(int argc, char** argv)
     ExMessage msg;
     bool is_quit = false;
 
+    AddFontResourceEx(_T("resources/Kenney Future.ttf"), FR_PRIVATE, NULL);
+    settextstyle(28, 0, _T("Kenney Future"));
+    setbkmode(TRANSPARENT);
+
     BeginBatchDraw();
 
     SceneManager::instance()->set_current_scene(SceneManager::SceneType::Menu);

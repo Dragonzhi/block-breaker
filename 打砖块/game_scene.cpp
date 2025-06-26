@@ -14,6 +14,11 @@ GameScene::GameScene() {
 GameScene::~GameScene() {}
 
 void GameScene::on_update(float delta)  {
+
+    if (CharacterManager::instance()->get_player()->get_hp() <= 0) {
+
+    }
+
     BrickManager::instance()->on_update(delta);
 	CharacterManager::instance()->on_update(delta);
 	CollisionManager::instance()->process_collide();
@@ -47,9 +52,10 @@ void GameScene::on_render()  {
 	CharacterManager::instance()->on_render();
 	CollisionManager::instance()->on_debug_render();
 
+
     settextcolor(RGB(255, 255, 255));
     TCHAR str_cmd[128];
     _stprintf_s(str_cmd, _T("Score: %d"), ScoreManager::instance()->getScore());
-    outtextxy(15, getheight() - 20, str_cmd);
+    outtextxy(24, getheight() - 30, str_cmd);
 
 }

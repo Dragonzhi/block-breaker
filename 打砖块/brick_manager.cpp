@@ -62,8 +62,8 @@ void BrickManager::on_render()
 }
 void BrickManager::fillUpperHalfRandomly_int(int screenWidth, int screenHeight)
 {
-    const int brickWidth = 60;   // 砖块宽度
-    const int brickHeight = 30;  // 砖块高度
+    const int brickWidth = 70;   // 砖块宽度
+    const int brickHeight = 40;  // 砖块高度
     const int marginX = 10;      // 水平边距
     const int marginY = 10;      // 垂直边距
     const int startY = 30;       // 起始Y坐标

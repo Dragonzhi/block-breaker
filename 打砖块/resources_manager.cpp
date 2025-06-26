@@ -14,7 +14,6 @@ struct AtlasResInfo {
 static const vector<ImageResInfo> image_info_list = {  
 	{ "background",					_T(R"(resources\background.png)")},
 	{ "paddle_blue_right",			_T(R"(resources\paddleBlu.png)") },
-	{ "paddle_blue_move_right",		_T(R"(resources\paddleBlu_move.png)") },
 	{ "ball",						_T(R"(resources\ballBlue.png)") },
 	{ "brick_blue",					_T(R"(resources\element_blue_rectangle_glossy.png)") },
 	{ "brick_red",					_T(R"(resources\element_red_rectangle_glossy.png)") },
@@ -71,7 +70,6 @@ void ResourcesManager::load()
 		atlas_pool[info.id] = atlas;
 	}
 
-	flip_image("paddle_blue_move_right", "paddle_blue_move_left", 1);
 	flip_image("paddle_blue_right", "paddle_blue_left", 1);
 	//flip_image("player_dead_right", "player_dead_left", 6);
 	//flip_image("player_fall_right", "player_fall_left", 5);

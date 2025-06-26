@@ -15,8 +15,6 @@ public:
 		return has_ball;
 	}
 
-
-
 private:
 	int mouse_x = 0;
 	bool has_ball = true;

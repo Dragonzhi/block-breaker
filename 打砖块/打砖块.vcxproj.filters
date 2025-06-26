@@ -25,6 +25,9 @@
     <Filter Include="头文件\collision">
       <UniqueIdentifier>{149914cb-9318-4dd3-a835-c6ed34204db6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\ui">
+      <UniqueIdentifier>{f5cea4e6-5b64-43b2-b88e-58bb05ae6c2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="score_manager.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="button.h">
+      <Filter>头文件\ui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

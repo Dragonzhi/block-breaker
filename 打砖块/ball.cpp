@@ -154,6 +154,7 @@ void Ball::on_update(float delta) {
         else {
             is_enable = false;
             velocity = { 0,0 };
+            paddle->set_hp(paddle->get_hp() - 1);
         }
     }
 
@@ -166,6 +167,9 @@ void Ball::on_update(float delta) {
     }
 
     if (!is_enable) {
+        if (paddle->get_hp() <= 0) {
+            return;
+        }
         //cout << last_position.x - position.x << endl;
         CollisionBox* paddle_hurt_box = paddle->get_hurt_box();
         position.x = paddle_hurt_box->get_position().x;

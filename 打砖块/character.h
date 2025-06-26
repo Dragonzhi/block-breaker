@@ -25,6 +25,10 @@ public:
         return hp;
     }
 
+    void set_hp(int val) {
+        hp = val;
+    }
+
     void set_position(const Vector2& pos) {
         position = pos;
     }

@@ -70,7 +70,7 @@ private:
 	float radius;
 	bool is_enable = false;
 	float speed = 400.0f;
-	
 	bool is_undead = false;
+
 };
 
