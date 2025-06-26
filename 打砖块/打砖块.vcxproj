@@ -131,6 +131,7 @@
     <ClCompile Include="brick.cpp" />
     <ClCompile Include="brick_manager.cpp" />
     <ClCompile Include="bullet_time_manager.cpp" />
+    <ClCompile Include="button.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="character_manager.cpp" />
     <ClCompile Include="collision_manager.cpp" />
