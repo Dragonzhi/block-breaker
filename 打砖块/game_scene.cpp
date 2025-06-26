@@ -54,13 +54,14 @@ void GameScene::on_update(float delta)  {
             button_next->on_update(delta);
         }
     }
+    else {
+        BrickManager::instance()->on_update(delta);
+        CharacterManager::instance()->on_update(delta);
+        CollisionManager::instance()->process_collide();
 
-    BrickManager::instance()->on_update(delta);
-	CharacterManager::instance()->on_update(delta);
-	CollisionManager::instance()->process_collide();
-
-    if (CharacterManager::instance()->get_player()->get_hp() <= 0) {
-        is_game_overed = true;
+        if (CharacterManager::instance()->get_player()->get_hp() <= 0) {
+            is_game_overed = true;
+        }
     }
 }
 
@@ -133,6 +134,25 @@ void GameScene::render_game_overed() {
         button_home->on_render();
         button_rest->on_render();
         button_next->on_render();
+
+        // 获取当前文本样式
+        LOGFONT f;
+        gettextstyle(&f); // 获取当前字体设置
+        settextcolor(RGB(0, 0, 0));
+        TCHAR str_cmd[128];
+        _stprintf_s(str_cmd, _T("Your reward"));
+        int textWidth1 = textwidth(str_cmd);  // 获取文本宽度
+        int textHeight1 = textheight(str_cmd); // 获取文本高度
+        outtextxy(end_game_bg_position.x + 400 - textWidth1 / 2,
+            end_game_bg_position.y + 300 - textHeight1 / 2,
+            str_cmd);
+
+        _stprintf_s(str_cmd, _T("%d"), ScoreManager::instance()->getScore());
+        int textWidth2 = textwidth(str_cmd);
+        int textHeight2 = textheight(str_cmd);
+        outtextxy(end_game_bg_position.x + 400 - textWidth2 / 2,
+            end_game_bg_position.y + 300 + textHeight1, // 与上一行保持10像素间距
+            str_cmd);
     }
 }
 
@@ -142,6 +162,8 @@ void GameScene::rest() {
 
     paddle->set_hp(paddle->get_max_hp());
     ball->set_enable(false);
+    ball->set_position(ball->get_position()-50);
     BrickManager::instance()->rest(WINDOWS_WIDTH, WINDOWS_HEIGHT);
     is_game_overed = false;
+    ScoreManager::instance()->resetScore();
 }

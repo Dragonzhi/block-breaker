@@ -60,7 +60,7 @@ void Ball::apply_collision_physics(const Vector2& normal) {
     velocity = velocity.rotate(random_angle);
 
     // 3. 速度限制
-    const float min_speed = 300.0f;
+    const float min_speed = 400.0f;
     if (velocity.length() < min_speed) {
         velocity = velocity.normalize() * min_speed;
     }
@@ -127,6 +127,12 @@ void Ball::on_update(float delta) {
     Character::on_update(delta);
     hit_box->set_position(position);
 
+    // 速度限制
+    const float max_speed = 1400.0f;
+    if (velocity.length() > max_speed) {
+        velocity = velocity.normalize() * max_speed;
+    }
+
     // 左边界碰撞
     if (position.x - radius <= 0) {
         position.x = radius; 
@@ -155,6 +161,7 @@ void Ball::on_update(float delta) {
             is_enable = false;
             velocity = { 0,0 };
             paddle->set_hp(paddle->get_hp() - 1);
+            cout << "剩余生命值：" << paddle->get_hp() << endl;
         }
     }
 
