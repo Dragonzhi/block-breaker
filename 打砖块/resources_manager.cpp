@@ -18,7 +18,20 @@ static const vector<ImageResInfo> image_info_list = {
 	{ "brick_blue",					_T(R"(resources\element_blue_rectangle_glossy.png)") },
 	{ "brick_red",					_T(R"(resources\element_red_rectangle_glossy.png)") },
 	{ "brick_yellow",				_T(R"(resources\element_yellow_rectangle_glossy.png)") },
-	{ "menu_background",			_T(R"(resources\background_menu.png)") }
+	{ "menu_background",			_T(R"(resources\background_menu.png)") },
+	{ "end_game_background",		_T(R"(resources\endGame_back.png)") },
+	{ "end_game_background_star_left",		_T(R"(resources\endGame_star_left.png)") },
+	{ "end_game_background_star_right",		_T(R"(resources\endGame_star_right.png)") },
+	{ "end_game_background_star_centre",		_T(R"(resources\endGame_star_centre.png)") },
+	{ "end_game_background_button_Home_hold",		_T(R"(resources\endGameButtonHome_hold.png)") },
+	{ "end_game_background_button_Home_press",		_T(R"(resources\endGameButtonHome_press.png)") },
+	{ "end_game_background_button_Home_idle",		_T(R"(resources\endGameButtonHome_idle.png)") },
+	{ "end_game_background_button_Next_hold",		_T(R"(resources\endGameButtonNext_hold.png)") },
+	{ "end_game_background_button_Next_press",		_T(R"(resources\endGameButtonNext_press.png)") },
+	{ "end_game_background_button_Next_idle",		_T(R"(resources\endGameButtonNext_idle.png)") },
+	{ "end_game_background_button_Rest_hold",		_T(R"(resources\endGameButtonRest_hold.png)") },
+	{ "end_game_background_button_Rest_press",		_T(R"(resources\endGameButtonRest_press.png)") },
+	{ "end_game_background_button_Rest_idle",		_T(R"(resources\endGameButtonRest_idle.png)") },
 };
 
 static const vector<AtlasResInfo> atlas_info_list = {
