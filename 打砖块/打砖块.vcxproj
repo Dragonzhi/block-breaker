@@ -136,6 +136,7 @@
     <ClCompile Include="character_manager.cpp" />
     <ClCompile Include="collision_manager.cpp" />
     <ClCompile Include="game_scene.cpp" />
+    <ClCompile Include="level_scene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu_scene.cpp" />
     <ClCompile Include="paddle.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="collision_manager.h" />
     <ClInclude Include="game_object.h" />
     <ClInclude Include="game_scene.h" />
+    <ClInclude Include="level_scene.h" />
     <ClInclude Include="menu_scene.h" />
     <ClInclude Include="paddle.h" />
     <ClInclude Include="resources_manager.h" />

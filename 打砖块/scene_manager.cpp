@@ -26,6 +26,9 @@ void SceneManager::on_input(const ExMessage& msg)
                 switch_to(SceneManager::SceneType::Menu);
             }
             break;
+        case SceneManager::SceneType::Level:
+
+            break;
         default:
             break;
         }
@@ -49,10 +52,12 @@ SceneManager::SceneManager()
 {
     game_scene = new GameScene();
     menu_scene = new MenuScene();
+    level_scene = new LevelScene();
 }
 
 SceneManager::~SceneManager()
 {
     delete game_scene;
     delete menu_scene;
+    delete level_scene;
 }

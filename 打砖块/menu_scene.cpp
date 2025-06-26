@@ -10,7 +10,7 @@ MenuScene::MenuScene() {
     button_start->set_background_image(ResourcesManager::instance()->find_image("end_game_background_button_Next_idle"));
     button_start->set_click_image(ResourcesManager::instance()->find_image("end_game_background_button_Next_press"));
     button_start->set_hover_image(ResourcesManager::instance()->find_image("end_game_background_button_Next_hold"));
-    button_start->on_click([]() { SceneManager::instance()->switch_to(SceneManager::SceneType::Game); });
+    button_start->on_click([]() { SceneManager::instance()->switch_to(SceneManager::SceneType::Level); });
 
     button_start->set_position(getwidth() / 2 - button_start->get_width() / 2, getheight() / 2 - button_start->get_height() / 2);
 }

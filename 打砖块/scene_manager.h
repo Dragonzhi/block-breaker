@@ -4,6 +4,7 @@
 #include "scene.h"
 #include "game_scene.h"
 #include "menu_scene.h"
+#include "level_scene.h"
 
 class SceneManager
 {
@@ -12,6 +13,7 @@ public:
 	{
 		Menu,
 		Game,
+		Level
 	};
 public:
 	static SceneManager* instance();
@@ -22,11 +24,14 @@ public:
 	void set_current_scene(SceneType type) {
 		switch (type)
 		{
-		case SceneManager::SceneType::Menu:
+		case SceneType::Menu:
 			current_scene = menu_scene;
 			break;
-		case SceneManager::SceneType::Game:
+		case SceneType::Game:
 			current_scene = game_scene;
+			break;
+		case SceneType::Level:
+			current_scene = level_scene;
 			break;
 		default:
 			break;
@@ -45,6 +50,7 @@ private:
 	Scene* current_scene = nullptr;
 	Scene* game_scene;
 	Scene* menu_scene;
+	Scene* level_scene;
 	SceneType type;
 private:
 	SceneManager();
