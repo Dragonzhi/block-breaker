@@ -1,37 +1,37 @@
 #include "button.h"
+#include "util.h"
+
+
 Button::Button() :
-    x(0), y(0),
+    position({ 0,0 }),
     width(100), height(40),
     button_text(nullptr),
     text_color(BLACK),
-    bg_color(RGB(200, 200, 200)),
-    hover_color(RGB(180, 180, 180)),
-    click_color(RGB(160, 160, 160)),
     hovered(false),
     clicked(false),
     pressed(false)
 {
-    img_background = ResourcesManager::instance()->find_image("button");
+
 }
 
 Button::Button(int x, int y, int width, int height, const char* text) :
-    x(x), y(y),
+    position({(float)x,(float)y}),
     width(width), height(height),
     button_text(text),
     text_color(BLACK),
-    bg_color(RGB(200, 200, 200)),
-    hover_color(RGB(180, 180, 180)),
-    click_color(RGB(160, 160, 160)),
     hovered(false),
     clicked(false),
     pressed(false)
 {
-    img_background = ResourcesManager::instance()->find_image("button");
+
 }
 
 void Button::on_update(float delta)
 {
     // Reset clicked state each frame
+    if (clicked) {
+        this->func_on_click();
+    }
     clicked = false;
 }
 
@@ -39,8 +39,8 @@ void Button::on_input(const ExMessage& msg)
 {
     if (msg.message == WM_MOUSEMOVE)
     {
-        hovered = (msg.x >= x && msg.x <= x + width &&
-            msg.y >= y && msg.y <= y + height);
+        hovered = (msg.x >= position.x && msg.x <= position.x + width &&
+            msg.y >= position.y && msg.y <= position.y + height);
     }
     else if (msg.message == WM_LBUTTONDOWN)
     {
@@ -62,69 +62,46 @@ void Button::on_input(const ExMessage& msg)
 void Button::on_render()
 {
     // Draw background
-    COLORREF current_color = bg_color;
+    IMAGE* current_image = image_bg;
     if (pressed && hovered)
     {
-        current_color = click_color;
+        current_image = image_press;
     }
     else if (hovered)
     {
-        current_color = hover_color;
+        current_image = image_hover;
     }
-
-    if (img_background)
-    {
-        // Draw using the image if available
-        putimage(x, y, width, height, img_background, 0, 0);
+    else {
+        current_image = image_bg;
     }
-    else
-    {
-        // Fallback to colored rectangle
-        setfillcolor(current_color);
-        fillrectangle(x, y, x + width, y + height);
+    
+    if (current_image) {
+        putimage_alpha(position.x, position.y, current_image);
     }
-
-    // Draw border (使用更明确的函数)
-    setlinecolor(BLACK);
-    solidrectangle(x, y, x + width, y + height);  // 如果只需要边框，可以用rectangle
 
     // 绘制文本
     if (button_text && button_text[0] != '\0')
     {
-        // 1. 设置字体样式
-        LOGFONT lf;
-        gettextstyle(&lf);  // 获取当前字体设置
-        lf.lfHeight = 20;   // 字体高度（像素）
-        _tcscpy_s(lf.lfFaceName, LF_FACESIZE, _T("宋体"));
-        settextstyle(&lf);  // 应用新字体
-
-        // 2. 转换字符编码
-        TCHAR wtext[256];
-        _stprintf_s(wtext, _T("%hs"), button_text);
-
-        // 3. 计算文本尺寸（EasyX标准方式）
-        int text_width = textwidth(wtext);  // 获取文本宽度
-
-        // 获取文本高度（EasyX特殊方式）
-        int text_height = lf.lfHeight < 0 ? -lf.lfHeight : lf.lfHeight;
+        settextcolor(RGB(255, 255, 255));
+        TCHAR str_cmd[128];
+        _stprintf_s(str_cmd, _T("%s"), button_text);
 
         // 4. 计算居中位置
-        int text_x = x + (width - text_width) / 2;
-        int text_y = y + (height - text_height) / 2;
+        int text_x = position.x + width / 2;
+        int text_y = position.y + height / 2;
 
         // 5. 绘制文本
         settextcolor(text_color);
         setbkmode(TRANSPARENT);
-        outtextxy(text_x, text_y, wtext);
+        outtextxy(text_x, text_y, str_cmd);
     }
-    }
-
+}
 
 // Setters
 void Button::set_position(int x, int y)
 {
-    this->x = x;
-    this->y = y;
+    position.x = x;
+    position.y = y;
 }
 
 void Button::set_size(int width, int height)
@@ -143,19 +120,19 @@ void Button::set_text_color(COLORREF color)
     text_color = color;
 }
 
-void Button::set_background_color(COLORREF color)
+void Button::set_background_image(IMAGE* image)
 {
-    bg_color = color;
+    this->image_bg = image;
 }
 
-void Button::set_hover_color(COLORREF color)
+void Button::set_hover_image(IMAGE* image)
 {
-    hover_color = color;
+    this->image_hover = image;
 }
 
-void Button::set_click_color(COLORREF color)
+void Button::set_click_image(IMAGE* image)
 {
-    click_color = color;
+    this->image_press = image;
 }
 
 // Getters
@@ -169,14 +146,8 @@ bool Button::is_hovered() const
     return hovered;
 }
 
-int Button::get_x() const
-{
-    return x;
-}
-
-int Button::get_y() const
-{
-    return y;
+const Vector2& Button::get_position() const {
+    return position;
 }
 
 int Button::get_width() const

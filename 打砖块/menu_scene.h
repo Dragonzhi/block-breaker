@@ -1,6 +1,8 @@
 #pragma once
 #include "scene.h"
 #include "util.h"
+#include "button.h"
+
 class MenuScene : public Scene
 {
 public:
@@ -13,7 +15,7 @@ public:
 	void on_exit() override ;
 	void on_render() override ;
 private:
-	IMAGE* img_background;
-
+	IMAGE* img_background = nullptr;
+	Button* button_start = nullptr;
 };
 

@@ -18,7 +18,7 @@ void SceneManager::on_input(const ExMessage& msg)
         switch (type)
         {
         case SceneManager::SceneType::Menu:
-            switch_to(SceneManager::SceneType::Game);
+            /*switch_to(SceneManager::SceneType::Game);*/
             break;
         case SceneManager::SceneType::Game:
             // "Q"

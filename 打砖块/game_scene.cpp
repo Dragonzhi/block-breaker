@@ -23,6 +23,9 @@ void GameScene::on_update(float delta)  {
 	CharacterManager::instance()->on_update(delta);
 	CollisionManager::instance()->process_collide();
 
+    if (CharacterManager::instance()->get_player()->get_hp() <= 0) {
+
+    }
 }
 
 void GameScene::on_input(const ExMessage& msg)  {
@@ -57,5 +60,9 @@ void GameScene::on_render()  {
     TCHAR str_cmd[128];
     _stprintf_s(str_cmd, _T("Score: %d"), ScoreManager::instance()->getScore());
     outtextxy(24, getheight() - 30, str_cmd);
+
+}
+
+void GameScene::render_game_overed() {
 
 }
