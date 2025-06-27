@@ -37,9 +37,9 @@ LevelScene::LevelScene() {
     int scene_height = getheight();
     int button_width = button_level1->get_width();
     int button_height = button_level1->get_height();
-    int spacing = 20; // 按钮之间的间距
+    spacing = 80; 
 
-    int total_width = 3 * button_width + 2 * spacing;
+    int total_width = 3 * button_level1->get_width() + 2 * spacing;
     int start_x = (scene_width - total_width) / 2;
     int start_y = scene_height / 4;
 
@@ -67,11 +67,11 @@ void LevelScene::on_input(const ExMessage& msg) {
 }
 
 void LevelScene::on_enter() {
-    // 场景进入时的操作，可根据需求添加
+    
 }
 
 void LevelScene::on_exit() {
-    // 场景退出时的操作，可根据需求添加
+    
 }
 
 void LevelScene::on_render() {
@@ -87,4 +87,20 @@ void LevelScene::on_render() {
     button_level1->on_render();
     button_level2->on_render();
     button_level3->on_render();
+
+    LOGFONT f;
+    gettextstyle(&f);
+    settextcolor(RGB(255, 255, 255));
+    TCHAR str_cmd[128];
+    for (int i = 1; i <= 3; i++) {
+        _stprintf_s(str_cmd, _T("Level %d"), i);
+        int textWidth = textwidth(str_cmd);
+        int textHeight = textheight(str_cmd);
+
+        int b_width = button_level1->get_width();
+        int b_height = button_level1->get_height();
+
+        outtextxy((button_level1->get_position().x + b_width / 2 - textWidth / 2) + (i-1) * (b_width + spacing), button_level1->get_position().y - textHeight * 2,
+            str_cmd);
+    }
 }

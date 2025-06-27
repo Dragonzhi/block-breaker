@@ -130,7 +130,6 @@
     <ClCompile Include="ball.cpp" />
     <ClCompile Include="brick.cpp" />
     <ClCompile Include="brick_manager.cpp" />
-    <ClCompile Include="bullet_time_manager.cpp" />
     <ClCompile Include="button.cpp" />
     <ClCompile Include="character.cpp" />
     <ClCompile Include="character_manager.cpp" />
@@ -151,7 +150,6 @@
     <ClInclude Include="ball.h" />
     <ClInclude Include="brick.h" />
     <ClInclude Include="brick_manager.h" />
-    <ClInclude Include="bullet_time_manager.h" />
     <ClInclude Include="button.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="character.h" />

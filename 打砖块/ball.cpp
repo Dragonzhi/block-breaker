@@ -12,11 +12,6 @@ Ball::Ball() {
     enable_through_floor = true;
     set_gravity_enabled(false);
 
-    //hit_box->set_size({ 20, 20 });    
-    //hit_box->set_layer_src(CollisionLayer::Ball);
-    //hit_box->set_layer_dst(CollisionLayer::None);
-    //hit_box->set_owner(this);  // 设置碰撞盒所属对象
-
     hurt_box->set_size({ 20, 20 });     // 设置碰撞盒大小
     hurt_box->set_layer_src(CollisionLayer::Ball);
     hurt_box->set_layer_dst(CollisionLayer::None);

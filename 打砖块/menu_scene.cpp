@@ -5,7 +5,7 @@
 #include "scene_manager.h"
 
 MenuScene::MenuScene() {
-	img_background = ResourcesManager::instance()->find_image("menu_background");
+	img_background = ResourcesManager::instance()->find_image("background");
     button_start = new Button(0, 0, 128, 128);
     button_start->set_background_image(ResourcesManager::instance()->find_image("end_game_background_button_Next_idle"));
     button_start->set_click_image(ResourcesManager::instance()->find_image("end_game_background_button_Next_press"));
@@ -43,4 +43,15 @@ void MenuScene::on_render() {
     putimage_ex(img_background, &rect_dst);
 
     button_start->on_render();
+
+
+    LOGFONT f;
+    gettextstyle(&f); 
+    settextcolor(RGB(255, 255, 255));
+    TCHAR str_cmd[128];
+    _stprintf_s(str_cmd, _T("Press the button to start the game"));
+    int textWidth = textwidth(str_cmd);  
+    int textHeight = textheight(str_cmd); 
+    outtextxy(getwidth() / 2 - textWidth / 2, getheight() / 2 + textHeight * 3,
+        str_cmd);
 }
