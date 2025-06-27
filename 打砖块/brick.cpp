@@ -32,9 +32,9 @@ Brick::Brick(int x, int y, Type type) {
     size.x = hurt_box->get_size().x;
     size.y = hurt_box->get_size().y;
 
-    timer_invulnerable.set_one_shot(true);
-    timer_invulnerable.set_wait_time(0.1f);
-    timer_invulnerable.set_on_timeout([this]() {is_invulnerable = false; });
+    timer_shake.set_one_shot(true);
+    timer_shake.set_wait_time(0.1f);
+    timer_shake.set_on_timeout([this]() {is_shake = false; });
 
     init();
 }
@@ -45,7 +45,7 @@ Brick::~Brick() {
 
 void Brick::on_hit() {
     if (!is_active || !can_be_hit()) return; // 双重检查
-    is_invulnerable = true;
+    is_shake = true;
     counts--;
     cooldown_timer = COOLDOWN_TIME; // 重置冷却时间
     play_audio(_T("ball_brick"), false);
@@ -86,8 +86,8 @@ void Brick::on_update(float delta) {
         hurt_box->set_enabled(true);
     }
 
-    if (is_invulnerable) {
-        timer_invulnerable.on_update(delta);
+    if (is_shake) {
+        timer_shake.on_update(delta);
     }
 
     hurt_box->set_position(Vector2(position.x, position.y));
@@ -95,8 +95,8 @@ void Brick::on_update(float delta) {
     animation_brick.on_update(delta);
     animation_brick.set_position(position);
 
-    if (is_invulnerable) {
-        make_be_hit();
+    if (is_shake) {
+        make_shake();
     }
 }
 

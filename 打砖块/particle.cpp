@@ -7,7 +7,6 @@ Particle::Particle(const Vector2& position, const Vector2& velocity, float life_
     : life_time(life_time), current_life(0.0f), is_active(true) {
     this->position = position;
     this->velocity = velocity;
-    // 随机生成颜色
     std::random_device rd;
     std::mt19937 gen(rd());
     //std::uniform_int_distribution<> colorDist(0, 255);

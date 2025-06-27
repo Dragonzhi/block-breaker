@@ -72,7 +72,7 @@ public:
         return is_destoryed;
     }
 
-    void make_be_hit() {
+    void make_shake() {
         std::mt19937 gen{ std::random_device{}() };
         std::uniform_int_distribution<> dist(-be_hit_range, be_hit_range);
         animation_brick.set_position(Vector2(position.x + dist(gen), position.y + dist(gen)));
@@ -93,8 +93,8 @@ private:
     const float COOLDOWN_TIME = 0.02f; // ÀäÈ´Ê±¼ä£¨Ãë£©
     Animation animation_brick;
 
-    bool is_invulnerable = false;      // ÎÞµÐ×´Ì¬
-    Timer timer_invulnerable;          // ÎÞµÐ×´Ì¬¼ÆÊ±Æ÷
+    bool is_shake = false;      // ÎÞµÐ×´Ì¬
+    Timer timer_shake;          // ÎÞµÐ×´Ì¬¼ÆÊ±Æ÷
 
     int be_hit_range = 2;
 };
