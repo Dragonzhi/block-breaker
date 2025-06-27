@@ -86,50 +86,9 @@ inline void sketch_image(IMAGE* src, IMAGE* dst) {
     }
 }
 
-// 异步播放音频的函数声明
-void async_play_audio(LPCTSTR id, bool is_loop = false);
-
-inline void load_audio(LPCTSTR path, LPCTSTR id)
-{
-    TCHAR str_cmd[512];
-    // 确保路径用引号包裹，处理空格问题
-    _stprintf_s(str_cmd, _T("open \"%s\" alias %s"), path, id);
-    MCIERROR error = mciSendString(str_cmd, NULL, 0, NULL);
-
-    if (error != 0) {
-        // 更健壮的错误处理
-        TCHAR errMsg[256] = { 0 };
-        if (mciGetErrorString(error, errMsg, 256)) {
-            std::wcerr << L"加载音频失败: " << id
-                << L" | 错误: " << errMsg << std::endl;
-        }
-        else {
-            // 直接输出错误代码
-            std::wcerr << L"加载音频失败: " << id
-                << L" | 未知错误代码: " << error << std::endl;
-        }
-
-        // 添加详细调试信息
-        std::wcerr << L"尝试打开: " << path << std::endl;
-    }
-}
-inline void play_audio(LPCTSTR id, bool is_loop = false)
-{
-    async_play_audio(id, is_loop);
-    //std::thread t(async_play_audio, id, is_loop);
-    //t.detach(); // 分离线程，让其在后台独立运行
-}
-
-inline void stop_audio(LPCTSTR id)
-{
-    static TCHAR str_cmd[512];
-    _stprintf_s(str_cmd, _T("stop %s"), id);
-    MCIERROR error = mciSendString(str_cmd, NULL, 0, NULL);
-    if (error != 0) {
-        std::cerr << "Failed to stop audio. Error code: " << error << std::endl;
-    }
-}
-
+inline void load_audio(LPCTSTR path, LPCTSTR id);
+inline void play_audio(LPCTSTR id, bool is_loop);
+inline void stop_audio(LPCTSTR id);
 
 inline int range_random(int min_num, int max_num) {
     return min_num + rand() % (max_num - min_num + 1);
