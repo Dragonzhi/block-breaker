@@ -61,7 +61,7 @@ void GameScene::on_update(float delta)  {
         CharacterManager::instance()->on_update(delta);
         CollisionManager::instance()->process_collide();
 
-        if (CharacterManager::instance()->get_player()->get_hp() <= 0) {
+        if (CharacterManager::instance()->get_player()->get_hp() <= 0 || BrickManager::instance()->isAllBroken()) {
             is_game_overed = true;
             ScoreManager::instance()->saveHighScore();
         }
@@ -80,6 +80,9 @@ void GameScene::on_input(const ExMessage& msg)  {
     case WM_KEYUP:
         if (msg.vkcode == 0x52) {
             is_debug = !is_debug;
+        }
+        if (msg.vkcode == 0x46) {
+            BrickManager::instance()->fillWithGrid(WINDOWS_WIDTH, WINDOWS_HEIGHT, 2, 2, 1);
         }
         if (msg.vkcode == VK_ESCAPE) {
             SceneManager::instance()->switch_to(SceneManager::SceneType::Level);
@@ -127,6 +130,8 @@ void GameScene::on_render()  {
     TCHAR str_cmd[128];
     _stprintf_s(str_cmd, _T("Score: %d"), ScoreManager::instance()->getScore());
     outtextxy(24, getheight() - 30, str_cmd);
+    _stprintf_s(str_cmd, _T("Hp: %d"), CharacterManager::instance()->get_player()->get_hp());
+    outtextxy(getwidth() - 80, getheight() - 30, str_cmd);
 
     if (is_game_overed) {
         render_game_overed();

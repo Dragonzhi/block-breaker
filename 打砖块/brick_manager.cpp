@@ -62,6 +62,49 @@ void BrickManager::on_render()
     }
 }
 
+void BrickManager::fillWithGrid(int screenWidth, int screenHeight, int rows, int cols, int level) {
+    clearAllBricks(); // 先清除现有砖块
+
+    // 参数安全检查
+    if (rows <= 0 || cols <= 0) return;
+    rows =  min(rows, 20); // 限制最大行数
+    cols =  min(cols, 20); // 限制最大列数
+
+    // 计算单个砖块的最佳尺寸（考虑间距）
+    const int horizontalSpacing = 5;  // 水平间距
+    const int verticalSpacing = 5;    // 垂直间距
+
+    // 动态计算砖块大小以完美适应屏幕
+    int brickWidth = (screenWidth - (cols + 1) * horizontalSpacing) / cols;
+    int brickHeight = (screenHeight / 2 - (rows + 1) * verticalSpacing) / rows;
+
+    // 确保砖块不会太小
+    brickWidth =  max(brickWidth, 30);
+    brickHeight =  max(brickHeight, 15);
+
+    // 计算起始位置（使整体居中）
+    int totalWidth = cols * brickWidth + (cols - 1) * horizontalSpacing;
+    int totalHeight = rows * brickHeight + (rows - 1) * verticalSpacing;
+    int startX = (screenWidth - totalWidth) / 2 + brickWidth / 2;
+    int startY = 30 + (screenHeight / 2 - 30 - totalHeight) / 2; // 在上半屏居中
+
+    // 随机数生成器
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> typeDist(0, level - 1);
+
+    // 生成砖块网格
+    for (int row = 0; row < rows; ++row) {
+        for (int col = 0; col < cols; ++col) {
+            int x = startX + col * (brickWidth + horizontalSpacing);
+            int y = startY + row * (brickHeight + verticalSpacing);
+
+            Brick::Type randomType = static_cast<Brick::Type>(typeDist(gen));
+            bricks.push_back(new Brick(x, y, randomType));
+        }
+    }
+}
+
 void BrickManager::fillUpperHalfRandomly_int(int screenWidth, int screenHeight, int level)
 {
     const int brickWidth = 70;   // 砖块宽度
