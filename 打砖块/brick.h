@@ -6,6 +6,8 @@
 #include "game_object.h"
 #include "resources_manager.h"
 
+#include <random>
+
 class Brick : public GameObject
 {
 public:
@@ -64,6 +66,12 @@ public:
 		return is_destoryed;
 	}
 
+	void make_be_hit() {
+		std::mt19937 gen{ std::random_device{}() };
+		std::uniform_int_distribution<> dist(-be_hit_range, be_hit_range);
+		animation_brick.set_position(Vector2(position.x + dist(gen), position.y + dist(gen)));
+	}
+
 private:
 	int counts = 1;					//需要被击打的次数
 	int points = 1;					//分数
@@ -75,5 +83,10 @@ private:
 	float cooldown_timer = 0.0f; // 冷却计时器（秒）
 	const float COOLDOWN_TIME = 0.02f; // 冷却时间（秒）
 	Animation animation_brick;
+
+	bool is_invulnerable = false;				//无敌状态
+	Timer timer_invulnerable;					//无敌状态计时器
+
+	int be_hit_range = 1;
 };
 

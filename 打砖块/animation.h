@@ -24,16 +24,6 @@ public:
 				if (!is_loop && on_finished) {
 					on_finished();
 				}
-				//if (is_loop) {
-				//	idx_frame = 0;  // 循环动画
-				//}
-				//else {
-				//	// 非循环动画停留在最后一帧
-				//	idx_frame = frame_list.size() - 1;
-				//	if (on_finished) {
-				//		on_finished();
-				//	}
-				//}
 			}
 			});
 	}
@@ -87,6 +77,7 @@ public:
 	void set_anchor_mode(AnchorMode new_anchor_mode) {
 		anchor_mode = new_anchor_mode;
 	}
+
 	void add_frame(IMAGE* image, int num_h)
 	{
 		int width = image->getwidth();
@@ -114,6 +105,10 @@ public:
 			rect_src.w = width, rect_src.h = height;
 			frame_list.emplace_back(image, rect_src);
 		}
+	}	
+	
+	IMAGE* get_frame() {
+		return frame_list[idx_frame].image;
 	}
 		
 private:

@@ -28,6 +28,13 @@ Brick::Brick(int x, int y, Type type) {
 
 		}
 		});
+
+	timer_invulnerable.set_one_shot(true);
+	timer_invulnerable.set_wait_time(0.1f);
+	timer_invulnerable.set_on_timeout([this]() {is_invulnerable = false; });
+
+
+
 	init();
 }
 
@@ -36,7 +43,7 @@ Brick::~Brick() {
 }
 void Brick::on_hit() {
 	if (!is_active || !can_be_hit()) return; // 双重检查
-
+	is_invulnerable = true;
 	counts--;
 	cooldown_timer = COOLDOWN_TIME; // 重置冷却时间
 
@@ -59,11 +66,21 @@ void Brick::on_update(float delta) {
 	}
 	else {
 		hurt_box->set_enabled(true);
+		
 	}
-	
+
+	if (is_invulnerable) {
+		timer_invulnerable.on_update(delta);
+	}
+
 	hurt_box->set_position(Vector2(position.x, position.y));
+
 	animation_brick.on_update(delta);
 	animation_brick.set_position(position);
+
+	if (is_invulnerable) {
+		make_be_hit();
+	}
 }
 
 void Brick::on_render() {
