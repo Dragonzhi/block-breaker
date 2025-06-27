@@ -1,10 +1,11 @@
-#include "game_scene.h"
+#include "brick_manager.h"
+#include "camera.h"
 #include "character_manager.h"
 #include "collision_manager.h"
-#include "brick_manager.h"
-#include "score_manager.h"
+#include "game_scene.h"
+#include "particle_system.h"
 #include "scene_manager.h"
-#include "camera.h"
+#include "score_manager.h"
 
 extern int WINDOWS_WIDTH;
 extern int WINDOWS_HEIGHT;
@@ -45,6 +46,7 @@ GameScene::~GameScene() {}
 void GameScene::on_update(float delta)  {
 
     Camera::instance()->on_update(delta);
+    ParticleSystem::instance()->on_update(delta);
 
     if (is_game_overed) {
         if (end_game_bg_position.y >= getheight()/10) {
@@ -129,6 +131,7 @@ void GameScene::on_render(const Camera& camera)  {
     if(is_debug)
 	    CollisionManager::instance()->on_debug_render(camera);
 
+    ParticleSystem::instance()->on_render(camera);
 
     settextcolor(RGB(255, 255, 255));
     TCHAR str_cmd[128];

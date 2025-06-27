@@ -140,6 +140,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu_scene.cpp" />
     <ClCompile Include="paddle.cpp" />
+    <ClCompile Include="particle.cpp" />
+    <ClCompile Include="particle_system.cpp" />
     <ClCompile Include="resources_manager.cpp" />
     <ClCompile Include="scene_manager.cpp" />
     <ClCompile Include="score_manager.cpp" />
@@ -163,6 +165,8 @@
     <ClInclude Include="level_scene.h" />
     <ClInclude Include="menu_scene.h" />
     <ClInclude Include="paddle.h" />
+    <ClInclude Include="particle.h" />
+    <ClInclude Include="particle_system.h" />
     <ClInclude Include="resources_manager.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene_manager.h" />
