@@ -1,5 +1,5 @@
 #include "brick.h"
-
+#include "camera.h"
 
 Brick::Brick(int x, int y, Type type) {
 	position.x = x;
@@ -54,6 +54,7 @@ void Brick::on_hit() {
 		// ×©¿é±»´Ý»ÙµÄÂß¼­
 		std::cout << "Brick±»´Ý»Ù" << std::endl;
 		is_active = false;
+		Camera::instance()->shake(rand() % 3 + 1 , 0.1);
 	}
 }
 

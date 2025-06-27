@@ -1,6 +1,7 @@
 #include "resources_manager.h"
 #include "scene_manager.h"
 #include "util.h"
+#include "camera.h"
 
 #include <chrono>
 #include <graphics.h>
@@ -14,7 +15,7 @@ using namespace std;
 
 const int FPS = 144;  // 帧率值
 
-Camera main_camera;
+Camera* main_camera = Camera::instance();
 
 int main(int argc, char** argv)
 {
@@ -66,7 +67,7 @@ int main(int argc, char** argv)
         cleardevice();
 
         // 处理绘图
-        SceneManager::instance()->on_render(main_camera);
+        SceneManager::instance()->on_render(*main_camera);
 
         FlushBatchDraw();
 

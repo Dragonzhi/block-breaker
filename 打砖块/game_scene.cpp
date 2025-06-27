@@ -43,6 +43,9 @@ GameScene::GameScene() {
 GameScene::~GameScene() {}
 
 void GameScene::on_update(float delta)  {
+
+    Camera::instance()->on_update(delta);
+
     if (is_game_overed) {
         if (end_game_bg_position.y >= getheight()/10) {
             end_game_bg_position.y -= 380.0f * delta;

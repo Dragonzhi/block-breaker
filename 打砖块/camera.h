@@ -1,11 +1,14 @@
 #pragma once
 
+#include <iostream>
 #include "vector2.h"
 #include "timer.h"
 
 class Camera
 {
 public:
+	static Camera* instance();
+
 	Camera() {
 		timer_shake.set_one_shot(true);
 		timer_shake.set_on_timeout(
@@ -36,6 +39,7 @@ public:
 	}
 
 	void shake(float strength, float duration) {
+	/*	std::cout << "shake!" << std::endl;*/
 		is_shaking = true;
 		shaking_strength = strength;
 
@@ -48,4 +52,7 @@ private:
 	Timer timer_shake;
 	bool is_shaking = false;
 	float shaking_strength = 0;
+
+	static Camera* manager;
 };
+
