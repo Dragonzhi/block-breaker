@@ -1,6 +1,4 @@
 #pragma once
-
-
 #include <string>
 
 class ScoreManager {
@@ -10,9 +8,6 @@ private:
     int score;
     int highScore;
     std::string highScoreFile;
-
-    void loadHighScore();
-    void saveHighScore();
 
 public:
     static ScoreManager* instance();
@@ -24,6 +19,9 @@ public:
 
     void addPoints(int points);
     void resetScore();
+
+    void loadHighScore();
+    void saveHighScore();
 
     std::string getScoreString() const;
     std::string getHighScoreString() const;

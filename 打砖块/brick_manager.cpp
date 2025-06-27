@@ -1,6 +1,7 @@
 #include "brick_manager.h"
 #include "score_manager.h"
 #include <random>
+#include "scene_manager.h"
 
 BrickManager* BrickManager::manager = nullptr;
 
@@ -61,7 +62,7 @@ void BrickManager::on_render()
     }
 }
 
-void BrickManager::fillUpperHalfRandomly_int(int screenWidth, int screenHeight)
+void BrickManager::fillUpperHalfRandomly_int(int screenWidth, int screenHeight, int level)
 {
     const int brickWidth = 70;   // 砖块宽度
     const int brickHeight = 40;  // 砖块高度
@@ -71,7 +72,7 @@ void BrickManager::fillUpperHalfRandomly_int(int screenWidth, int screenHeight)
     // 随机数生成器
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> typeDist(0, 2); // 0=Normal, 1=Streng, 2=Powerup
+    std::uniform_int_distribution<> typeDist(0, level - 1); // 0=Normal, 1=Streng, 2=Powerup
 
     // 计算每行可以放置多少个砖块
     int bricksPerRow = (screenWidth - 2 * marginX) / brickWidth;
@@ -168,6 +169,6 @@ void BrickManager::clearAllBricks() {
 
 void BrickManager::rest(int screenWidth, int screenHeight) {
     clearAllBricks();
-    fillUpperHalfRandomly_int(screenWidth, screenHeight);
+    fillUpperHalfRandomly_int(screenWidth, screenHeight, SceneManager::instance()->get_current_level());
 }
 

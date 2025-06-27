@@ -45,6 +45,14 @@ public:
 		set_current_scene(type);
 	}
 
+	int get_current_level() const {
+		return current_level;
+	}
+
+	void set_current_level(int val) {
+		current_level = val;
+	}
+
 private:
 	static SceneManager* manager;
 	Scene* current_scene = nullptr;
@@ -52,6 +60,9 @@ private:
 	Scene* menu_scene;
 	Scene* level_scene;
 	SceneType type;
+
+	int current_level = 1;
+
 private:
 	SceneManager();
 	~SceneManager();

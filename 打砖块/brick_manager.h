@@ -12,7 +12,7 @@ public:
     void on_update(float delta);
     void on_render();
     void fillUpperHalfRandomly(int screenWidth, int screenHeight);
-    void fillUpperHalfRandomly_int(int screenWidth, int screenHeight);
+    void fillUpperHalfRandomly_int(int screenWidth, int screenHeight, int level);
     void clearAllBricks();
     void rest(int screenWidth, int screenHeight);
 private:

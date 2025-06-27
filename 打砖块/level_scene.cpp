@@ -28,9 +28,18 @@ LevelScene::LevelScene() {
     button_level3->set_hover_image(hover_image);
 
     // 设置按钮的点击事件
-    button_level1->on_click([]() { std::cout << "Level 1 clicked!" << std::endl; });
-    button_level2->on_click([]() { std::cout << "Level 2 clicked!" << std::endl; });
-    button_level3->on_click([]() { std::cout << "Level 3 clicked!" << std::endl; });
+    button_level1->on_click([]() {         
+        SceneManager::instance()->set_current_level(1);
+        SceneManager::instance()->switch_to(SceneManager::SceneType::Game); 
+        });
+    button_level2->on_click([]() {         
+        SceneManager::instance()->set_current_level(2);
+        SceneManager::instance()->switch_to(SceneManager::SceneType::Game);  
+        });
+    button_level3->on_click([]() {         
+        SceneManager::instance()->set_current_level(3);
+        SceneManager::instance()->switch_to(SceneManager::SceneType::Game);  
+        });
 
     // 计算按钮的位置，使其位于场景偏上方
     int scene_width = getwidth();

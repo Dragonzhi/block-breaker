@@ -19,7 +19,11 @@ GameScene::GameScene() {
     button_next->set_background_image(ResourcesManager::instance()->find_image("end_game_background_button_Next_idle"));
     button_next->set_click_image(ResourcesManager::instance()->find_image("end_game_background_button_Next_press"));
     button_next->set_hover_image(ResourcesManager::instance()->find_image("end_game_background_button_Next_hold"));
-    button_next->on_click([]() { SceneManager::instance()->switch_to(SceneManager::SceneType::Menu); });
+    button_next->on_click([this]() { 
+        GameScene::rest();
+        SceneManager::instance()->set_current_level(SceneManager::instance()->get_current_level() + 1);
+        SceneManager::instance()->switch_to(SceneManager::SceneType::Game);
+        });
 
     button_home = new Button(0, 0, 128, 128);
     button_home->set_background_image(ResourcesManager::instance()->find_image("end_game_background_button_Home_idle"));
@@ -32,8 +36,6 @@ GameScene::GameScene() {
     button_rest->set_click_image(ResourcesManager::instance()->find_image("end_game_background_button_Rest_press"));
     button_rest->set_hover_image(ResourcesManager::instance()->find_image("end_game_background_button_Rest_hold"));
     button_rest->on_click([]() { SceneManager::instance()->switch_to(SceneManager::SceneType::Game); });
-
-    BrickManager::instance()->fillUpperHalfRandomly_int(WINDOWS_WIDTH, WINDOWS_HEIGHT);
 
     end_game_bg_position = { getwidth() / 2 - 400, getheight()};
 }
@@ -61,6 +63,7 @@ void GameScene::on_update(float delta)  {
 
         if (CharacterManager::instance()->get_player()->get_hp() <= 0) {
             is_game_overed = true;
+            ScoreManager::instance()->saveHighScore();
         }
     }
 }
@@ -78,7 +81,12 @@ void GameScene::on_input(const ExMessage& msg)  {
         if (msg.vkcode == 0x52) {
             is_debug = !is_debug;
         }
+        if (msg.vkcode == VK_ESCAPE) {
+            SceneManager::instance()->switch_to(SceneManager::SceneType::Level);
+            cout << "esc" << endl;
+        }       
         break;
+
     default:
         break;
     }
@@ -91,11 +99,12 @@ void GameScene::on_input(const ExMessage& msg)  {
 }
 
 void GameScene::on_enter()  {
-
+    BrickManager::instance()->fillUpperHalfRandomly_int(WINDOWS_WIDTH, WINDOWS_HEIGHT, SceneManager::instance()->get_current_level());
 }
 
 void GameScene::on_exit()  {
     rest();
+    BrickManager::instance()->clearAllBricks();
 }
 
 void GameScene::on_render()  {
@@ -153,6 +162,13 @@ void GameScene::render_game_overed() {
         outtextxy(end_game_bg_position.x + 400 - textWidth2 / 2,
             end_game_bg_position.y + 300 + textHeight1, // 与上一行保持10像素间距
             str_cmd);
+
+        _stprintf_s(str_cmd, _T("Highest score: %d"), ScoreManager::instance()->getHighScore());
+        int textWidth3 = textwidth(str_cmd);
+        int textHeight3 = textheight(str_cmd);
+        outtextxy(end_game_bg_position.x + 400 - textWidth3 / 2,
+            end_game_bg_position.y + 300 + textHeight2 * 2 , // 与上一行保持10像素间距
+            str_cmd);
     }
 }
 
@@ -162,7 +178,7 @@ void GameScene::rest() {
 
     paddle->set_hp(paddle->get_max_hp());
     ball->set_enable(false);
-    ball->set_position(ball->get_position()-50);
+    ball->set_position(ball->get_position()-50); // 避免开局 -1hp
     BrickManager::instance()->rest(WINDOWS_WIDTH, WINDOWS_HEIGHT);
     is_game_overed = false;
     ScoreManager::instance()->resetScore();
