@@ -43,9 +43,9 @@ void SceneManager::on_update(float delta)
     current_scene->on_update(delta);
 }
 
-void SceneManager::on_render()
+void SceneManager::on_render(const Camera& camera)
 {
-    current_scene->on_render();
+    current_scene->on_render(camera);
 }
 
 SceneManager::SceneManager()

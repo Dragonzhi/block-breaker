@@ -15,7 +15,7 @@ public:
 
 	void on_update(float delta) override;
 	void on_input(const ExMessage& msg) override;
-	void on_render() override;
+	void on_render(const Camera& camera) override;
 
 	void handle_paddle_collision(CollisionBox* paddle_box);
 	void handle_brick_collision(CollisionBox* brick_box, const CollisionBox::CollisionInfo& info);

@@ -67,7 +67,7 @@ void Paddle::on_update(float delta) {
     Character::on_update(delta);
 }
 
-void Paddle::on_render() {
+void Paddle::on_render(const Camera& camera) {
     // ‰÷»æ∂Øª≠
-    paddle_animation.on_render();
+    paddle_animation.on_render(camera);
 }

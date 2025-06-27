@@ -10,7 +10,7 @@ public:
     static BrickManager* instance();
     void on_input(const ExMessage& msg);
     void on_update(float delta);
-    void on_render();
+    void on_render(const Camera& camera);
     void fillUpperHalfRandomly(int screenWidth, int screenHeight);
     void fillUpperHalfRandomly_int(int screenWidth, int screenHeight, int level);
     void fillWithGrid(int screenWidth, int screenHeight, int rows, int cols, int level);

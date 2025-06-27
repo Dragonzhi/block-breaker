@@ -181,10 +181,10 @@ void Ball::on_update(float delta) {
 
 }
 
-void Ball::on_render() {
+void Ball::on_render(const Camera& camera) {
     /*setfillcolor(RGB(255,100,100));
     solidcircle((int)position.x, (int)position.y, 10);*/
-    Character::on_render();
+    Character::on_render(camera);
 }
 
 void Ball::on_input(const ExMessage& msg){

@@ -13,7 +13,7 @@ public:
 
     void on_update(float delta);
     void on_input(const ExMessage& msg);
-    void on_render();
+    void on_render(const Camera& camera);
 
     void on_click(function<void()> on_click) {
         func_on_click = on_click;

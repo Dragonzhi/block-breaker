@@ -83,7 +83,7 @@ void LevelScene::on_exit() {
     
 }
 
-void LevelScene::on_render() {
+void LevelScene::on_render(const Camera& camera) {
     const Rect rect_dst =
     {
         (getwidth() - img_background->getwidth()) / 2,
@@ -91,11 +91,11 @@ void LevelScene::on_render() {
         img_background->getwidth(),
         img_background->getheight()
     };
-    putimage_ex(img_background, &rect_dst);
+    putimage_ex(camera, img_background, &rect_dst);
 
-    button_level1->on_render();
-    button_level2->on_render();
-    button_level3->on_render();
+    button_level1->on_render(camera);
+    button_level2->on_render(camera);
+    button_level3->on_render(camera);
 
     LOGFONT f;
     gettextstyle(&f);

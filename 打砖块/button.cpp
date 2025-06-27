@@ -59,7 +59,7 @@ void Button::on_input(const ExMessage& msg)
     }
 }
 
-void Button::on_render()
+void Button::on_render(const Camera& camera)
 {
     // Draw background
     IMAGE* current_image = image_bg;
@@ -76,7 +76,7 @@ void Button::on_render()
     }
     
     if (current_image) {
-        putimage_alpha(position.x, position.y, current_image);
+        putimage_alpha(camera, position.x, position.y, current_image);
     }
 
     // »æÖÆÎÄ±¾

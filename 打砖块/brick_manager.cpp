@@ -54,11 +54,11 @@ void BrickManager::on_update(float delta) {
         bricks.end());
 }
 
-void BrickManager::on_render()
+void BrickManager::on_render(const Camera& camera)
 {
     for (Brick* brick : bricks)
     {
-        brick->on_render();
+        brick->on_render(camera);
     }
 }
 

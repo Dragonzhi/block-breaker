@@ -12,7 +12,7 @@ public:
     void destroy_collision_box(CollisionBox* collision_box);
 
     void process_collide();
-    void on_debug_render();
+    void on_debug_render(const Camera& camera);
 
     const char* get_layer_name(CollisionLayer layer);
 

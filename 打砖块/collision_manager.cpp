@@ -234,7 +234,7 @@ const char* CollisionManager::get_layer_name(CollisionLayer layer) {
     default: return "Unknown";
     }
 }
-void CollisionManager::on_debug_render() {
+void CollisionManager::on_debug_render(const Camera& camera) {
     for (CollisionBox* collision_box : collision_box_list) {
         setlinecolor(collision_box->enabled ? RGB(255, 195, 195) : RGB(115, 115, 175));
         if (collision_box->get_type() == CollisionBox::CollisionBoxType::Rectangle) {

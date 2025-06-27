@@ -12,11 +12,11 @@ public:
 	void on_input(const ExMessage& msg) override ;
 	void on_enter() override ;
 	void on_exit() override ;
-	void on_render() override ;
+	void on_render(const Camera& camera) override ;
 
 	void rest();
 
-	void render_game_overed();
+	void render_game_overed(const Camera& camera);
 
 private:
 	IMAGE* img_background = nullptr;

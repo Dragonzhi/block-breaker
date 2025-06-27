@@ -1,7 +1,7 @@
 #pragma once
 
 #include <graphics.h>
-
+#include "camera.h"
 #include "vector2.h"
 
 class GameObject
@@ -11,7 +11,7 @@ public:
 	~GameObject() = default;
 
 	virtual void on_update(float delta) = 0;
-	virtual void on_render() = 0;
+	virtual void on_render(const Camera& camera) = 0;
 	virtual void on_input(const ExMessage& msg) = 0;
 	
     void set_position(const Vector2& pos) {

@@ -2,6 +2,7 @@
 #include "util.h"
 #include "atlas.h"
 #include "vector2.h"
+#include "camera.h"
 
 #include <vector>
 #include <graphics.h>
@@ -54,7 +55,7 @@ public:
 		timer.on_update(delta);
 	}
 
-	void on_render() {
+	void on_render(const Camera& camera) {
 		// µ÷ÊÔÊä³ö
 		//std::cout << "Rendering frame: " << idx_frame << std::endl;
 		const Frame& frame = frame_list[idx_frame];
@@ -63,7 +64,7 @@ public:
 		rect_dst.y = (anchor_mode == AnchorMode::Centered)
 			? (int)position.y - frame.rect_src.h / 2 : (int)position.y - frame.rect_src.h;
 		rect_dst.w = frame.rect_src.w, rect_dst.h = frame.rect_src.h;
-		putimage_ex(frame.image, &rect_dst, &frame.rect_src);
+		putimage_ex(camera, frame.image, &rect_dst, &frame.rect_src);
 	}
 
 	/*void on_draw(const Camera& camera, int x, int y) const {

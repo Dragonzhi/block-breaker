@@ -9,9 +9,12 @@
 
 int WINDOWS_WIDTH = 1280;
 int WINDOWS_HEIGHT = 720;
+
 using namespace std;
 
 const int FPS = 144;  // 帧率值
+
+Camera main_camera;
 
 int main(int argc, char** argv)
 {
@@ -63,7 +66,7 @@ int main(int argc, char** argv)
         cleardevice();
 
         // 处理绘图
-        SceneManager::instance()->on_render();
+        SceneManager::instance()->on_render(main_camera);
 
         FlushBatchDraw();
 

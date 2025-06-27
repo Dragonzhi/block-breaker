@@ -9,7 +9,7 @@ public:
 	~Paddle();
 	void on_input(const ExMessage& msg) override;
 	void on_update(float delta) override;
-	void on_render() override;
+	void on_render(const Camera& camera) override;
 
 	bool can_shot() const {
 		return has_ball;

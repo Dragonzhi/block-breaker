@@ -4,6 +4,7 @@
 #include "brick_manager.h"
 #include "score_manager.h"
 #include "scene_manager.h"
+#include "camera.h"
 
 extern int WINDOWS_WIDTH;
 extern int WINDOWS_HEIGHT;
@@ -110,7 +111,7 @@ void GameScene::on_exit()  {
     BrickManager::instance()->clearAllBricks();
 }
 
-void GameScene::on_render()  {
+void GameScene::on_render(const Camera& camera)  {
     Rect rect_dst =
     {
         (getwidth() - img_background->getwidth()) / 2,
@@ -118,12 +119,12 @@ void GameScene::on_render()  {
         img_background->getwidth(),
         img_background->getheight()
     };
-    putimage_ex(img_background, &rect_dst);
+    putimage_ex(camera, img_background, &rect_dst);
 
-    BrickManager::instance()->on_render();
-	CharacterManager::instance()->on_render();
+    BrickManager::instance()->on_render(camera);
+	CharacterManager::instance()->on_render(camera);
     if(is_debug)
-	    CollisionManager::instance()->on_debug_render();
+	    CollisionManager::instance()->on_debug_render(camera);
 
 
     settextcolor(RGB(255, 255, 255));
@@ -134,20 +135,20 @@ void GameScene::on_render()  {
     outtextxy(getwidth() - 80, getheight() - 30, str_cmd);
 
     if (is_game_overed) {
-        render_game_overed();
+        render_game_overed(camera);
     }
 }
 
-void GameScene::render_game_overed() {
-    putimage_alpha(end_game_bg_position.x, end_game_bg_position.y, image_end_game_bg);
+void GameScene::render_game_overed(const Camera& camera) {
+    putimage_alpha(camera, end_game_bg_position.x, end_game_bg_position.y, image_end_game_bg);
     if (is_end_game_bg_ok) {
-        putimage_alpha(end_game_bg_position.x, end_game_bg_position.y, image_end_game_star_left);
-        putimage_alpha(end_game_bg_position.x, end_game_bg_position.y, image_end_game_star_centre);
-        putimage_alpha(end_game_bg_position.x, end_game_bg_position.y, image_end_game_star_right);
+        putimage_alpha(camera, end_game_bg_position.x, end_game_bg_position.y, image_end_game_star_left);
+        putimage_alpha(camera, end_game_bg_position.x, end_game_bg_position.y, image_end_game_star_centre);
+        putimage_alpha(camera, end_game_bg_position.x, end_game_bg_position.y, image_end_game_star_right);
 
-        button_home->on_render();
-        button_rest->on_render();
-        button_next->on_render();
+        button_home->on_render(camera);
+        button_rest->on_render(camera);
+        button_next->on_render(camera);
 
         // 获取当前文本样式
         LOGFONT f;

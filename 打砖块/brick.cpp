@@ -83,8 +83,8 @@ void Brick::on_update(float delta) {
 	}
 }
 
-void Brick::on_render() {
-	animation_brick.on_render();
+void Brick::on_render(const Camera& camera) {
+	animation_brick.on_render(camera);
 }
 
 void Brick::init() {

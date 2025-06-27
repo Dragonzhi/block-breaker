@@ -21,10 +21,10 @@ void CharacterManager::on_update(float delta)
     ball->on_update(delta);
 }
 
-void CharacterManager::on_render()
+void CharacterManager::on_render(const Camera& camera)
 {
-    player->on_render();
-    ball->on_render();
+    player->on_render(camera);
+    ball->on_render(camera);
 }
 
 CharacterManager::CharacterManager()

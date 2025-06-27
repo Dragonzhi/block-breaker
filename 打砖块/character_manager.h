@@ -20,7 +20,7 @@ public:
 
     void on_input(const ExMessage& msg);
     void on_update(float delta);
-    void on_render();
+    void on_render(const Camera& camera);
 
 private:
     static CharacterManager* manager;

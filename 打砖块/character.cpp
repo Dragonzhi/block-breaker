@@ -65,9 +65,9 @@ void Character::on_update(float delta) {
     current_animation->set_position(position);
 }
 
-void Character::on_render() {
+void Character::on_render(const Camera& camera) {
     if (!current_animation || (is_invulnerable && is_blink_invisible)) return;
-    current_animation->on_render();
+    current_animation->on_render(camera);
 }
 
 void Character::on_hurt() {}

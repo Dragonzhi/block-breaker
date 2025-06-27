@@ -16,9 +16,6 @@
     <Filter Include="头文件\brick">
       <UniqueIdentifier>{b5791744-717c-48a4-993a-ee9d2b970430}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\utils">
-      <UniqueIdentifier>{c85a105e-4501-4e9f-a748-f78c58058871}</UniqueIdentifier>
-    </Filter>
     <Filter Include="头文件\scene">
       <UniqueIdentifier>{b67242c0-f227-46bc-8021-a36a46f54586}</UniqueIdentifier>
     </Filter>
@@ -27,6 +24,9 @@
     </Filter>
     <Filter Include="头文件\ui">
       <UniqueIdentifier>{f5cea4e6-5b64-43b2-b88e-58bb05ae6c2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\tools">
+      <UniqueIdentifier>{c85a105e-4501-4e9f-a748-f78c58058871}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,9 +54,6 @@
     <ClCompile Include="brick.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="bullet_time_manager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="paddle.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -75,6 +72,12 @@
     <ClCompile Include="score_manager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="button.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="level_scene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resources_manager.h">
@@ -84,9 +87,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="character_manager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="bullet_time_manager.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="paddle.h">
@@ -105,19 +105,19 @@
       <Filter>头文件\brick</Filter>
     </ClInclude>
     <ClInclude Include="animation.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>头文件\tools</Filter>
     </ClInclude>
     <ClInclude Include="atlas.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>头文件\tools</Filter>
     </ClInclude>
     <ClInclude Include="util.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>头文件\tools</Filter>
     </ClInclude>
     <ClInclude Include="vector2.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>头文件\tools</Filter>
     </ClInclude>
     <ClInclude Include="timer.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>头文件\tools</Filter>
     </ClInclude>
     <ClInclude Include="scene.h">
       <Filter>头文件\scene</Filter>
@@ -132,7 +132,7 @@
       <Filter>头文件\collision</Filter>
     </ClInclude>
     <ClInclude Include="camera.h">
-      <Filter>头文件\utils</Filter>
+      <Filter>头文件\tools</Filter>
     </ClInclude>
     <ClInclude Include="menu_scene.h">
       <Filter>头文件\scene</Filter>
@@ -148,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="button.h">
       <Filter>头文件\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="level_scene.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,7 +13,7 @@ public:
 	void on_input(const ExMessage& msg) override ;
 	void on_enter() override ;
 	void on_exit() override ;
-	void on_render() override ;
+	void on_render(const Camera& camera) override ;
 private:
 	IMAGE* img_background = nullptr;
 	Button* button_start = nullptr;

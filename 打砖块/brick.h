@@ -23,12 +23,12 @@ public:
 	~Brick();
 
 	void on_update(float delta) override;
-	void on_render() override;
+	void on_render(const Camera& camera) override;
 	void on_input(const ExMessage& msg) override;
 	
 	void init();
 
-	void on_hit(); // 砖块被击中时的逻辑
+	void on_hit();		// 砖块被击中时的逻辑
 
 	bool can_be_hit() const {
 		return cooldown_timer <= 0;
@@ -80,8 +80,8 @@ private:
 
 	Type type;
 	CollisionBox* hurt_box;
-	float cooldown_timer = 0.0f; // 冷却计时器（秒）
-	const float COOLDOWN_TIME = 0.02f; // 冷却时间（秒）
+	float cooldown_timer = 0.0f;			// 冷却计时器（秒）
+	const float COOLDOWN_TIME = 0.02f;		// 冷却时间（秒）
 	Animation animation_brick;
 
 	bool is_invulnerable = false;				//无敌状态

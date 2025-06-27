@@ -16,7 +16,7 @@ public:
     ~Character();
 
     void on_update(float delta) override;
-    void on_render() override;
+    void on_render(const Camera& camera) override;
     void on_input(const ExMessage& msg) override;
 
     void decrease_hp();
