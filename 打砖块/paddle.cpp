@@ -20,6 +20,7 @@ Paddle::Paddle() {
             if (ball) {
                 ball->handle_paddle_collision(this->hurt_box);
             }
+            play_audio(_T("ball_paddle"), false);
         }
         });
     paddle_animation.set_interval(0.1f);

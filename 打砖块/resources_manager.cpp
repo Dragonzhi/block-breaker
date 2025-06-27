@@ -18,7 +18,6 @@ static const vector<ImageResInfo> image_info_list = {
 	{ "brick_blue",					_T(R"(resources\element_blue_rectangle_glossy.png)") },
 	{ "brick_red",					_T(R"(resources\element_red_rectangle_glossy.png)") },
 	{ "brick_yellow",				_T(R"(resources\element_yellow_rectangle_glossy.png)") },
-	{ "menu_background",			_T(R"(resources\background_menu.png)") },
 	{ "end_game_background",		_T(R"(resources\endGame_back.png)") },
 	{ "end_game_background_star_left",		_T(R"(resources\endGame_star_left.png)") },
 	{ "end_game_background_star_right",		_T(R"(resources\endGame_star_right.png)") },
@@ -87,7 +86,19 @@ void ResourcesManager::load()
 
 	//flip_atlas("sword_left", "sword_right");
 
-	//load_audio(_T(R"(resources\audio\bgm.mp3)"),			_T("bgm"));
+	load_audio(_T(R"(resources\click-a.mp3)"),									 _T("click"));
+	load_audio(_T(R"(resources\mr-23142.mp3)"),									 _T("game_bgm"));
+	load_audio(_T(R"(resources\adventures-loop-music-226836.mp3)"),				 _T("menu_bgm"));
+	load_audio(_T(R"(resources\purchase-succesful-ingame-230550.mp3)"),			 _T("succesful_sounds"));
+	load_audio(_T(R"(resources\bowling-ball-90863.mp3)"),						 _T("ball_paddle"));
+	load_audio(_T(R"(resources\winner.mp3)"),									 _T("winner_sounds"));
+	load_audio(_T(R"(resources\game_over.mp3)"),								 _T("game_over"));
+	load_audio(_T(R"(resources\pressed_audio.mp3)"),							 _T("pressed_audio"));
+	load_audio(_T(R"(resources\brick-dropped-on-other-bricks-14722.mp3)"),	     _T("ball_brick"));
+	load_audio(_T(R"(resources\bricks-104933.mp3)"),							 _T("brick_broken"));
+	load_audio(_T(R"(resources\ball_down.ogg)"),								 _T("ball_down"));
+	load_audio(_T(R"(resources\ball_windows.mp3)"),								 _T("ball_windows"));
+
 	
 	std::cout << "资源加载完成" << std::endl;
 }

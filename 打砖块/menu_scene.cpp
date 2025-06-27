@@ -3,6 +3,8 @@
 #include "character_manager.h"
 #include "collision_manager.h"
 #include "scene_manager.h"
+#include "util.h"
+
 
 MenuScene::MenuScene() {
 	img_background = ResourcesManager::instance()->find_image("background");
@@ -10,7 +12,9 @@ MenuScene::MenuScene() {
     button_start->set_background_image(ResourcesManager::instance()->find_image("end_game_background_button_Next_idle"));
     button_start->set_click_image(ResourcesManager::instance()->find_image("end_game_background_button_Next_press"));
     button_start->set_hover_image(ResourcesManager::instance()->find_image("end_game_background_button_Next_hold"));
-    button_start->on_click([]() { SceneManager::instance()->switch_to(SceneManager::SceneType::Level); });
+    button_start->on_click([]() { 
+        SceneManager::instance()->switch_to(SceneManager::SceneType::Level);
+        });
 
     button_start->set_position(getwidth() / 2 - button_start->get_width() / 2, getheight() / 2 - button_start->get_height() / 2);
 }
@@ -27,10 +31,12 @@ void MenuScene::on_input(const ExMessage& msg) {
 }
 
 void MenuScene::on_enter() {
-
+    play_audio(_T("menu_bgm"), true);
 }
 
-void MenuScene::on_exit() {}
+void MenuScene::on_exit() {
+    stop_audio(_T("menu_bgm"));
+}
 
 void MenuScene::on_render(const Camera& camera) {
     const Rect rect_dst =

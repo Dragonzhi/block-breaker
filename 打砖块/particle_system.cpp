@@ -13,8 +13,8 @@ ParticleSystem::ParticleSystem() {}
 
 ParticleSystem::~ParticleSystem() {}
 
-void ParticleSystem::add_particle(const Vector2& position, const Vector2& velocity, float life_time) {
-    particles.emplace_back(position, velocity, life_time);
+void ParticleSystem::add_particle(const Vector2& position, const Vector2& velocity, float life_time, int r, int g, int b, int a, bool is_blink) {
+    particles.emplace_back(position, velocity, life_time, r, g, b, a, is_blink);
 }
 
 void ParticleSystem::on_update(float delta) {

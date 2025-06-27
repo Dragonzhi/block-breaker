@@ -17,6 +17,12 @@ public:
         Streng,
         Powerup
     };
+    struct ColorBrick
+    {
+        int r;
+        int g;
+        int b;
+    };
 public:
     Brick(int x, int y, Type type = Type::Normal);
     ~Brick();
@@ -27,6 +33,8 @@ public:
 
     void init();
     void on_hit();        // 砖块被击中时的逻辑
+    void generate_particles(int num, int r, int g, int b, int a, bool is_blink);
+
 
     bool can_be_hit() const {
         return cooldown_timer <= 0;
@@ -77,6 +85,7 @@ private:
     bool is_active = true;
 
     Vector2 size;
+    ColorBrick color;
 
     Type type;
     CollisionBox* hurt_box;
@@ -87,5 +96,5 @@ private:
     bool is_invulnerable = false;      // 无敌状态
     Timer timer_invulnerable;          // 无敌状态计时器
 
-    int be_hit_range = 1;
+    int be_hit_range = 2;
 };

@@ -48,26 +48,30 @@ void Brick::on_hit() {
     is_invulnerable = true;
     counts--;
     cooldown_timer = COOLDOWN_TIME; // 重置冷却时间
-
+    play_audio(_T("ball_brick"), false);
     // 日志输出剩余击中次数
     std::cout << "Brick被击中，剩余击中次数: " << counts << std::endl;
-
+    generate_particles(10, color.r, color.g, color.b, 255, false);
     if (counts <= 0) {
         // 砖块被摧毁的逻辑
         std::cout << "Brick被摧毁" << std::endl;
+        play_audio(_T("brick_broken"), false);
         is_active = false;
         Camera::instance()->shake(rand() % 3 + 1, 0.1);
+        generate_particles(20, color.r, color.g, color.b, 255, true);
+    }
+}
 
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        // 产生粒子效果
-        for (int i = 0; i < 30; ++i) {
-            std::uniform_int_distribution<> dist(-30, 30);
-            Vector2 position(this->position.x + dist(gen), this->position.y + dist(gen)/2);
-            Vector2 velocity((-50 + rand() % 100) / 2, (rand() % 100));
-            float life_time = (rand() % 10 + 1) / 10.0f;
-            ParticleSystem::instance()->add_particle(position, velocity, life_time);
-        }
+void Brick::generate_particles(int num, int r, int g, int b, int a, bool is_blink = false) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    // 产生粒子效果
+    for (int i = 0; i < num; ++i) {
+        std::uniform_int_distribution<> dist(-30, 30);
+        Vector2 position(this->position.x + dist(gen), this->position.y + dist(gen) / 2);
+        Vector2 velocity((-50 + rand() % 100) / 2, (rand() % 100));
+        float life_time = (rand() % 10 + 1) / 10.0f;
+        ParticleSystem::instance()->add_particle(position, velocity, life_time, r, g, b, a, is_blink);
     }
 }
 
@@ -107,16 +111,25 @@ void Brick::init() {
         animation_brick.add_frame(ResourcesManager::instance()->find_image("brick_blue"), 1);
         counts = 1;
         points = 1;
+        color.r = 74;
+        color.g = 190;
+        color.b = 240;
         break;
     case Brick::Streng:
         animation_brick.add_frame(ResourcesManager::instance()->find_image("brick_red"), 1);
         counts = 2;
         points = 2;
+        color.r = 240;
+        color.g = 50;
+        color.b = 50;
         break;
     case Brick::Powerup:
         animation_brick.add_frame(ResourcesManager::instance()->find_image("brick_yellow"), 1);
         counts = 3;
         points = 3;
+        color.r = 255;
+        color.g = 205;
+        color.b = 0;
         break;
     default:
         break;

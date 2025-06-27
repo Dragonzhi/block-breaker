@@ -123,27 +123,29 @@ void Ball::on_update(float delta) {
     hit_box->set_position(position);
 
     // 速度限制
-    const float max_speed = 1400.0f;
-    if (velocity.length() > max_speed) {
-        velocity = velocity.normalize() * max_speed;
-    }
+    //const float max_speed = 1400.0f;
+    //if (velocity.length() > max_speed) {
+    //    velocity = velocity.normalize() * max_speed;
+    //}
 
     // 左边界碰撞
     if (position.x - radius <= 0) {
         position.x = radius; 
         reverse_x();
+        play_audio(_T("ball_windows"), false);
     }
     // 右边界碰撞
     else if (position.x + radius >= getwidth()) {
         position.x = getwidth() - radius;
         reverse_x();
+        play_audio(_T("ball_windows"), false);
     }
 
     // 上边界碰撞 (添加穿透保护)
     if (position.y - radius <= 0) {
         position.y = radius;
         reverse_y();
-
+        play_audio(_T("ball_windows"), false);
         // 防止高速穿透
         if (velocity.y < 0) velocity.y = -velocity.y;
     }
@@ -151,12 +153,14 @@ void Ball::on_update(float delta) {
         if (is_undead) {
             position.y = getheight() - 1.0f;
             reverse_y();
+            play_audio(_T("ball_windows"), false);
         }
         else {
             is_enable = false;
             velocity = { 0,0 };
             paddle->set_hp(paddle->get_hp() - 1);
             cout << "剩余生命值：" << paddle->get_hp() << endl;
+            play_audio(_T("ball_down"), false);
         }
     }
 

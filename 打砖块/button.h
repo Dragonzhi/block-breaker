@@ -27,6 +27,10 @@ public:
     void set_hover_image(IMAGE* image);
     void set_click_image(IMAGE* image);
 
+    void set_click_audio(LPCTSTR id) {
+        audio_id = id;
+    }
+
     Vector2 get_logic_center() const {
         return Vector2(position.x, position.y - height / 2);
     }
@@ -53,4 +57,7 @@ private:
     bool hovered;
     bool clicked;
     bool pressed;
+
+    LPCTSTR audio_id = _T("pressed_audio");
+    
 };

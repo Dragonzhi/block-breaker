@@ -86,9 +86,27 @@ inline void sketch_image(IMAGE* src, IMAGE* dst) {
     }
 }
 
-inline void load_audio(LPCTSTR path, LPCTSTR id);
-inline void play_audio(LPCTSTR id, bool is_loop);
-inline void stop_audio(LPCTSTR id);
+
+inline void load_audio(LPCTSTR path, LPCTSTR id)
+{
+    TCHAR str_cmd[128];
+    _stprintf_s(str_cmd, _T("open %s alias %s"), path, id);
+    mciSendString(str_cmd, NULL, 0, NULL);
+}
+
+inline void play_audio(LPCTSTR id, bool is_loop = false)
+{
+    TCHAR str_cmd[128];
+    _stprintf_s(str_cmd, _T("play %s %s from 0"), id, is_loop ? _T("repeat") : _T(""));
+    mciSendString(str_cmd, NULL, 0, NULL);
+}
+
+inline void stop_audio(LPCTSTR id)
+{
+    TCHAR str_cmd[128];
+    _stprintf_s(str_cmd, _T("stop %s"), id);
+    mciSendString(str_cmd, NULL, 0, NULL);
+}
 
 inline int range_random(int min_num, int max_num) {
     return min_num + rand() % (max_num - min_num + 1);

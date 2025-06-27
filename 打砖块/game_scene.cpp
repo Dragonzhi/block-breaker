@@ -108,10 +108,12 @@ void GameScene::on_input(const ExMessage& msg)  {
 }
 
 void GameScene::on_enter()  {
-    BrickManager::instance()->fillUpperHalfRandomly_int(WINDOWS_WIDTH, WINDOWS_HEIGHT, SceneManager::instance()->get_current_level());
+    play_audio(_T("game_bgm"), true);
+    BrickManager::instance()->fillUpperHalfRandomly_int(WINDOWS_WIDTH, WINDOWS_HEIGHT, SceneManager::instance()->get_current_level() > 3 ? 3 : SceneManager::instance()->get_current_level());
 }
 
 void GameScene::on_exit()  {
+    stop_audio(_T("game_bgm"));
     rest();
     BrickManager::instance()->clearAllBricks();
 }

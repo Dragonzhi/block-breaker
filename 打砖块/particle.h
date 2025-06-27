@@ -7,7 +7,7 @@
 
 class Particle : public GameObject {
 public:
-    Particle(const Vector2& position, const Vector2& velocity, float life_time, int r = 255, int g = 255, int b = 255, int alpha = 255);
+    Particle(const Vector2& position, const Vector2& velocity, float life_time, int r = 255, int g = 255, int b = 255, int alpha = 255, bool is_blink = false);
     ~Particle();
 
     void on_update(float delta) override;
@@ -23,6 +23,10 @@ public:
         alpha = a;
     }
 
+    void set_blink(bool flag) {
+        is_blink = flag;
+    }
+
 private:
     float life_time;
     float current_life;
@@ -30,4 +34,5 @@ private:
     int r, g, b;    // 粒子颜色
     int size;       // 粒子大小
     int alpha;      // 粒子透明度
+    bool is_blink = true;
 };
