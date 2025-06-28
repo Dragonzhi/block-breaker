@@ -10,7 +10,7 @@
 class Ball : public Character
 {
 public:
-	Ball();
+	Ball(int x, int y, Vector2 velocity, bool is_ready);
 	~Ball();
 
 	void on_update(float delta) override;
@@ -38,7 +38,7 @@ public:
 		return speed;
 	}
 
-	bool cheek_enable() const {
+	bool check_enable() const {
 		return is_enable;
 	}
 
@@ -68,9 +68,9 @@ private:
 	Vector2 last_position;
 	bool is_shot_key_down = false;
 	float radius;
-	bool is_enable = false;
+	bool is_enable = true;
 	float speed = 400.0f;
-
+	bool is_ready_shot = true;
 	bool is_undead = false;
 
 };

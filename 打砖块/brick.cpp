@@ -1,6 +1,7 @@
 #include "brick.h"
 #include "camera.h"
 #include <iostream>
+#include "character_manager.h"
 
 Brick::Brick(int x, int y, Type type) {
     position.x = x;
@@ -24,7 +25,7 @@ Brick::Brick(int x, int y, Type type) {
                 ball->handle_brick_collision(this->hurt_box, info);
             }
             if (check_can_destoryed()) {
-                on_hit();
+                on_hit(ball);
             }
         }
         });
@@ -43,7 +44,7 @@ Brick::~Brick() {
     CollisionManager::instance()->destroy_collision_box(hurt_box);
 }
 
-void Brick::on_hit() {
+void Brick::on_hit(Ball* ball) {
     if (!is_active || !can_be_hit()) return; // Ë«ÖØ¼ì²é
     is_shake = true;
     counts--;
@@ -59,6 +60,14 @@ void Brick::on_hit() {
         is_active = false;
         Camera::instance()->shake(rand() % 3 + 1, 0.1);
         generate_particles(20, color.r, color.g, color.b, 255, true);
+
+        Vector2 temp_velocity = ball->get_velocity();
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dist(-70, 70);
+        temp_velocity.x += dist(gen);
+        temp_velocity.y += dist(gen);
+        CharacterManager::instance()->add_ball(position.x, position.y, temp_velocity, false);
     }
 }
 
@@ -70,7 +79,7 @@ void Brick::generate_particles(int num, int r, int g, int b, int a, bool is_blin
         std::uniform_int_distribution<> dist(-30, 30);
         Vector2 position(this->position.x + dist(gen), this->position.y + dist(gen) / 2);
         Vector2 velocity((-50 + rand() % 100) / 2, (rand() % 100));
-        float life_time = (rand() % 10 + 1) / 10.0f;
+        float life_time = (rand() % 10 + 2) / 10.0f;
         ParticleSystem::instance()->add_particle(position, velocity, life_time, r, g, b, a, is_blink);
     }
 }

@@ -1,5 +1,7 @@
 #include "collision_manager.h"
 #include "util.h"
+#include "brick.h"
+#include "ball.h"
 #include <graphics.h>
 
 CollisionManager* CollisionManager::manager = nullptr;
@@ -23,11 +25,14 @@ CollisionBox* CollisionManager::create_collision_box() {
 }
 
 void CollisionManager::destroy_collision_box(CollisionBox* collision_box) {
-	collision_box_list.erase(std::remove(collision_box_list.begin(), collision_box_list.end(), collision_box),
-		collision_box_list.end());
-	delete collision_box;
-
+    auto it = std::find(collision_box_list.begin(), collision_box_list.end(), collision_box);
+    if (it != collision_box_list.end()) {
+        // 先禁用碰撞盒
+        (*it)->enabled = false;
+        collision_box_list.erase(it);
+    }
 }
+
 
 bool is_collide_rect_rect(const CollisionBox* rect1, const CollisionBox* rect2, Vector2& normal, float& penetration) {
     // 计算矩形边界
@@ -153,13 +158,15 @@ bool is_collide_circle_circle(const CollisionBox* circle1, const CollisionBox* c
 }
 
 void CollisionManager::process_collide() {
-    for (CollisionBox* src : collision_box_list) {
+    collision_box_list_temp = collision_box_list;
+
+    for (CollisionBox* src : collision_box_list_temp) {
         if (!src->enabled || src->layer_dst == CollisionLayer::None) {
             continue;
         }
 
-        for (CollisionBox* dst : collision_box_list) {
-            if (!dst->enabled || src == dst) {
+        for (CollisionBox* dst : collision_box_list_temp) {
+            if (!dst || !dst->enabled || src == dst) {
                 continue;
             }
 

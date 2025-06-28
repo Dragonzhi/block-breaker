@@ -1,7 +1,7 @@
 #pragma once
+#include "camera.h"
 #include <graphics.h>
 #include <iostream>
-#include "camera.h"
 #include <thread>
 
 #pragma comment(lib, "WINMM.lib")

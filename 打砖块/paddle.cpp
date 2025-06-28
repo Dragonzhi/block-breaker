@@ -21,12 +21,17 @@ Paddle::Paddle() {
                 ball->handle_paddle_collision(this->hurt_box);
             }
             play_audio(_T("ball_paddle"), false);
+            is_shaking = true;
         }
         });
     paddle_animation.set_interval(0.1f);
     paddle_animation.set_loop(true);
     paddle_animation.set_anchor_mode(Animation::AnchorMode::BottomCentered);
     paddle_animation.add_frame(ResourcesManager::instance()->find_image("paddle_blue_right"), 1);
+
+    timer_shaking.set_one_shot(true);
+    timer_shaking.set_wait_time(0.1f);
+    timer_shaking.set_on_timeout([this]() {is_shaking = false; });
 }
 
 Paddle::~Paddle() {
@@ -61,8 +66,14 @@ void Paddle::on_update(float delta) {
         }
     }
 
+    if (is_shaking) {
+        timer_shaking.on_update(delta);
+        shake();
+    }
+    else {
+        paddle_animation.set_position(position);
+    }
     // 更新动画位置
-    paddle_animation.set_position(position);
     paddle_animation.on_update(delta);
 
     Character::on_update(delta);

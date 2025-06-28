@@ -32,7 +32,7 @@ public:
     void on_input(const ExMessage& msg) override;
 
     void init();
-    void on_hit();        // 砖块被击中时的逻辑
+    void on_hit(Ball* ball);        // 砖块被击中时的逻辑
     void generate_particles(int num, int r, int g, int b, int a, bool is_blink);
 
 
@@ -88,9 +88,9 @@ private:
     ColorBrick color;
 
     Type type;
-    CollisionBox* hurt_box;
+    CollisionBox* hurt_box = nullptr;
     float cooldown_timer = 0.0f;      // 冷却时间计数器（秒）
-    const float COOLDOWN_TIME = 0.02f; // 冷却时间（秒）
+    const float COOLDOWN_TIME = 0.03f; // 冷却时间（秒）
     Animation animation_brick;
 
     bool is_shake = false;      // 无敌状态

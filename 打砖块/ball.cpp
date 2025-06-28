@@ -4,11 +4,12 @@
 
 #include <random>
 
-Ball::Ball() {
+Ball::Ball(int x = 0, int y = 700, Vector2 velocity = {0,0}, bool is_ready = false) {
     //paddle = CharacterManager::instance()->get_player();
     
-    position = { 0, 700 };            // 初始化球的位置
-    velocity = { 0, 0 };           // 初始化球的速度
+    position = { (float)x, (float)y };            // 初始化球的位置
+    this->velocity = velocity;           // 初始化球的速度
+    is_ready_shot = is_ready;
     enable_through_floor = true;
     set_gravity_enabled(false);
 
@@ -123,10 +124,10 @@ void Ball::on_update(float delta) {
     hit_box->set_position(position);
 
     // 速度限制
-    //const float max_speed = 1400.0f;
-    //if (velocity.length() > max_speed) {
-    //    velocity = velocity.normalize() * max_speed;
-    //}
+    const float max_speed = 1200.0f;
+    if (velocity.length() > max_speed) {
+        velocity = velocity.normalize() * max_speed;
+    }
 
     // 左边界碰撞
     if (position.x - radius <= 0) {
@@ -149,7 +150,10 @@ void Ball::on_update(float delta) {
         // 防止高速穿透
         if (velocity.y < 0) velocity.y = -velocity.y;
     }
-    else if (position.y > getheight()) {
+
+    if (position.y > getheight()) {  // 球掉出屏幕底部
+        auto& balls = CharacterManager::instance()->get_balls();
+        int activeBallCount = 0;
         if (is_undead) {
             position.y = getheight() - 1.0f;
             reverse_y();
@@ -157,22 +161,20 @@ void Ball::on_update(float delta) {
         }
         else {
             is_enable = false;
-            velocity = { 0,0 };
-            paddle->set_hp(paddle->get_hp() - 1);
-            cout << "剩余生命值：" << paddle->get_hp() << endl;
             play_audio(_T("ball_down"), false);
         }
     }
 
     if (is_shot_key_down) {
         is_enable = true;
+        is_ready_shot = false;
         velocity.x = -(last_position.x - position.x) * 5.0f;
         velocity.y = -speed;
         is_shot_key_down = false; 
         hurt_box->set_enabled(true);
     }
 
-    if (!is_enable) {
+    if (is_ready_shot) {
         if (paddle->get_hp() <= 0) {
             return;
         }
@@ -192,10 +194,20 @@ void Ball::on_render(const Camera& camera) {
 }
 
 void Ball::on_input(const ExMessage& msg){
-    if (is_enable || paddle->get_hp() <= 0) return;
+    if (msg.message == WM_KEYUP) {
+        if (msg.vkcode == 0x53) {
+            is_undead = true;
+        }
+        if (msg.vkcode == 0x54) {
+            is_undead = false;
+        }
+    }
+
+    if (!is_enable || !is_ready_shot || paddle->get_hp() <= 0) return;
 
     // 只在球未激活时处理发射
     if (msg.message == WM_LBUTTONUP) {
         is_shot_key_down = true;
     }
+
 }

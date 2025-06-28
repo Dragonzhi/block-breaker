@@ -49,6 +49,7 @@ void GameScene::on_update(float delta)  {
     ParticleSystem::instance()->on_update(delta);
 
     if (is_game_overed) {
+        ScoreManager::instance()->saveHighScore();
         if (end_game_bg_position.y >= getheight()/10) {
             end_game_bg_position.y -= 380.0f * delta;
         }
@@ -66,11 +67,53 @@ void GameScene::on_update(float delta)  {
         BrickManager::instance()->on_update(delta);
         CharacterManager::instance()->on_update(delta);
         CollisionManager::instance()->process_collide();
-
-        if (CharacterManager::instance()->get_player()->get_hp() <= 0 || BrickManager::instance()->isAllBroken()) {
-            is_game_overed = true;
-            ScoreManager::instance()->saveHighScore();
+        is_end_game_bg_ok = false;
+        // 检查是否所有球都掉出屏幕
+        auto& balls = CharacterManager::instance()->get_balls();
+        bool all_balls_out = true;
+        int active_balls_count = 0;
+        for (Ball* ball : balls) {
+            if (ball->check_enable()) {
+                active_balls_count++;
+                all_balls_out = false;
+                break;
+            }
         }
+
+        // 如果有球掉出屏幕
+        if (active_balls_count < balls.size()) {
+            // 移除所有被标记为不活跃的球
+            balls.erase(
+                std::remove_if(balls.begin(), balls.end(),
+                    [](Ball* ball) {
+                        bool should_remove = !ball->check_enable();
+                        if (should_remove) delete ball;
+                        return should_remove;
+                    }),
+                balls.end()
+            );
+
+            if (BrickManager::instance()->isAllBroken()) {
+                is_game_overed = true;
+            }
+
+            // 如果没有球剩下，减少生命值
+            if (balls.empty()) {
+                Paddle* paddle = dynamic_cast<Paddle*>(CharacterManager::instance()->get_player());
+                paddle->set_hp(paddle->get_hp() - 1);
+
+                if (paddle->get_hp() <= 0 ) {
+                    is_game_overed = true;
+                }
+                else {
+                    // 重新添加一个球
+                    Vector2 temp_velo = { 0,0 };
+                    CharacterManager::instance()->add_ball(0, 700, temp_velo, true);
+                }
+            }
+        }
+
+        
     }
 }
 
@@ -109,13 +152,20 @@ void GameScene::on_input(const ExMessage& msg)  {
 
 void GameScene::on_enter()  {
     play_audio(_T("game_bgm"), true);
+    if (CharacterManager::instance()->get_balls().empty()) {
+        Vector2 temp_velo = { 0,0 };
+        CharacterManager::instance()->add_ball(0, 700, temp_velo, true);
+    }
     BrickManager::instance()->fillUpperHalfRandomly_int(WINDOWS_WIDTH, WINDOWS_HEIGHT, SceneManager::instance()->get_current_level() > 3 ? 3 : SceneManager::instance()->get_current_level());
 }
 
 void GameScene::on_exit()  {
     stop_audio(_T("game_bgm"));
+    CharacterManager::instance()->remove_all_balls();
     rest();
     BrickManager::instance()->clearAllBricks();
+    end_game_bg_position = { getwidth() / 2 - 400, getheight() };
+
 }
 
 void GameScene::on_render(const Camera& camera)  {
@@ -188,11 +238,12 @@ void GameScene::render_game_overed(const Camera& camera) {
 
 void GameScene::rest() {
     Paddle* paddle = (Paddle*)CharacterManager::instance()->get_player();
-    Ball* ball = (Ball*)CharacterManager::instance()->get_ball();
+    CharacterManager::instance()->remove_inactive_balls();
+
+    Vector2 temp_velo = { 0,0 };
+    CharacterManager::instance()->add_ball(0, 700, temp_velo, true);
 
     paddle->set_hp(paddle->get_max_hp());
-    ball->set_enable(false);
-    ball->set_position(ball->get_position()-50); // 避免开局 -1hp
     BrickManager::instance()->rest(WINDOWS_WIDTH, WINDOWS_HEIGHT);
     is_game_overed = false;
     ScoreManager::instance()->resetScore();

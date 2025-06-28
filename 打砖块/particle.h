@@ -27,6 +27,7 @@ public:
         is_blink = flag;
     }
 
+
 private:
     float life_time;
     float current_life;
@@ -35,4 +36,5 @@ private:
     int size;       // 粒子大小
     int alpha;      // 粒子透明度
     bool is_blink = true;
+
 };

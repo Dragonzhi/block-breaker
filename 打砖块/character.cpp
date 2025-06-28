@@ -54,11 +54,6 @@ void Character::on_update(float delta) {
 
     hurt_box->set_position(get_logic_center());
 
-    timer_invulnerable_status.on_update(delta);
-
-    if (is_invulnerable)
-        timer_invulnerable_blink.on_update(delta);
-
     if (!current_animation) return;
 
     current_animation->on_update(delta);
@@ -66,7 +61,6 @@ void Character::on_update(float delta) {
 }
 
 void Character::on_render(const Camera& camera) {
-    if (!current_animation || (is_invulnerable && is_blink_invisible)) return;
     current_animation->on_render(camera);
 }
 
