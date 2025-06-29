@@ -39,9 +39,6 @@
     <ClCompile Include="resources_manager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="util.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="character.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -79,6 +76,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="particle.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="particle_system.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sound_manager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -153,6 +159,15 @@
       <Filter>头文件\ui</Filter>
     </ClInclude>
     <ClInclude Include="level_scene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="particle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="particle_system.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sound_manager.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

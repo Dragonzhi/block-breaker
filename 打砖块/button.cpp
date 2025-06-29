@@ -1,6 +1,6 @@
 #include "button.h"
 #include "util.h"
-
+#include "sound_manager.h"
 
 Button::Button() :
     position({ 0,0 }),
@@ -31,7 +31,7 @@ void Button::on_update(float delta)
     // Reset clicked state each frame
     if (clicked) {
         this->func_on_click();
-        play_audio(audio_id, false);
+        SoundManager::instance()->playSound(audio_id, false);
     }
     clicked = false;
 }

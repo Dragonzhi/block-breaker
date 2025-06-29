@@ -1,6 +1,7 @@
 #include "paddle.h"
 #include "resources_manager.h"
 #include "ball.h"
+#include "sound_manager.h"
 
 Paddle::Paddle() {
     is_facing_left = false;
@@ -20,7 +21,7 @@ Paddle::Paddle() {
             if (ball) {
                 ball->handle_paddle_collision(this->hurt_box);
             }
-            play_audio(_T("ball_paddle"), false);
+            SoundManager::instance()->playSound(_T("ball_paddle"), false);
             is_shaking = true;
         }
         });

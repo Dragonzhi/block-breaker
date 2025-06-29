@@ -1,4 +1,5 @@
 #include "resources_manager.h"
+#include "sound_manager.h"
 
 struct ImageResInfo{
 	string id;
@@ -85,19 +86,18 @@ void ResourcesManager::load()
 	flip_image("paddle_blue_right", "paddle_blue_left", 1);
 
 	//flip_atlas("sword_left", "sword_right");
-
-	load_audio(_T(R"(resources\click-a.mp3)"),									 _T("click"));
-	load_audio(_T(R"(resources\mr-23142.mp3)"),									 _T("game_bgm"));
-	load_audio(_T(R"(resources\adventures-loop-music-226836.mp3)"),				 _T("menu_bgm"));
-	load_audio(_T(R"(resources\purchase-succesful-ingame-230550.mp3)"),			 _T("succesful_sounds"));
-	load_audio(_T(R"(resources\bowling-ball-90863.mp3)"),						 _T("ball_paddle"));
-	load_audio(_T(R"(resources\winner.mp3)"),									 _T("winner_sounds"));
-	load_audio(_T(R"(resources\game_over.mp3)"),								 _T("game_over"));
-	load_audio(_T(R"(resources\pressed_audio.mp3)"),							 _T("pressed_audio"));
-	load_audio(_T(R"(resources\brick-dropped-on-other-bricks-14722.mp3)"),	     _T("ball_brick"));
-	load_audio(_T(R"(resources\bricks-104933.mp3)"),							 _T("brick_broken"));
-	load_audio(_T(R"(resources\ball_down.ogg)"),								 _T("ball_down"));
-	load_audio(_T(R"(resources\ball_windows.mp3)"),								 _T("ball_windows"));
+	SoundManager::instance()->loadSound(_T(R"(resources\click-a.wav)"),									 _T("click"));
+	SoundManager::instance()->loadSound(_T(R"(resources\mr-23142.wav)"),								 _T("game_bgm"), true);
+	SoundManager::instance()->loadSound(_T(R"(resources\adventures-loop-music-226836.wav)"),			 _T("menu_bgm"), true);
+	SoundManager::instance()->loadSound(_T(R"(resources\purchase-succesful-ingame-230550.wav)"),		 _T("succesful_sounds"));
+	SoundManager::instance()->loadSound(_T(R"(resources\bowling-ball-90863.wav)"),						 _T("ball_paddle"),	false,10);
+	SoundManager::instance()->loadSound(_T(R"(resources\winner.wav)"),									 _T("winner_sounds"));
+	SoundManager::instance()->loadSound(_T(R"(resources\game_over.wav)"),								 _T("game_over"));
+	SoundManager::instance()->loadSound(_T(R"(resources\pressed_audio.wav)"),							 _T("pressed_audio"));
+	SoundManager::instance()->loadSound(_T(R"(resources\brick-dropped-on-other-bricks-14722.wav)"),	     _T("ball_brick"), false, 10);
+	SoundManager::instance()->loadSound(_T(R"(resources\bricks-104933.wav)"),							 _T("brick_broken"), false, 10);
+	SoundManager::instance()->loadSound(_T(R"(resources\ball_down.wav)"),								 _T("ball_down"));
+	SoundManager::instance()->loadSound(_T(R"(resources\ball_windows.wav)"),							 _T("ball_windows"), false, 10);
 
 	
 	std::cout << "资源加载完成" << std::endl;

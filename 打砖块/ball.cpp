@@ -1,10 +1,10 @@
 #include "ball.h"
 #include "character_manager.h"
 #include "brick.h"
-
+#include "sound_manager.h"
 #include <random>
 
-Ball::Ball(int x = 0, int y = 700, Vector2 velocity = {0,0}, bool is_ready = false) {
+Ball::Ball(int x = 50, int y = 700, Vector2 velocity = {0,0}, bool is_ready = false) {
     //paddle = CharacterManager::instance()->get_player();
     
     position = { (float)x, (float)y };            // 初始化球的位置
@@ -133,20 +133,20 @@ void Ball::on_update(float delta) {
     if (position.x - radius <= 0) {
         position.x = radius; 
         reverse_x();
-        play_audio(_T("ball_windows"), false);
+        SoundManager::instance()->playSound(_T("ball_windows"), false);
     }
     // 右边界碰撞
     else if (position.x + radius >= getwidth()) {
         position.x = getwidth() - radius;
         reverse_x();
-        play_audio(_T("ball_windows"), false);
+        SoundManager::instance()->playSound(_T("ball_windows"), false);
     }
 
     // 上边界碰撞 (添加穿透保护)
     if (position.y - radius <= 0) {
         position.y = radius;
         reverse_y();
-        play_audio(_T("ball_windows"), false);
+        SoundManager::instance()->playSound(_T("ball_windows"), false);
         // 防止高速穿透
         if (velocity.y < 0) velocity.y = -velocity.y;
     }
@@ -154,14 +154,15 @@ void Ball::on_update(float delta) {
     if (position.y > getheight()) {  // 球掉出屏幕底部
         auto& balls = CharacterManager::instance()->get_balls();
         int activeBallCount = 0;
+
         if (is_undead) {
             position.y = getheight() - 1.0f;
             reverse_y();
-            play_audio(_T("ball_windows"), false);
+            SoundManager::instance()->playSound(_T("ball_windows"), false);
         }
         else {
             is_enable = false;
-            play_audio(_T("ball_down"), false);
+            
         }
     }
 
@@ -194,15 +195,6 @@ void Ball::on_render(const Camera& camera) {
 }
 
 void Ball::on_input(const ExMessage& msg){
-    if (msg.message == WM_KEYUP) {
-        if (msg.vkcode == 0x53) {
-            is_undead = true;
-        }
-        if (msg.vkcode == 0x54) {
-            is_undead = false;
-        }
-    }
-
     if (!is_enable || !is_ready_shot || paddle->get_hp() <= 0) return;
 
     // 只在球未激活时处理发射

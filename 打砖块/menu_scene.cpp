@@ -4,7 +4,7 @@
 #include "collision_manager.h"
 #include "scene_manager.h"
 #include "util.h"
-
+#include "sound_manager.h"
 
 MenuScene::MenuScene() {
 	img_background = ResourcesManager::instance()->find_image("background");
@@ -31,11 +31,11 @@ void MenuScene::on_input(const ExMessage& msg) {
 }
 
 void MenuScene::on_enter() {
-    play_audio(_T("menu_bgm"), true);
+    SoundManager::instance()->playSound(_T("menu_bgm"), true, true);
 }
 
 void MenuScene::on_exit() {
-    stop_audio(_T("menu_bgm"));
+    SoundManager::instance()->stopSound(_T("menu_bgm"));
 }
 
 void MenuScene::on_render(const Camera& camera) {

@@ -145,9 +145,7 @@
     <ClCompile Include="resources_manager.cpp" />
     <ClCompile Include="scene_manager.cpp" />
     <ClCompile Include="score_manager.cpp" />
-    <ClCompile Include="util.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="sound_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h" />
@@ -173,6 +171,7 @@
     <ClInclude Include="scene.h" />
     <ClInclude Include="scene_manager.h" />
     <ClInclude Include="score_manager.h" />
+    <ClInclude Include="sound_manager.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="vector2.h" />

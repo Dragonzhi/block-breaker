@@ -25,6 +25,7 @@ private:
 	bool is_game_overed = false;
 	bool is_end_game_bg_ok = false;
 	bool is_debug = false;
+	bool is_undead_mode = false;
 
 	POINT end_game_bg_position;
 

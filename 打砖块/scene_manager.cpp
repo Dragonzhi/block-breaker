@@ -1,4 +1,5 @@
 #include "scene_manager.h"
+#include "sound_manager.h"
 
 SceneManager* SceneManager::manager = nullptr;
 
@@ -41,6 +42,7 @@ void SceneManager::on_input(const ExMessage& msg)
 void SceneManager::on_update(float delta)
 {
     current_scene->on_update(delta);
+    SoundManager::instance()->update();
 }
 
 void SceneManager::on_render(const Camera& camera)

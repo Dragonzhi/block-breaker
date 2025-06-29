@@ -2,6 +2,7 @@
 #include "camera.h"
 #include <iostream>
 #include "character_manager.h"
+#include "sound_manager.h"
 
 Brick::Brick(int x, int y, Type type) {
     position.x = x;
@@ -49,14 +50,15 @@ void Brick::on_hit(Ball* ball) {
     is_shake = true;
     counts--;
     cooldown_timer = COOLDOWN_TIME; // 重置冷却时间
-    play_audio(_T("ball_brick"), false);
+    
+    SoundManager::instance()->playSound(_T("ball_brick"), false);
     // 日志输出剩余击中次数
     std::cout << "Brick被击中，剩余击中次数: " << counts << std::endl;
     generate_particles(10, color.r, color.g, color.b, 255, false);
     if (counts <= 0) {
         // 砖块被摧毁的逻辑
         std::cout << "Brick被摧毁" << std::endl;
-        play_audio(_T("brick_broken"), false);
+        SoundManager::instance()->playSound(_T("brick_broken"), false);
         is_active = false;
         Camera::instance()->shake(rand() % 3 + 1, 0.1);
         generate_particles(20, color.r, color.g, color.b, 255, true);

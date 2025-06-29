@@ -6,6 +6,7 @@
 #include "particle_system.h"
 #include "scene_manager.h"
 #include "score_manager.h"
+#include "sound_manager.h"
 
 extern int WINDOWS_WIDTH;
 extern int WINDOWS_HEIGHT;
@@ -72,12 +73,23 @@ void GameScene::on_update(float delta)  {
         auto& balls = CharacterManager::instance()->get_balls();
         bool all_balls_out = true;
         int active_balls_count = 0;
+
         for (Ball* ball : balls) {
             if (ball->check_enable()) {
                 active_balls_count++;
                 all_balls_out = false;
                 break;
             }
+        }
+        //std::cout << "Total balls: " << balls.size() << std::endl;
+        for (Ball* ball : balls) {
+            if (is_undead_mode) {
+                ball->set_undead(true);
+            }
+            else {
+                ball->set_undead(false);
+            }
+            //cout << "ball undead:" << ball->get_undead() << endl;
         }
 
         // 如果有球掉出屏幕
@@ -101,7 +113,7 @@ void GameScene::on_update(float delta)  {
             if (balls.empty()) {
                 Paddle* paddle = dynamic_cast<Paddle*>(CharacterManager::instance()->get_player());
                 paddle->set_hp(paddle->get_hp() - 1);
-
+                SoundManager::instance()->playSound(_T("ball_down"), false);
                 if (paddle->get_hp() <= 0 ) {
                     is_game_overed = true;
                 }
@@ -136,7 +148,13 @@ void GameScene::on_input(const ExMessage& msg)  {
         if (msg.vkcode == VK_ESCAPE) {
             SceneManager::instance()->switch_to(SceneManager::SceneType::Level);
             cout << "esc" << endl;
-        }       
+        } 
+        if (msg.vkcode == 0x53) {
+            is_undead_mode = true;
+        }
+        if (msg.vkcode == 0x54) {
+            is_undead_mode = false;
+        }
         break;
 
     default:
@@ -151,7 +169,7 @@ void GameScene::on_input(const ExMessage& msg)  {
 }
 
 void GameScene::on_enter()  {
-    play_audio(_T("game_bgm"), true);
+    SoundManager::instance()->playSound(_T("game_bgm"), true, true);
     if (CharacterManager::instance()->get_balls().empty()) {
         Vector2 temp_velo = { 0,0 };
         CharacterManager::instance()->add_ball(0, 700, temp_velo, true);
@@ -160,7 +178,7 @@ void GameScene::on_enter()  {
 }
 
 void GameScene::on_exit()  {
-    stop_audio(_T("game_bgm"));
+    SoundManager::instance()->stopSound(_T("game_bgm"));
     CharacterManager::instance()->remove_all_balls();
     rest();
     BrickManager::instance()->clearAllBricks();
