@@ -9,6 +9,9 @@ LevelScene::LevelScene() {
     button_level1 = new Button(0, 0, 128, 128);
     button_level2 = new Button(0, 0, 128, 128);
     button_level3 = new Button(0, 0, 128, 128);
+    button_level4 = new Button(0, 0, 128, 128);
+    button_level5 = new Button(0, 0, 128, 128);
+    button_level6 = new Button(0, 0, 128, 128);
 
     // 设置按钮的背景、悬停和点击图片
     IMAGE* idle_image = ResourcesManager::instance()->find_image("end_game_background_button_Next_idle");
@@ -27,6 +30,18 @@ LevelScene::LevelScene() {
     button_level3->set_click_image(press_image);
     button_level3->set_hover_image(hover_image);
 
+    button_level4->set_background_image(idle_image);
+    button_level4->set_click_image(press_image);
+    button_level4->set_hover_image(hover_image);
+
+    button_level5->set_background_image(idle_image);
+    button_level5->set_click_image(press_image);
+    button_level5->set_hover_image(hover_image);
+
+    button_level6->set_background_image(idle_image);
+    button_level6->set_click_image(press_image);
+    button_level6->set_hover_image(hover_image);
+
     // 设置按钮的点击事件
     button_level1->on_click([]() {         
         SceneManager::instance()->set_current_level(1);
@@ -39,6 +54,18 @@ LevelScene::LevelScene() {
     button_level3->on_click([]() {         
         SceneManager::instance()->set_current_level(3);
         SceneManager::instance()->switch_to(SceneManager::SceneType::Game);  
+        });
+    button_level4->on_click([]() {         
+        SceneManager::instance()->set_current_level(4);
+        SceneManager::instance()->switch_to(SceneManager::SceneType::Game);  
+        });
+    button_level5->on_click([]() {
+        SceneManager::instance()->set_current_level(5);
+        SceneManager::instance()->switch_to(SceneManager::SceneType::Game);
+        });
+    button_level6->on_click([]() {
+        SceneManager::instance()->set_current_level(6);
+        SceneManager::instance()->switch_to(SceneManager::SceneType::Game);
         });
 
     // 计算按钮的位置，使其位于场景偏上方
@@ -55,24 +82,36 @@ LevelScene::LevelScene() {
     button_level1->set_position(start_x, start_y);
     button_level2->set_position(start_x + button_width + spacing, start_y);
     button_level3->set_position(start_x + 2 * (button_width + spacing), start_y);
+    button_level4->set_position(start_x, start_y + button_height + spacing);
+    button_level5->set_position(start_x + button_width + spacing, start_y + button_height + spacing);
+    button_level6->set_position(start_x + 2 * (button_width + spacing), start_y + button_height + spacing);
 }
 
 LevelScene::~LevelScene() {
     delete button_level1;
     delete button_level2;
     delete button_level3;
+    delete button_level4;
+    delete button_level5;
+    delete button_level6;
 }
 
 void LevelScene::on_update(float delta) {
     button_level1->on_update(delta);
     button_level2->on_update(delta);
     button_level3->on_update(delta);
+    button_level4->on_update(delta);
+    button_level5->on_update(delta);
+    button_level6->on_update(delta);
 }
 
 void LevelScene::on_input(const ExMessage& msg) {
     button_level1->on_input(msg);
     button_level2->on_input(msg);
     button_level3->on_input(msg);
+    button_level4->on_input(msg);
+    button_level5->on_input(msg);
+    button_level6->on_input(msg);
 }
 
 void LevelScene::on_enter() {
@@ -96,6 +135,9 @@ void LevelScene::on_render(const Camera& camera) {
     button_level1->on_render(camera);
     button_level2->on_render(camera);
     button_level3->on_render(camera);
+    button_level4->on_render(camera);
+    button_level5->on_render(camera);
+    button_level6->on_render(camera);
 
     LOGFONT f;
     gettextstyle(&f);
@@ -110,6 +152,17 @@ void LevelScene::on_render(const Camera& camera) {
         int b_height = button_level1->get_height();
 
         outtextxy((button_level1->get_position().x + b_width / 2 - textWidth / 2) + (i-1) * (b_width + spacing), button_level1->get_position().y - textHeight * 2,
+            str_cmd);
+    }
+    for (int i = 1; i <= 3; i++) {
+        _stprintf_s(str_cmd, _T("Level %d"), i + 3);
+        int textWidth = textwidth(str_cmd);
+        int textHeight = textheight(str_cmd);
+
+        int b_width = button_level1->get_width();
+        int b_height = button_level1->get_height();
+
+        outtextxy((button_level1->get_position().x + b_width / 2 - textWidth / 2) + (i - 1) * (b_width + spacing), button_level4->get_position().y - textHeight * 2,
             str_cmd);
     }
 }

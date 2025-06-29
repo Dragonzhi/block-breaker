@@ -19,15 +19,15 @@ Brick::Brick(int x, int y, Type type) {
     hurt_box->set_layer_src(CollisionLayer::Brick);
     hurt_box->set_layer_dst(CollisionLayer::Ball);
     hurt_box->set_on_collide([this](CollisionBox* src, CollisionBox* dst, const CollisionBox::CollisionInfo& info) {
-        if (src && src->get_layer_src() == CollisionLayer::Ball) {
+        if (src && src->get_layer_src() == CollisionLayer::Ball ) {
             // 球的反弹逻辑（可根据需要实现）
             Ball* ball = dynamic_cast<Ball*>(src->get_owner());
-            if (ball) {
+            if (ball && this->type != Brick::Type::Glass) {
                 ball->handle_brick_collision(this->hurt_box, info);
             }
-            if (check_can_destoryed()) {
-                on_hit(ball);
-            }
+
+            on_hit(ball);
+
         }
         });
 
@@ -48,7 +48,9 @@ Brick::~Brick() {
 void Brick::on_hit(Ball* ball) {
     if (!is_active || !can_be_hit()) return; // 双重检查
     is_shake = true;
-    counts--;
+    if (check_can_destoryed()) {
+        counts--;
+    }
     cooldown_timer = COOLDOWN_TIME; // 重置冷却时间
     
     SoundManager::instance()->playSound(_T("ball_brick"), false);
@@ -63,13 +65,15 @@ void Brick::on_hit(Ball* ball) {
         Camera::instance()->shake(rand() % 3 + 1, 0.1);
         generate_particles(20, color.r, color.g, color.b, 255, true);
 
-        Vector2 temp_velocity = ball->get_velocity();
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dist(-70, 70);
-        temp_velocity.x += dist(gen);
-        temp_velocity.y += dist(gen);
-        CharacterManager::instance()->add_ball(position.x, position.y, temp_velocity, false);
+        if (type == Brick::Double) {
+            Vector2 temp_velocity = ball->get_velocity();
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<> dist(-70, 70);
+            temp_velocity.x += dist(gen);
+            temp_velocity.y += dist(gen);
+            CharacterManager::instance()->add_ball(position.x, position.y, temp_velocity, false);
+        }
     }
 }
 
@@ -141,6 +145,30 @@ void Brick::init() {
         color.r = 255;
         color.g = 205;
         color.b = 0;
+        break;
+    case Brick::Double:
+        animation_brick.add_frame(ResourcesManager::instance()->find_image("brick_green"), 1);
+        counts = 1;
+        points = 2;
+        color.r = 160;
+        color.g = 205;
+        color.b = 50;
+        break;
+    case Brick::More:
+        animation_brick.add_frame(ResourcesManager::instance()->find_image("brick_purple"), 1);
+        counts = 5;
+        points = 5;
+        color.r = 140;
+        color.g = 85;
+        color.b = 155;
+        break;
+    case Brick::Glass:
+        animation_brick.add_frame(ResourcesManager::instance()->find_image("brick_grey"), 1);
+        counts = 1;
+        points = 3;
+        color.r = 205;
+        color.g = 205;
+        color.b = 205;
         break;
     default:
         break;

@@ -15,7 +15,10 @@ public:
     {
         Normal,
         Streng,
-        Powerup
+        Powerup,
+        Double,
+        More,
+        Glass
     };
     struct ColorBrick
     {

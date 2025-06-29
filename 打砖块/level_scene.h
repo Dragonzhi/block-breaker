@@ -20,6 +20,9 @@ private:
     Button* button_level1 = nullptr;
     Button* button_level2 = nullptr;
     Button* button_level3 = nullptr;
+    Button* button_level4 = nullptr;
+    Button* button_level5 = nullptr;
+    Button* button_level6 = nullptr;
 
     int spacing ;       //°´Å¥¼ä¾à
 };

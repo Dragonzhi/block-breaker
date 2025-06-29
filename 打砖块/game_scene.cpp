@@ -92,6 +92,10 @@ void GameScene::on_update(float delta)  {
             //cout << "ball undead:" << ball->get_undead() << endl;
         }
 
+        if (BrickManager::instance()->isAllBroken()) {
+            is_game_overed = true;
+        }
+
         // 如果有球掉出屏幕
         if (active_balls_count < balls.size()) {
             // 移除所有被标记为不活跃的球
@@ -104,10 +108,6 @@ void GameScene::on_update(float delta)  {
                     }),
                 balls.end()
             );
-
-            if (BrickManager::instance()->isAllBroken()) {
-                is_game_overed = true;
-            }
 
             // 如果没有球剩下，减少生命值
             if (balls.empty()) {
@@ -174,7 +174,7 @@ void GameScene::on_enter()  {
         Vector2 temp_velo = { 0,0 };
         CharacterManager::instance()->add_ball(0, 700, temp_velo, true);
     }
-    BrickManager::instance()->fillUpperHalfRandomly_int(WINDOWS_WIDTH, WINDOWS_HEIGHT, SceneManager::instance()->get_current_level() > 3 ? 3 : SceneManager::instance()->get_current_level());
+    BrickManager::instance()->fillUpperHalfRandomly_int(WINDOWS_WIDTH, WINDOWS_HEIGHT, SceneManager::instance()->get_current_level() > 6 ? 6 : SceneManager::instance()->get_current_level());
 }
 
 void GameScene::on_exit()  {
@@ -219,9 +219,13 @@ void GameScene::on_render(const Camera& camera)  {
 void GameScene::render_game_overed(const Camera& camera) {
     putimage_alpha(camera, end_game_bg_position.x, end_game_bg_position.y, image_end_game_bg);
     if (is_end_game_bg_ok) {
-        putimage_alpha(camera, end_game_bg_position.x, end_game_bg_position.y, image_end_game_star_left);
-        putimage_alpha(camera, end_game_bg_position.x, end_game_bg_position.y, image_end_game_star_centre);
-        putimage_alpha(camera, end_game_bg_position.x, end_game_bg_position.y, image_end_game_star_right);
+        if(CharacterManager::instance()->get_player()->get_hp() >= 1)
+            putimage_alpha(camera, end_game_bg_position.x, end_game_bg_position.y, image_end_game_star_left);
+        if (CharacterManager::instance()->get_player()->get_hp() >= 2)
+            putimage_alpha(camera, end_game_bg_position.x, end_game_bg_position.y, image_end_game_star_right);
+        if (CharacterManager::instance()->get_player()->get_hp() >= 3)
+            putimage_alpha(camera, end_game_bg_position.x, end_game_bg_position.y, image_end_game_star_centre);
+
 
         button_home->on_render(camera);
         button_rest->on_render(camera);
