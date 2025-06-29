@@ -219,6 +219,8 @@ void GameScene::on_render(const Camera& camera)  {
 void GameScene::render_game_overed(const Camera& camera) {
     putimage_alpha(camera, end_game_bg_position.x, end_game_bg_position.y, image_end_game_bg);
     if (is_end_game_bg_ok) {
+
+        // ÓÎÏ·½áÊø»­ÃæÆÀÐÇÅÐ¶Ï
         if(CharacterManager::instance()->get_player()->get_hp() >= 1)
             putimage_alpha(camera, end_game_bg_position.x, end_game_bg_position.y, image_end_game_star_left);
         if (CharacterManager::instance()->get_player()->get_hp() >= 2)
