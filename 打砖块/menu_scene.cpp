@@ -36,6 +36,7 @@ void MenuScene::on_enter() {
 
 void MenuScene::on_exit() {
     SoundManager::instance()->stopSound(_T("menu_bgm"));
+    //SoundManager::instance()->stopAll();
 }
 
 void MenuScene::on_render(const Camera& camera) {

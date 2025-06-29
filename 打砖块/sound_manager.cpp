@@ -151,17 +151,32 @@ void SoundManager::playSound(LPCTSTR id, bool isBGM, bool loop, int from) {
     }
 }
 
+// sound_manager.cpp
 void SoundManager::stopSound(LPCTSTR id) {
     std::lock_guard<std::mutex> lock(soundMutex_);
 
-    auto it = soundInstances_.find(id);
-    if (it == soundInstances_.end()) return;
-
-    for (auto& instance : it->second) {
+    // œ»ºÏ≤È «∑Ò «±≥æ∞“Ù¿÷
+    auto bgmIt = bgmInstances_.find(id);
+    if (bgmIt != bgmInstances_.end()) {
+        auto& instance = bgmIt->second;
         if (instance.isPlaying) {
             std::wstringstream cmd;
             cmd << L"stop " << instance.alias;
-            executeMciCommand(cmd.str(), L"Õ£÷π“Ù∆µ");
+            executeMciCommand(cmd.str(), L"Õ£÷π±≥æ∞“Ù¿÷");
+            instance.isPlaying = false;
+        }
+        return;
+    }
+
+    // »Áπ˚≤ª «±≥æ∞“Ù¿÷£¨ºÏ≤È“Ù–ß
+    auto sfxIt = soundInstances_.find(id);
+    if (sfxIt == soundInstances_.end()) return;
+
+    for (auto& instance : sfxIt->second) {
+        if (instance.isPlaying) {
+            std::wstringstream cmd;
+            cmd << L"stop " << instance.alias;
+            executeMciCommand(cmd.str(), L"Õ£÷π“Ù–ß");
             instance.isPlaying = false;
         }
     }
@@ -170,12 +185,23 @@ void SoundManager::stopSound(LPCTSTR id) {
 void SoundManager::stopAll() {
     std::lock_guard<std::mutex> lock(soundMutex_);
 
+    // Õ£÷πÀ˘”–±≥æ∞“Ù¿÷
+    for (auto& bgm : bgmInstances_) {
+        if (bgm.second.isPlaying) {
+            std::wstringstream cmd;
+            cmd << L"stop " << bgm.second.alias;
+            executeMciCommand(cmd.str(), L"Õ£÷π±≥æ∞“Ù¿÷");
+            bgm.second.isPlaying = false;
+        }
+    }
+
+    // Õ£÷πÀ˘”–“Ù–ß
     for (auto& soundEntry : soundInstances_) {
         for (auto& instance : soundEntry.second) {
             if (instance.isPlaying) {
                 std::wstringstream cmd;
                 cmd << L"stop " << instance.alias;
-                executeMciCommand(cmd.str(), L"Õ£÷π“Ù∆µ");
+                executeMciCommand(cmd.str(), L"Õ£÷π“Ù–ß");
                 instance.isPlaying = false;
             }
         }

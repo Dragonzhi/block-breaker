@@ -179,6 +179,7 @@ void GameScene::on_enter()  {
 
 void GameScene::on_exit()  {
     SoundManager::instance()->stopSound(_T("game_bgm"));
+    //SoundManager::instance()->stopAll();
     CharacterManager::instance()->remove_all_balls();
     rest();
     BrickManager::instance()->clearAllBricks();
