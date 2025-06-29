@@ -133,13 +133,17 @@ void Ball::on_update(float delta) {
     if (position.x - radius <= 0) {
         position.x = radius; 
         reverse_x();
-        SoundManager::instance()->playSound(_T("ball_windows"), false);
+        if (!is_ready_shot) {
+            SoundManager::instance()->playSound(_T("ball_windows"), false);
+        }
     }
     // 右边界碰撞
     else if (position.x + radius >= getwidth()) {
         position.x = getwidth() - radius;
         reverse_x();
-        SoundManager::instance()->playSound(_T("ball_windows"), false);
+        if (!is_ready_shot) {
+            SoundManager::instance()->playSound(_T("ball_windows"), false);
+        }
     }
 
     // 上边界碰撞 (添加穿透保护)
