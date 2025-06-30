@@ -65,7 +65,7 @@ public:
 		timer_big.restart();
 		current_animation = &ball_big_animation;
 		hurt_box->set_size({ 30, 30 });     // ÉèÖÃÅö×²ºĞ´óĞ¡
-		addition_damage = 1;
+		addition_damage += 1;
 		is_big = true;
 	}
 

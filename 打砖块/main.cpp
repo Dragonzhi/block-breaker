@@ -1,7 +1,7 @@
+#include "camera.h"
 #include "resources_manager.h"
 #include "scene_manager.h"
 #include "util.h"
-#include "camera.h"
 
 #include <chrono>
 #include <graphics.h>

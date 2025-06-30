@@ -1,8 +1,10 @@
 #include "brick.h"
 #include "camera.h"
-#include <iostream>
 #include "character_manager.h"
 #include "sound_manager.h"
+#include "scene_manager.h"
+#include "game_scene.h"
+#include <iostream>
 
 Brick::Brick(int x, int y, Type type) {
     position.x = x;
@@ -80,6 +82,10 @@ void Brick::on_hit(Ball* ball) {
         }
         else if (type == Brick::Powerup) {
             ball->to_big();
+        }
+        else if (type == Brick::More) {
+            GameScene* game_scene = (GameScene*)SceneManager::instance()->get_current_scene();
+            game_scene->set_undead();
         }
     }
 }

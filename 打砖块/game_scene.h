@@ -18,8 +18,14 @@ public:
 
 	void render_game_overed(const Camera& camera);
 
+	void set_undead() {
+		timer_undead.restart();
+		is_time_to_undead = true;
+	}
+
 private:
 	IMAGE* img_background = nullptr;
+	IMAGE* img_purple_buff = nullptr;
 	int AllPoints = 0;
 
 	bool is_game_overed = false;
@@ -37,5 +43,8 @@ private:
 	Button* button_next = nullptr;
 	Button* button_home = nullptr;
 	Button* button_rest = nullptr;
+
+	Timer timer_undead;
+	bool is_time_to_undead = false;;
 };
 

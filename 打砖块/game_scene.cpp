@@ -13,6 +13,7 @@ extern int WINDOWS_HEIGHT;
 
 GameScene::GameScene() {
     img_background = ResourcesManager::instance()->find_image("background");
+    img_purple_buff = ResourcesManager::instance()->find_image("purple_buff");
     image_end_game_bg = ResourcesManager::instance()->find_image("end_game_background");
     image_end_game_star_left = ResourcesManager::instance()->find_image("end_game_background_star_left");
     image_end_game_star_right = ResourcesManager::instance()->find_image("end_game_background_star_right");
@@ -41,6 +42,12 @@ GameScene::GameScene() {
     button_rest->on_click([]() { SceneManager::instance()->switch_to(SceneManager::SceneType::Game); });
 
     end_game_bg_position = { getwidth() / 2 - 400, getheight()};
+
+    timer_undead.set_one_shot(true);
+    timer_undead.set_wait_time(6.0f);
+    timer_undead.set_on_timeout([this]() { 
+        is_time_to_undead = false;
+        });
 }
 GameScene::~GameScene() {}
 
@@ -48,6 +55,10 @@ void GameScene::on_update(float delta)  {
 
     Camera::instance()->on_update(delta);
     ParticleSystem::instance()->on_update(delta);
+
+    if (is_time_to_undead) {
+        timer_undead.on_update(delta);
+    }
 
     if (is_game_overed) {
         ScoreManager::instance()->saveHighScore();
@@ -83,7 +94,7 @@ void GameScene::on_update(float delta)  {
         }
         //std::cout << "Total balls: " << balls.size() << std::endl;
         for (Ball* ball : balls) {
-            if (is_undead_mode) {
+            if (is_undead_mode || is_time_to_undead) {
                 ball->set_undead(true);
             }
             else {
@@ -196,6 +207,8 @@ void GameScene::on_render(const Camera& camera)  {
         img_background->getheight()
     };
     putimage_ex(camera, img_background, &rect_dst);
+    if(is_undead_mode || is_time_to_undead)
+        putimage_ex(camera, img_purple_buff, &rect_dst);
 
     BrickManager::instance()->on_render(camera);
 	CharacterManager::instance()->on_render(camera);
@@ -262,14 +275,17 @@ void GameScene::render_game_overed(const Camera& camera) {
 }
 
 void GameScene::rest() {
-    Paddle* paddle = (Paddle*)CharacterManager::instance()->get_player();
     CharacterManager::instance()->remove_inactive_balls();
 
     Vector2 temp_velo = { 0,0 };
     CharacterManager::instance()->add_ball(0, 700, temp_velo, true);
 
+    Paddle* paddle = (Paddle*)CharacterManager::instance()->get_player();
     paddle->set_hp(paddle->get_max_hp());
     paddle->to_normal();
+
+    is_time_to_undead = false;
+
     BrickManager::instance()->rest(WINDOWS_WIDTH, WINDOWS_HEIGHT);
     is_game_overed = false;
     ScoreManager::instance()->resetScore();

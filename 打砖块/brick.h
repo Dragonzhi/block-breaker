@@ -17,8 +17,8 @@ public:
         Streng,
         Powerup,
         Double,
-        More,
-        Glass
+        Glass,
+        More
     };
     struct ColorBrick
     {

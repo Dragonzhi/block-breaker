@@ -40,6 +40,10 @@ public:
 		current_scene->on_enter();
 	}
 
+	Scene* get_current_scene() const {
+		return current_scene;
+	}
+
 	void switch_to(SceneType type) {
 		current_scene->on_exit();
 		set_current_scene(type);

@@ -14,6 +14,7 @@ struct AtlasResInfo {
 
 static const vector<ImageResInfo> image_info_list = {  
 	{ "background",					_T(R"(resources\background.png)")},
+	{ "purple_buff",					_T(R"(resources\purple_buff_background.png)")},
 	{ "paddle_blue_right",			_T(R"(resources\paddleBlu.png)") },
 	{ "paddle_big",			_T(R"(resources\paddleRed.png)") },
 	{ "ball",						_T(R"(resources\ballBlue.png)") },
