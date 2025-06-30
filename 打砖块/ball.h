@@ -61,10 +61,35 @@ public:
 		return is_undead;
 	}
 
+	void to_big() {
+		timer_big.restart();
+		current_animation = &ball_big_animation;
+		hurt_box->set_size({ 30, 30 });     // 设置碰撞盒大小
+		addition_damage = 1;
+		is_big = true;
+	}
+
+	void to_normal() {
+		current_animation = &ball_animation;
+		hurt_box->set_size({ 20, 20 });     // 设置碰撞盒大小
+		addition_damage = 0;
+		is_big = false;
+	}
+
+	int get_addition_damage() const {
+		return addition_damage;
+	}
+
 private:
 	Character* paddle = nullptr;
 	Timer timer_last_position;
+	Timer timer_big;
+
 	Animation ball_animation;
+	Animation ball_big_animation;
+
+	int addition_damage = 0;
+
 	Vector2 last_position;
 	bool is_shot_key_down = false;
 	float radius;
@@ -72,6 +97,6 @@ private:
 	float speed = 400.0f;
 	bool is_ready_shot = true;
 	bool is_undead = false;
-
+	bool is_big = false;
 };
 

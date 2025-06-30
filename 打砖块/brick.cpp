@@ -49,7 +49,7 @@ void Brick::on_hit(Ball* ball) {
     if (!is_active || !can_be_hit()) return; // 双重检查
     is_shake = true;
     if (check_can_destoryed()) {
-        counts--;
+        counts -= 1 + ball->get_addition_damage();
     }
     cooldown_timer = COOLDOWN_TIME; // 重置冷却时间
     
@@ -73,6 +73,13 @@ void Brick::on_hit(Ball* ball) {
             temp_velocity.x += dist(gen);
             temp_velocity.y += dist(gen);
             CharacterManager::instance()->add_ball(position.x, position.y, temp_velocity, false);
+        }
+        else if (type == Brick::Streng) {
+            Paddle* paddle = (Paddle*)CharacterManager::instance()->get_player();
+            paddle->to_big();
+        }
+        else if (type == Brick::Powerup) {
+            ball->to_big();
         }
     }
 }

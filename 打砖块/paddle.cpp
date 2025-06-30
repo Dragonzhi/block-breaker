@@ -25,14 +25,35 @@ Paddle::Paddle() {
             is_shaking = true;
         }
         });
+
     paddle_animation.set_interval(0.1f);
     paddle_animation.set_loop(true);
     paddle_animation.set_anchor_mode(Animation::AnchorMode::BottomCentered);
     paddle_animation.add_frame(ResourcesManager::instance()->find_image("paddle_blue_right"), 1);
 
+    paddle_big_animation.set_interval(0.1f);
+    paddle_big_animation.set_loop(true);
+    paddle_big_animation.set_anchor_mode(Animation::AnchorMode::BottomCentered);
+    paddle_big_animation.add_frame(ResourcesManager::instance()->find_image("paddle_big"), 1);
+
+    current_anim = &paddle_animation;
+
     timer_shaking.set_one_shot(true);
     timer_shaking.set_wait_time(0.1f);
     timer_shaking.set_on_timeout([this]() {is_shaking = false; });
+
+    timer_big.set_one_shot(true);
+    timer_big.set_wait_time(6.0f);
+    timer_big.set_on_timeout([this]() {
+        to_normal();
+        });
+
+    timer_toggle.set_one_shot(false);
+    timer_toggle.set_wait_time(0.05f);
+    timer_toggle.set_on_timeout([this]() {
+        current_anim = !for_toggle ? &paddle_big_animation : &paddle_animation;
+        for_toggle = !for_toggle;
+        });
 }
 
 Paddle::~Paddle() {
@@ -67,20 +88,26 @@ void Paddle::on_update(float delta) {
         }
     }
 
+    if (is_big) {
+        timer_big.on_update(delta);
+        if (timer_big.get_pass_time() < 1.0f && timer_big.get_pass_time() > 0.1f) {
+            timer_toggle.on_update(delta);
+        }
+    }
+
     if (is_shaking) {
         timer_shaking.on_update(delta);
         shake();
     }
-    else {
-        paddle_animation.set_position(position);
-    }
-    // 更新动画位置
-    paddle_animation.on_update(delta);
+
+    current_anim->set_position(position);
+    current_anim->on_update(delta);
 
     Character::on_update(delta);
 }
 
 void Paddle::on_render(const Camera& camera) {
     // 渲染动画
-    paddle_animation.on_render(camera);
+    current_anim->on_render(camera);
+
 }

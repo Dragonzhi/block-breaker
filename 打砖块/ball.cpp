@@ -25,14 +25,24 @@ Ball::Ball(int x = 50, int y = 700, Vector2 velocity = {0,0}, bool is_ready = fa
     ball_animation.set_interval(0.1f); // 帧间隔时间
     ball_animation.set_loop(true); // 循环播放
     ball_animation.set_anchor_mode(Animation::AnchorMode::Centered);
-
-    // 添加动画帧
     ball_animation.add_frame(ResourcesManager::instance()->find_image("ball"), 1);
+
+    ball_big_animation.set_interval(0.1f); // 帧间隔时间
+    ball_big_animation.set_loop(true); // 循环播放
+    ball_big_animation.set_anchor_mode(Animation::AnchorMode::Centered);
+    ball_big_animation.add_frame(ResourcesManager::instance()->find_image("ball_big"), 1);
+
     current_animation = &ball_animation;
 
     timer_last_position.set_one_shot(false);
     timer_last_position.set_wait_time(0.1f);
     timer_last_position.set_on_timeout([&]() {last_position = position; });
+
+    timer_big.set_one_shot(true);
+    timer_big.set_wait_time(12.0f);
+    timer_big.set_on_timeout([&]() {
+        to_normal();
+        });
 }
 
 Ball::~Ball() {
@@ -117,11 +127,11 @@ void Ball::handle_paddle_collision(CollisionBox* paddle_box) {
 }
 
 void Ball::on_update(float delta) {
-
+    if(is_big)
+        timer_big.on_update(delta);
     timer_last_position.on_update(delta);
 
     Character::on_update(delta);
-    hit_box->set_position(position);
 
     // 速度限制
     const float max_speed = 1200.0f;

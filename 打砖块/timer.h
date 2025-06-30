@@ -50,6 +50,14 @@ public:
 		paused = false;
 	}
 
+	float get_pass_time() const {
+		return wait_time - pass_time;
+	}
+
+	float get_wait_time() const {
+		return wait_time;
+	}
+
 private:
 	std::function<void()> callback;
 	float pass_time = 0;			//已过时间
