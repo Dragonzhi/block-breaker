@@ -121,7 +121,7 @@ void BrickManager::fillUpperHalfRandomly_int(int screenWidth, int screenHeight, 
     int bricksPerRow = (screenWidth - 2 * marginX) / brickWidth;
 
     // 计算可以放置多少行砖块（在上半屏）
-    int rows = (screenHeight / 2 - startY - marginY) / brickHeight;
+    int rows = (screenHeight * 2 / (9-level) - startY - marginY) / brickHeight;
 
     // 计算实际使用的总宽度和总高度，以便居中显示
     int totalWidth = bricksPerRow * brickWidth;
