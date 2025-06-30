@@ -61,8 +61,11 @@ void GameScene::on_update(float delta)  {
     }
 
     if (is_game_overed) {
-        if (!is_cheat)
-            ScoreManager::instance()->saveHighScore();
+        if (!is_cheat) {
+            ScoreManager::instance()->saveHighScores();
+            ScoreManager::instance()->updateHighScore(SceneManager::instance()->get_current_level(), ScoreManager::instance()->getScore());
+        }
+         
 
         if (end_game_bg_position.y >= getheight()/10) {
             end_game_bg_position.y -= 380.0f * delta;
@@ -269,7 +272,7 @@ void GameScene::render_game_overed(const Camera& camera) {
             end_game_bg_position.y + 300 + textHeight1, // 与上一行保持10像素间距
             str_cmd);
 
-        _stprintf_s(str_cmd, _T("Highest score: %d"), ScoreManager::instance()->getHighScore());
+        _stprintf_s(str_cmd, _T("Highest score: %d"), ScoreManager::instance()->getHighScore(SceneManager::instance()->get_current_level()));
         int textWidth3 = textwidth(str_cmd);
         int textHeight3 = textheight(str_cmd);
         outtextxy(end_game_bg_position.x + 400 - textWidth3 / 2,

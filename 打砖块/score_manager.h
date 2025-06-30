@@ -1,12 +1,13 @@
 #pragma once
 #include <string>
+#include <vector>
 
 class ScoreManager {
 private:
     static ScoreManager* manager;
 
     int score;
-    int highScore;
+    std::vector<int> highScores;
     std::string highScoreFile;
 
 public:
@@ -15,14 +16,20 @@ public:
     ~ScoreManager();
 
     int getScore() const;
-    int getHighScore() const;
 
+    int getHighScore(int level) const;
+    void updateHighScore(int level, int score);
     void addPoints(int points);
     void resetScore();
 
-    void loadHighScore();
-    void saveHighScore();
+    void loadHighScores();
+    void saveHighScores();
 
+    int getTotalScore() const {
+        int sum = 0;
+        for (int s : highScores) sum += s;
+        return sum;
+    }
     std::string getScoreString() const;
-    std::string getHighScoreString() const;
+    std::string getHighScoreString(int level) const;
 };

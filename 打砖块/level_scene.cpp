@@ -1,6 +1,7 @@
 #include "level_scene.h"
 #include "scene_manager.h"
 #include "resources_manager.h"
+#include "score_manager.h"
 
 LevelScene::LevelScene() {
     img_background = ResourcesManager::instance()->find_image("background");
@@ -82,9 +83,9 @@ LevelScene::LevelScene() {
     button_level1->set_position(start_x, start_y);
     button_level2->set_position(start_x + button_width + spacing, start_y);
     button_level3->set_position(start_x + 2 * (button_width + spacing), start_y);
-    button_level4->set_position(start_x, start_y + button_height + spacing);
-    button_level5->set_position(start_x + button_width + spacing, start_y + button_height + spacing);
-    button_level6->set_position(start_x + 2 * (button_width + spacing), start_y + button_height + spacing);
+    button_level4->set_position(start_x, start_y + button_height + spacing * 2);
+    button_level5->set_position(start_x + button_width + spacing, start_y + button_height + spacing * 2);
+    button_level6->set_position(start_x + 2 * (button_width + spacing), start_y + button_height + spacing * 2);
 }
 
 LevelScene::~LevelScene() {
@@ -138,31 +139,53 @@ void LevelScene::on_render(const Camera& camera) {
     button_level4->on_render(camera);
     button_level5->on_render(camera);
     button_level6->on_render(camera);
-
+    
     LOGFONT f;
     gettextstyle(&f);
     settextcolor(RGB(255, 255, 255));
     TCHAR str_cmd[128];
+
+    int b_width = button_level1->get_width();
+    int b_height = button_level1->get_height();
+
     for (int i = 1; i <= 3; i++) {
         _stprintf_s(str_cmd, _T("Level %d"), i);
         int textWidth = textwidth(str_cmd);
         int textHeight = textheight(str_cmd);
+        int btn_x = button_level1->get_position().x + (i - 1) * (b_width + spacing);
+        int btn_y = button_level1->get_position().y;
+        outtextxy(btn_x + b_width / 2 - textWidth / 2, btn_y - textHeight * 2, str_cmd);
 
-        int b_width = button_level1->get_width();
-        int b_height = button_level1->get_height();
-
-        outtextxy((button_level1->get_position().x + b_width / 2 - textWidth / 2) + (i-1) * (b_width + spacing), button_level1->get_position().y - textHeight * 2,
-            str_cmd);
+        int highScore = ScoreManager::instance()->getHighScore(i);
+        _stprintf_s(str_cmd, _T("High: %d"), highScore);
+        int scoreWidth = textwidth(str_cmd);
+        outtextxy(btn_x + b_width / 2 - scoreWidth / 2, btn_y + b_height + textHeight / 2, str_cmd);
     }
+
     for (int i = 1; i <= 3; i++) {
-        _stprintf_s(str_cmd, _T("Level %d"), i + 3);
+        int level = i + 3;
+        _stprintf_s(str_cmd, _T("Level %d"), level);
         int textWidth = textwidth(str_cmd);
         int textHeight = textheight(str_cmd);
+        int btn_x = button_level4->get_position().x + (i - 1) * (b_width + spacing);
+        int btn_y = button_level4->get_position().y;
 
-        int b_width = button_level1->get_width();
-        int b_height = button_level1->get_height();
+        outtextxy(btn_x + b_width / 2 - textWidth / 2, btn_y - textHeight * 2, str_cmd);
 
-        outtextxy((button_level1->get_position().x + b_width / 2 - textWidth / 2) + (i - 1) * (b_width + spacing), button_level4->get_position().y - textHeight * 2,
-            str_cmd);
+        int highScore = ScoreManager::instance()->getHighScore(level);
+        _stprintf_s(str_cmd, _T("High: %d"), highScore);
+        int scoreWidth = textwidth(str_cmd);
+        outtextxy(btn_x + b_width / 2 - scoreWidth / 2, btn_y + b_height + textHeight / 2, str_cmd);
     }
+
+    // 绘制总分
+    int totalScore = ScoreManager::instance()->getTotalScore();
+    TCHAR totalStr[64];
+    _stprintf_s(totalStr, _T("Total Score: %d"), totalScore);
+    int totalTextWidth = textwidth(totalStr);
+    int totalTextHeight = textheight(totalStr);
+    int rightMargin = 80; // 距离右边的像素
+    int topMargin = getheight()/2;   // 距离顶部的像素
+    outtextxy(getwidth() - totalTextWidth - rightMargin, topMargin, totalStr);
+
 }

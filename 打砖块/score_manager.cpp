@@ -13,37 +13,28 @@ ScoreManager* ScoreManager::instance() {
     return manager;
 }
 ScoreManager::ScoreManager(const std::string& highScoreFilePath)
-    : score(0), highScore(0), highScoreFile(highScoreFilePath) {
-    loadHighScore();
+    : score(0), highScores(6, 0), highScoreFile(highScoreFilePath) {
+    loadHighScores();
 }
 
 ScoreManager::~ScoreManager() {
-    if (score > highScore) {
-        highScore = score;
-        saveHighScore();
+}
+
+void ScoreManager::loadHighScores() {
+    FILE* fp = nullptr;
+    errno_t err = fopen_s(&fp, "highscores.dat", "rb");
+    if (err == 0 && fp != nullptr) {
+        fread(highScores.data(), sizeof(int), highScores.size(), fp);
+        fclose(fp);
     }
 }
 
-void ScoreManager::loadHighScore() {
-    std::ifstream file(highScoreFile);
-    if (file.is_open()) {
-        std::string line;
-        if (std::getline(file, line)) {
-            std::istringstream iss(line);
-            if (iss >> highScore) {
-                return;
-            }
-        }
-        file.close();
-    }
-    highScore = 0;
-}
-
-void ScoreManager::saveHighScore() {
-    std::ofstream file(highScoreFile);
-    if (file.is_open()) {
-        file << highScore;
-        file.close();
+void ScoreManager::saveHighScores() {
+    FILE* fp = nullptr;
+    errno_t err = fopen_s(&fp, "highscores.dat", "wb");
+    if (err == 0 && fp != nullptr) {
+        fwrite(highScores.data(), sizeof(int), highScores.size(), fp);
+        fclose(fp);
     }
 }
 
@@ -51,14 +42,24 @@ int ScoreManager::getScore() const {
     return score;
 }
 
-int ScoreManager::getHighScore() const {
-    return highScore;
+int ScoreManager::getHighScore(int level) const {
+    if (level > 0 && level <= highScores.size())
+        return highScores[level - 1];
+    return 0;
 }
 
 void ScoreManager::addPoints(int points) {
     score += points;
-    if (score > highScore) {
-        highScore = score;
+    //if (score > highScore) {
+    //    highScore = score;
+    //}
+}
+
+
+void ScoreManager::updateHighScore(int level, int score) {
+    if (level > 0 && level <= highScores.size() && score > highScores[level - 1]) {
+        highScores[level - 1] = score;
+        saveHighScores();
     }
 }
 
@@ -70,6 +71,6 @@ std::string ScoreManager::getScoreString() const {
     return "Score: " + std::to_string(score);
 }
 
-std::string ScoreManager::getHighScoreString() const {
-    return "High Score: " + std::to_string(highScore);
+std::string ScoreManager::getHighScoreString(int level) const {
+    return "High Score: " + std::to_string(highScores[level-1]);
 }
