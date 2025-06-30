@@ -23,7 +23,7 @@ public:
 	void shake() {
 		std::mt19937 gen{ std::random_device{}() };
 		std::uniform_int_distribution<> dist(-2, 2);
-		paddle_animation.set_position(Vector2(position.x + dist(gen), position.y + dist(gen)));
+		current_anim->set_position(Vector2(position.x, position.y + dist(gen)));
 	}
 
 	void to_big() {

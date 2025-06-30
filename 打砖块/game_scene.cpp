@@ -187,6 +187,7 @@ void GameScene::on_input(const ExMessage& msg)  {
 }
 
 void GameScene::on_enter()  {
+    ScoreManager::instance()->loadHighScores();
     SoundManager::instance()->playSound(_T("game_bgm"), true, true);
     if (CharacterManager::instance()->get_balls().empty()) {
         Vector2 temp_velo = { 0,0 };

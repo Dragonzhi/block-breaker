@@ -43,7 +43,7 @@ Paddle::Paddle() {
     timer_shaking.set_on_timeout([this]() {is_shaking = false; });
 
     timer_big.set_one_shot(true);
-    timer_big.set_wait_time(6.0f);
+    timer_big.set_wait_time(8.0f);
     timer_big.set_on_timeout([this]() {
         to_normal();
         });
@@ -99,8 +99,9 @@ void Paddle::on_update(float delta) {
         timer_shaking.on_update(delta);
         shake();
     }
-
-    current_anim->set_position(position);
+    else {
+        current_anim->set_position(position);
+    }
     current_anim->on_update(delta);
 
     Character::on_update(delta);
