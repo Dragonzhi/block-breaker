@@ -269,6 +269,7 @@ void GameScene::rest() {
     CharacterManager::instance()->add_ball(0, 700, temp_velo, true);
 
     paddle->set_hp(paddle->get_max_hp());
+    paddle->to_normal();
     BrickManager::instance()->rest(WINDOWS_WIDTH, WINDOWS_HEIGHT);
     is_game_overed = false;
     ScoreManager::instance()->resetScore();
