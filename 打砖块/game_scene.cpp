@@ -61,7 +61,9 @@ void GameScene::on_update(float delta)  {
     }
 
     if (is_game_overed) {
-        ScoreManager::instance()->saveHighScore();
+        if (!is_cheat)
+            ScoreManager::instance()->saveHighScore();
+
         if (end_game_bg_position.y >= getheight()/10) {
             end_game_bg_position.y -= 380.0f * delta;
         }
@@ -162,6 +164,8 @@ void GameScene::on_input(const ExMessage& msg)  {
         } 
         if (msg.vkcode == 0x53) {
             is_undead_mode = true;
+            is_cheat = true;
+            cout << "启用作弊模式，不计入成绩" << endl;
         }
         if (msg.vkcode == 0x54) {
             is_undead_mode = false;
@@ -285,6 +289,8 @@ void GameScene::rest() {
     paddle->to_normal();
 
     is_time_to_undead = false;
+    is_cheat = false;
+    is_undead_mode = false;
 
     BrickManager::instance()->rest(WINDOWS_WIDTH, WINDOWS_HEIGHT);
     is_game_overed = false;

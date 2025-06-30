@@ -45,6 +45,8 @@ private:
 	Button* button_rest = nullptr;
 
 	Timer timer_undead;
-	bool is_time_to_undead = false;;
+	bool is_time_to_undead = false;
+	
+	bool is_cheat = false;
 };
 
