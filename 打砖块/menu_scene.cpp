@@ -8,6 +8,7 @@
 
 MenuScene::MenuScene() {
 	img_background = ResourcesManager::instance()->find_image("background");
+    img_title = ResourcesManager::instance()->find_image("menu_titile");
     button_start = new Button(0, 0, 128, 128);
     button_start->set_background_image(ResourcesManager::instance()->find_image("end_game_background_button_Next_idle"));
     button_start->set_click_image(ResourcesManager::instance()->find_image("end_game_background_button_Next_press"));
@@ -16,7 +17,7 @@ MenuScene::MenuScene() {
         SceneManager::instance()->switch_to(SceneManager::SceneType::Level);
         });
 
-    button_start->set_position(getwidth() / 2 - button_start->get_width() / 2, getheight() / 2 - button_start->get_height() / 2);
+    button_start->set_position(getwidth() / 2 - button_start->get_width() / 2, getheight() - button_start->get_height() / 2 - 150);
 }
 MenuScene::~MenuScene() {
     delete button_start;
@@ -48,6 +49,7 @@ void MenuScene::on_render(const Camera& camera) {
         img_background->getheight()
     };
     putimage_ex(camera, img_background, &rect_dst);
+    putimage_ex(camera, img_title, &rect_dst);
 
     button_start->on_render(camera);
 

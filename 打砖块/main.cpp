@@ -22,7 +22,7 @@ int main(int argc, char** argv)
     using namespace std::chrono;
 
     HWND hwnd = initgraph(WINDOWS_WIDTH, WINDOWS_HEIGHT, EW_SHOWCONSOLE);
-    SetWindowText(hwnd, _T("打砖块"));
+    SetWindowText(hwnd, _T("砖治不服 | Shut Up & Brick!"));
 
     try
     {

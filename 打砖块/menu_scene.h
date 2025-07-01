@@ -16,6 +16,7 @@ public:
 	void on_render(const Camera& camera) override ;
 private:
 	IMAGE* img_background = nullptr;
+	IMAGE* img_title = nullptr;
 	Button* button_start = nullptr;
 };
 

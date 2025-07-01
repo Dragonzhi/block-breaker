@@ -167,7 +167,6 @@ void GameScene::on_input(const ExMessage& msg)  {
         BrickManager::instance()->on_input(msg);
     }
 
-
     switch (msg.message)
     {
     case WM_KEYUP:
