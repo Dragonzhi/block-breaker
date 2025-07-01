@@ -25,7 +25,9 @@ GameScene::GameScene() {
     button_next->set_hover_image(ResourcesManager::instance()->find_image("end_game_background_button_Next_hold"));
     button_next->on_click([this]() { 
         GameScene::rest();
-        SceneManager::instance()->set_current_level(SceneManager::instance()->get_current_level() + 1);
+        int next_level = SceneManager::instance()->get_current_level() + 1;
+        if (next_level > 6) next_level = 6; // 限制最大为6
+        SceneManager::instance()->set_current_level(next_level);
         SceneManager::instance()->switch_to(SceneManager::SceneType::Game);
         });
 
