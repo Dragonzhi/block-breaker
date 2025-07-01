@@ -48,5 +48,7 @@ private:
 	bool is_time_to_undead = false;
 	
 	bool is_cheat = false;
+
+	bool is_paused = false;
 };
 

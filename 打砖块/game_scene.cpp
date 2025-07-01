@@ -54,6 +54,9 @@ GameScene::GameScene() {
 GameScene::~GameScene() {}
 
 void GameScene::on_update(float delta)  {
+    if (is_paused) {
+        return;
+    }
 
     Camera::instance()->on_update(delta);
     ParticleSystem::instance()->on_update(delta);
@@ -157,6 +160,10 @@ void GameScene::on_input(const ExMessage& msg)  {
     switch (msg.message)
     {
     case WM_KEYUP:
+        if (msg.vkcode == VK_SPACE) {
+            is_paused = !is_paused;
+            return; // 暂停/恢复时不处理其他输入
+        }
         if (msg.vkcode == 0x52) {
             is_debug = !is_debug;
         }
@@ -236,6 +243,11 @@ void GameScene::on_render(const Camera& camera)  {
 
     if (is_game_overed) {
         render_game_overed(camera);
+    }
+
+    if (is_paused) {
+        settextcolor(RGB(255, 255, 0));
+        outtextxy(getwidth() / 2 - 100, getheight() / 2, _T("游戏已暂停\n按空格继续"));
     }
 }
 
