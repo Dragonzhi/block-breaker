@@ -115,6 +115,17 @@ void GameScene::on_update(float delta)  {
 
         if (BrickManager::instance()->isAllBroken()) {
             is_game_overed = true;
+
+            level_end_time = GetTickCount(); // 记录结束时间
+            // 计算最终得分
+            unsigned int time_used = (level_end_time - level_start_time - total_pause_time) / 1000; // 秒
+            int base_score = ScoreManager::instance()->getScore();
+            int time_bonus = 1000; // 你可以根据需要调整
+            int penalty_per_sec = 10; // 每秒扣分
+            int final_score = base_score + max(0, time_bonus - (int)time_used * penalty_per_sec) + (CharacterManager::instance()->get_player()->get_hp()) * 114;
+            if (final_score < 0) final_score = 0;
+            ScoreManager::instance()->setScore(final_score); 
+        
         }
 
         // 如果有球掉出屏幕
@@ -161,8 +172,15 @@ void GameScene::on_input(const ExMessage& msg)  {
     {
     case WM_KEYUP:
         if (msg.vkcode == VK_SPACE) {
-            is_paused = !is_paused;
-            return; // 暂停/恢复时不处理其他输入
+            if (!is_paused) {
+                is_paused = true;
+                pause_start_time = GetTickCount();
+            }
+            else {
+                is_paused = false;
+                total_pause_time += GetTickCount() - pause_start_time;
+            }
+            return;
         }
         if (msg.vkcode == 0x52) {
             is_debug = !is_debug;
@@ -196,6 +214,11 @@ void GameScene::on_input(const ExMessage& msg)  {
 }
 
 void GameScene::on_enter()  {
+    level_start_time = GetTickCount();
+    level_end_time = 0;
+    pause_start_time = 0;
+    total_pause_time = 0;
+    is_paused = false;
     ScoreManager::instance()->loadHighScores();
     SoundManager::instance()->playSound(_T("game_bgm"), true, true);
     if (CharacterManager::instance()->get_balls().empty()) {
@@ -236,10 +259,28 @@ void GameScene::on_render(const Camera& camera)  {
 
     settextcolor(RGB(255, 255, 255));
     TCHAR str_cmd[128];
-    _stprintf_s(str_cmd, _T("Score: %d"), ScoreManager::instance()->getScore());
-    outtextxy(24, getheight() - 30, str_cmd);
+
     _stprintf_s(str_cmd, _T("Hp: %d"), CharacterManager::instance()->get_player()->get_hp());
     outtextxy(getwidth() - 80, getheight() - 30, str_cmd);
+
+    unsigned int now = is_paused ? pause_start_time : GetTickCount();
+    unsigned int time_used = (now - level_start_time - total_pause_time) / 1000;
+    TCHAR time_str[32];
+    _stprintf_s(time_str, _T("Used time: %u s"), time_used);
+    // 判断颜色
+    if (is_paused) {
+        settextcolor(RGB(255, 0, 0)); // 红色
+    }
+    else {
+        settextcolor(RGB(255, 255, 255)); // 白色
+    }
+
+    if (!is_game_overed) {
+        _stprintf_s(str_cmd, _T("Score: %d"), ScoreManager::instance()->getScore());
+        outtextxy(24, getheight() - 60, str_cmd);
+        outtextxy(24, getheight() - 30, time_str);
+
+    }
 
     if (is_game_overed) {
         render_game_overed(camera);
@@ -277,21 +318,30 @@ void GameScene::render_game_overed(const Camera& camera) {
         int textWidth1 = textwidth(str_cmd);  // 获取文本宽度
         int textHeight1 = textheight(str_cmd); // 获取文本高度
         outtextxy(end_game_bg_position.x + 400 - textWidth1 / 2,
-            end_game_bg_position.y + 300 - textHeight1 / 2,
+            end_game_bg_position.y + 280 - textHeight1 / 2,
             str_cmd);
 
         _stprintf_s(str_cmd, _T("%d"), ScoreManager::instance()->getScore());
         int textWidth2 = textwidth(str_cmd);
         int textHeight2 = textheight(str_cmd);
         outtextxy(end_game_bg_position.x + 400 - textWidth2 / 2,
-            end_game_bg_position.y + 300 + textHeight1, // 与上一行保持10像素间距
+            end_game_bg_position.y + 280 + textHeight1, // 与上一行保持10像素间距
             str_cmd);
 
+        settextcolor(RGB(50, 50, 50));
         _stprintf_s(str_cmd, _T("Highest score: %d"), ScoreManager::instance()->getHighScore(SceneManager::instance()->get_current_level()));
         int textWidth3 = textwidth(str_cmd);
         int textHeight3 = textheight(str_cmd);
         outtextxy(end_game_bg_position.x + 400 - textWidth3 / 2,
-            end_game_bg_position.y + 300 + textHeight2 * 2 , // 与上一行保持10像素间距
+            end_game_bg_position.y + 280 + textHeight2 * 2 , // 与上一行保持10像素间距
+            str_cmd);
+
+        unsigned int time_used = (level_end_time - level_start_time) / 1000;
+        _stprintf_s(str_cmd, _T("Duration: %u seconds"), time_used);
+        int textWidth4 = textwidth(str_cmd);
+        int textHeight4 = textheight(str_cmd);
+        outtextxy(end_game_bg_position.x + 400 - textWidth4 / 2,
+            end_game_bg_position.y + 305 + textHeight3 * 2, 
             str_cmd);
     }
 }

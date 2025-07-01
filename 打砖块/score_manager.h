@@ -16,6 +16,7 @@ public:
     ~ScoreManager();
 
     int getScore() const;
+    void setScore(int s);
 
     int getHighScore(int level) const;
     void updateHighScore(int level, int score);

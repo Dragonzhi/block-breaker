@@ -42,6 +42,10 @@ int ScoreManager::getScore() const {
     return score;
 }
 
+void ScoreManager::setScore(int s) {
+    score = s;
+}
+
 int ScoreManager::getHighScore(int level) const {
     if (level > 0 && level <= highScores.size())
         return highScores[level - 1];

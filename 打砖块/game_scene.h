@@ -50,5 +50,9 @@ private:
 	bool is_cheat = false;
 
 	bool is_paused = false;
+	unsigned int level_start_time = 0;
+	unsigned int level_end_time = 0;
+	unsigned int pause_start_time = 0;
+	unsigned int total_pause_time = 0;
 };
 
