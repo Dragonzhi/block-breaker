@@ -18,4 +18,5 @@ public:
 private:
     static ParticleSystem* manager;
     std::vector<Particle> particles;
+    const size_t MAX_PARTICLES = 1000; // 最大粒子数量
 };
