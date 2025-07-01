@@ -113,6 +113,11 @@ void LevelScene::on_input(const ExMessage& msg) {
     button_level4->on_input(msg);
     button_level5->on_input(msg);
     button_level6->on_input(msg);
+
+    // 检查是否按下ESC键退出到菜单
+    if (msg.message == WM_KEYDOWN && msg.vkcode == VK_ESCAPE) {
+        SceneManager::instance()->switch_to(SceneManager::SceneType::Menu);
+    }
 }
 
 void LevelScene::on_enter() {
