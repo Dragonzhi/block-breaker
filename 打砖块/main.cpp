@@ -15,8 +15,6 @@ using namespace std;
 
 const int FPS = 144;  // 帧率值
 
-Camera* main_camera = Camera::instance();
-
 int main(int argc, char** argv)
 {
     using namespace std::chrono;
@@ -67,7 +65,7 @@ int main(int argc, char** argv)
         cleardevice();
 
         // 处理绘图
-        SceneManager::instance()->on_render(*main_camera);
+        SceneManager::instance()->on_render(*Camera::instance());
 
         FlushBatchDraw();
 
