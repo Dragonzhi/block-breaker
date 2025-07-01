@@ -17,6 +17,8 @@ public:
 
 private:
     static ParticleSystem* manager;
-    std::vector<Particle> particles;
+    std::vector<Particle> particle_pool;
+    std::vector<Particle*> active_particles;
+    std::vector<size_t> free_indices;
     const size_t MAX_PARTICLES = 1000; // 最大粒子数量
 };

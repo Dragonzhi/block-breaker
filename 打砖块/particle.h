@@ -7,6 +7,7 @@
 
 class Particle : public GameObject {
 public:
+    Particle();
     Particle(const Vector2& position, const Vector2& velocity, float life_time, int r = 255, int g = 255, int b = 255, int alpha = 255, bool is_blink = false);
     ~Particle();
 
@@ -27,6 +28,8 @@ public:
         is_blink = flag;
     }
 
+    void reset(const Vector2& pos, const Vector2& vel, float life,
+        int r, int g, int b, int a, bool blink);
 
 private:
     float life_time;
