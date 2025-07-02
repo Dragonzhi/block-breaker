@@ -1,8 +1,5 @@
-README
-![image](https://github.com/user-attachments/assets/b80aadab-2265-4ab3-8bf6-ba045a96b879)
 
 **砖治不服 | Shut Up & Brick!**
-
 
 *一、依赖环境与配置要求*
 
@@ -76,3 +73,6 @@ README
 
 •	若分数显示异常，请检查 EasyX 是否正确安装，或删除 highscores.dat 重新生成
 
+![image](https://github.com/user-attachments/assets/b8c2d508-8494-4430-8e66-6b413ee7c050)
+![image](https://github.com/user-attachments/assets/957a4ce2-f18f-46be-98c2-79c343153c81)
+![image](https://github.com/user-attachments/assets/a026a425-4385-4e32-830b-32724402bb36)
