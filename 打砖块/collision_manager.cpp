@@ -231,7 +231,7 @@ void CollisionManager::process_collide() {
     }
 }
 
-// 辅助函数（需添加到类中）
+// 辅助函数
 const char* CollisionManager::get_layer_name(CollisionLayer layer) {
     switch (layer) {
     case CollisionLayer::None: return "None";

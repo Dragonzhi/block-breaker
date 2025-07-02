@@ -66,6 +66,7 @@ void GameScene::on_update(float delta)  {
     }
 
     if (is_game_overed) {
+
         if (!is_cheat) {
             ScoreManager::instance()->saveHighScores();
             ScoreManager::instance()->updateHighScore(SceneManager::instance()->get_current_level(), ScoreManager::instance()->getScore());
@@ -115,7 +116,6 @@ void GameScene::on_update(float delta)  {
 
         if (BrickManager::instance()->isAllBroken()) {
             is_game_overed = true;
-
             level_end_time = GetTickCount(); // 记录结束时间
             // 计算最终得分
             unsigned int time_used = (level_end_time - level_start_time - total_pause_time) / 1000; // 秒
@@ -124,8 +124,7 @@ void GameScene::on_update(float delta)  {
             int penalty_per_sec = 10; // 每秒扣分
             int final_score = base_score + max(0, time_bonus - (int)time_used * penalty_per_sec) + (CharacterManager::instance()->get_player()->get_hp()) * 114;
             if (final_score < 0) final_score = 0;
-            ScoreManager::instance()->setScore(final_score); 
-        
+            ScoreManager::instance()->setScore(final_score);
         }
 
         // 如果有球掉出屏幕
@@ -335,7 +334,7 @@ void GameScene::render_game_overed(const Camera& camera) {
             end_game_bg_position.y + 280 + textHeight2 * 2 , // 与上一行保持10像素间距
             str_cmd);
 
-        unsigned int time_used = (level_end_time - level_start_time) / 1000;
+        unsigned int time_used = (level_end_time - level_start_time - total_pause_time) / 1000;
         _stprintf_s(str_cmd, _T("Duration: %u seconds"), time_used);
         int textWidth4 = textwidth(str_cmd);
         int textHeight4 = textheight(str_cmd);
