@@ -63,7 +63,12 @@ public:
 
 	void to_big() {
 		timer_big.restart();
-		current_animation = &ball_big_animation;
+		if (addition_damage >= 4) {
+			current_animation = &ball_big_ex_animation;
+		}
+		else {
+			current_animation = &ball_big_animation;
+		}
 		hurt_box->set_size({ 30, 30 });     // …Ë÷√≈ˆ◊≤∫–¥Û–°
 		addition_damage += 1;
 		is_big = true;
@@ -87,6 +92,7 @@ private:
 
 	Animation ball_animation;
 	Animation ball_big_animation;
+	Animation ball_big_ex_animation;
 
 	int addition_damage = 0;
 

@@ -32,6 +32,11 @@ Ball::Ball(int x = 50, int y = 700, Vector2 velocity = {0,0}, bool is_ready = fa
     ball_big_animation.set_anchor_mode(Animation::AnchorMode::Centered);
     ball_big_animation.add_frame(ResourcesManager::instance()->find_image("ball_big"), 1);
 
+    ball_big_ex_animation.set_interval(0.1f); // 帧间隔时间
+    ball_big_ex_animation.set_loop(true); // 循环播放
+    ball_big_ex_animation.set_anchor_mode(Animation::AnchorMode::Centered);
+    ball_big_ex_animation.add_frame(ResourcesManager::instance()->find_image("ball_big_ex"), 1);
+
     current_animation = &ball_animation;
 
     timer_last_position.set_one_shot(false);

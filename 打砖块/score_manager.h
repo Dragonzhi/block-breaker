@@ -12,7 +12,7 @@ private:
 
 public:
     static ScoreManager* instance();
-    ScoreManager(const std::string& highScoreFilePath = "highscore.txt");
+    ScoreManager(const std::string& highScoreFilePath = "highscore.dat");
     ~ScoreManager();
 
     int getScore() const;

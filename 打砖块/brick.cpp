@@ -24,7 +24,7 @@ Brick::Brick(int x, int y, Type type) {
         if (src && src->get_layer_src() == CollisionLayer::Ball ) {
             // 球的反弹逻辑（可根据需要实现）
             Ball* ball = dynamic_cast<Ball*>(src->get_owner());
-            if (ball && this->type != Brick::Type::Glass) {
+            if (ball && this->type != Brick::Type::Glass && !(ball->get_addition_damage() >= 4)) {
                 ball->handle_brick_collision(this->hurt_box, info);
             }
 
