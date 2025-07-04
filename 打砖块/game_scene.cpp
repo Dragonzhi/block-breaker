@@ -29,6 +29,9 @@ GameScene::GameScene() {
         if (next_level > 6) next_level = 6; // 限制最大为6
         SceneManager::instance()->set_current_level(next_level);
         SceneManager::instance()->switch_to(SceneManager::SceneType::Game);
+        button_home->set_actived(false);
+        button_rest->set_actived(false);
+        button_next->set_actived(false);
         });
 
     button_home = new Button(0, 0, 128, 128);
@@ -72,6 +75,9 @@ void GameScene::on_update(float delta)  {
             ScoreManager::instance()->updateHighScore(SceneManager::instance()->get_current_level(), ScoreManager::instance()->getScore());
         }
          
+        button_home->on_update(delta);
+        button_rest->on_update(delta);
+        button_next->on_update(delta);
 
         if (end_game_bg_position.y >= getheight()/10) {
             end_game_bg_position.y -= 380.0f * delta;
@@ -81,9 +87,9 @@ void GameScene::on_update(float delta)  {
             button_home->set_position(end_game_bg_position.x + 180, end_game_bg_position.y + 470);
             button_rest->set_position(end_game_bg_position.x + 334, end_game_bg_position.y + 470);
             button_next->set_position(end_game_bg_position.x + 488, end_game_bg_position.y + 470);
-            button_home->on_update(delta);
-            button_rest->on_update(delta);
-            button_next->on_update(delta);
+            button_home->set_actived(true);
+            button_rest->set_actived(true);
+            button_next->set_actived(true);
         }
     }
     else {

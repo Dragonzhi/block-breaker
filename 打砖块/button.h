@@ -35,6 +35,14 @@ public:
         return Vector2(position.x, position.y - height / 2);
     }
 
+    void set_actived(bool flag) {
+        if (!flag) {
+			hovered = false;
+			clicked = false;
+			pressed = false;
+		}
+        is_actived = flag;
+    }
 
     bool is_clicked() const;
     bool is_hovered() const;
@@ -57,6 +65,7 @@ private:
     bool hovered;
     bool clicked;
     bool pressed;
+    bool is_actived = true;
 
     LPCTSTR audio_id = _T("pressed_audio");
     

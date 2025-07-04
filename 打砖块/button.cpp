@@ -38,6 +38,8 @@ void Button::on_update(float delta)
 
 void Button::on_input(const ExMessage& msg)
 {
+    if(is_actived == false) return;
+
     if (msg.message == WM_MOUSEMOVE)
     {
         hovered = (msg.x >= position.x && msg.x <= position.x + width &&

@@ -60,7 +60,6 @@ Vector2 Ball::get_reflection_vector(const Vector2& incident, const Vector2& norm
     return incident - 2 * dot * normal;
 }
 
-// ball.cpp
 void Ball::apply_collision_physics(const Vector2& normal) {
     // 1. 恢复系数 (0.95 = 保留95%的能量)
     const float restitution = 0.95f;
@@ -71,7 +70,7 @@ void Ball::apply_collision_physics(const Vector2& normal) {
     velocity = velocity.rotate(random_angle);
 
     // 3. 速度限制
-    const float min_speed = 400.0f;
+    const float min_speed = speed;
     if (velocity.length() < min_speed) {
         velocity = velocity.normalize() * min_speed;
     }
@@ -139,12 +138,12 @@ void Ball::on_update(float delta) {
     Character::on_update(delta);
 
     // 速度限制
-    const float max_speed = 1200.0f;
+    const float max_speed = speed * 3.0f;
     if (velocity.length() > max_speed) {
         velocity = velocity.normalize() * max_speed;
     }
 
-    // 左边界碰撞
+     // 左边界碰撞
     if (position.x - radius <= 0) {
         position.x = radius; 
         reverse_x();

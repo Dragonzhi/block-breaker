@@ -63,6 +63,7 @@ public:
 
 	void to_big() {
 		timer_big.restart();
+		addition_damage += 1;
 		if (addition_damage >= 4) {
 			current_animation = &ball_big_ex_animation;
 		}
@@ -70,7 +71,6 @@ public:
 			current_animation = &ball_big_animation;
 		}
 		hurt_box->set_size({ 30, 30 });     // ÉèÖÃÅö×²ºĞ´óĞ¡
-		addition_damage += 1;
 		is_big = true;
 	}
 
@@ -100,7 +100,7 @@ private:
 	bool is_shot_key_down = false;
 	float radius;
 	bool is_enable = true;
-	float speed = 400.0f;
+	float speed = 500.0f;
 	bool is_ready_shot = true;
 	bool is_undead = false;
 	bool is_big = false;
