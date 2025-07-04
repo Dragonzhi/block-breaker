@@ -34,6 +34,8 @@ int main(int argc, char** argv)
         return -1;
     }
 
+    cout << "v1.1.2-beta" << endl;
+
     nanoseconds frame_duration(static_cast<long long>(1e9 / FPS));
     steady_clock::time_point last_tick = steady_clock::now();
 

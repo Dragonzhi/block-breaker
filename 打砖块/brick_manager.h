@@ -14,6 +14,7 @@ public:
     void fillUpperHalfRandomly(int screenWidth, int screenHeight);
     void fillUpperHalfRandomly_int(int screenWidth, int screenHeight, int level);
     void fillWithGrid(int screenWidth, int screenHeight, int rows, int cols, int level);
+    void fillFromCSV(const std::string& csvPath, int screenWidth, int screenHeight);
 
     void clearAllBricks();
     void rest(int screenWidth, int screenHeight);

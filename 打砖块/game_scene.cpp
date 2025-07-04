@@ -223,13 +223,17 @@ void GameScene::on_enter()  {
     pause_start_time = 0;
     total_pause_time = 0;
     is_paused = false;
+    ScoreManager::instance()->resetScore();
     ScoreManager::instance()->loadHighScores();
     SoundManager::instance()->playSound(_T("game_bgm"), true, true);
     if (CharacterManager::instance()->get_balls().empty()) {
         Vector2 temp_velo = { 0,0 };
         CharacterManager::instance()->add_ball(0, 700, temp_velo, true);
     }
-    BrickManager::instance()->fillUpperHalfRandomly_int(WINDOWS_WIDTH, WINDOWS_HEIGHT, SceneManager::instance()->get_current_level() > 6 ? 6 : SceneManager::instance()->get_current_level());
+
+    BrickManager::instance()->fillFromCSV("level/level²âÊÔ.csv", WINDOWS_WIDTH, WINDOWS_HEIGHT);
+
+    //BrickManager::instance()->fillUpperHalfRandomly_int(WINDOWS_WIDTH, WINDOWS_HEIGHT, SceneManager::instance()->get_current_level() > 6 ? 6 : SceneManager::instance()->get_current_level());
 }
 
 void GameScene::on_exit()  {

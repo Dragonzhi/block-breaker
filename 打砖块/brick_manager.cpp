@@ -2,6 +2,11 @@
 #include "score_manager.h"
 #include <random>
 #include "scene_manager.h"
+#include <iostream>
+
+#include <fstream>
+#include <sstream>
+#include <string>
 
 BrickManager* BrickManager::manager = nullptr;
 
@@ -215,3 +220,81 @@ void BrickManager::rest(int screenWidth, int screenHeight) {
     fillUpperHalfRandomly_int(screenWidth, screenHeight, SceneManager::instance()->get_current_level());
 }
 
+
+
+void BrickManager::fillFromCSV(const std::string& csvPath, int screenWidth, int screenHeight)
+{
+    clearAllBricks();
+    cout << "csv enter" << endl;
+    std::ifstream file(csvPath);
+    if (!file.is_open()) return;
+    cout << "csv open" << endl;
+
+    std::vector<std::vector<int>> grid;
+    std::string line;
+    while (std::getline(file, line)) {
+        // 检查并去除UTF-8 BOM
+        if (!line.empty() && line.size() >= 3 &&
+            static_cast<unsigned char>(line[0]) == 0xEF &&
+            static_cast<unsigned char>(line[1]) == 0xBB &&
+            static_cast<unsigned char>(line[2]) == 0xBF) {
+            line = line.substr(3);
+        }
+
+        std::vector<int> row;
+        std::stringstream ss(line);
+        std::string cell;
+        while (std::getline(ss, cell, ',')) {
+            // 去除前后空格
+            cell.erase(0, cell.find_first_not_of(" \t\r\n"));
+            cell.erase(cell.find_last_not_of(" \t\r\n") + 1);
+            //std::cout << "cell: [" << cell << "]" << std::endl; // 调试输出
+            if (cell.empty()) continue; // 跳过空单元格
+            try {
+                row.push_back(std::stoi(cell));
+            }
+            catch (const std::invalid_argument&) {
+                // 非法数据，跳过
+                cout << "csv 非法数据，跳过: [" << cell << "]" << endl;
+                continue;
+            }
+        }
+        if (!row.empty())
+            grid.push_back(row);
+    }
+    file.close();
+    cout << "csv read" << endl;
+
+    int rows = static_cast<int>(grid.size());
+    if (rows == 0) return;
+    cout << "csv rows" << rows << endl;
+    //for (int i = 0; i < grid.size(); ++i) {
+    //    std::cout << "row " << i << " size: " << grid[i].size() << std::endl;
+    //}
+    const int maxCols = 18;
+    const int brickWidth = 70;
+    const int brickHeight = 40;
+    const int spacing = 0;
+    const int startX = 45;
+    const int startY = 30;
+
+    for (int row = 0; row < grid.size(); ++row) {
+        for (int col = 0; col < grid[row].size() && col < maxCols; ++col) {
+            int val = grid[row][col];
+            if (val == 0) continue; // 空气
+
+            Brick::Type type = Brick::Normal;
+            if (val == 1) type = Brick::Normal;
+            else if (val == 2) type = Brick::Streng;
+            else if (val == 3) type = Brick::Powerup;
+            else if (val == 4) type = Brick::Double;
+            else if (val == 5) type = Brick::Glass;
+            else if (val == 6) type = Brick::More;
+
+            int x = startX + col * (brickWidth + spacing);
+            int y = startY + row * (brickHeight + spacing);
+            bricks.push_back(new Brick(x, y, type));
+        }
+    }
+
+}
