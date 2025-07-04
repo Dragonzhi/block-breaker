@@ -7,7 +7,7 @@
 #include "scene_manager.h"
 #include "score_manager.h"
 #include "sound_manager.h"
-
+#include <sstream>  
 extern int WINDOWS_WIDTH;
 extern int WINDOWS_HEIGHT;
 
@@ -242,7 +242,12 @@ void GameScene::on_enter()  {
         CharacterManager::instance()->add_ball(0, 700, temp_velo, true);
     }
 
-    BrickManager::instance()->fillFromCSV("level/level²âÊÔ.csv", WINDOWS_WIDTH, WINDOWS_HEIGHT);
+
+    int levelNumber = SceneManager::instance()->get_current_level();
+    std::stringstream ss;
+    ss << "level/level_" << levelNumber << ".csv";
+
+    BrickManager::instance()->fillFromCSV(ss.str(), WINDOWS_WIDTH, WINDOWS_HEIGHT);
 
     //BrickManager::instance()->fillUpperHalfRandomly_int(WINDOWS_WIDTH, WINDOWS_HEIGHT, SceneManager::instance()->get_current_level() > 6 ? 6 : SceneManager::instance()->get_current_level());
 }
