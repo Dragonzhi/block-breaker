@@ -74,5 +74,6 @@
 •	若分数显示异常，请检查 EasyX 是否正确安装，或删除 highscores.dat 重新生成
 
 ![image](https://github.com/user-attachments/assets/b8c2d508-8494-4430-8e66-6b413ee7c050)
+![image](https://github.com/user-attachments/assets/c92e02de-2ce0-44de-84bf-cc8bf6d350d0)
 ![image](https://github.com/user-attachments/assets/957a4ce2-f18f-46be-98c2-79c343153c81)
 ![image](https://github.com/user-attachments/assets/a026a425-4385-4e32-830b-32724402bb36)
