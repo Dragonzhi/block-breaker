@@ -128,7 +128,17 @@ void GameScene::on_update(float delta)  {
             int base_score = ScoreManager::instance()->getScore();
             int time_bonus = 1000; // 你可以根据需要调整
             int penalty_per_sec = 10; // 每秒扣分
-            int final_score = base_score + max(0, time_bonus - (int)time_used * penalty_per_sec) + (CharacterManager::instance()->get_player()->get_hp()) * 114;
+
+            int time_penalty;
+            int player_hp = CharacterManager::instance()->get_player()->get_hp();
+            if (player_hp != 0) {
+                time_penalty = max(0, time_bonus - (int)time_used * penalty_per_sec);
+            }
+            else {
+                time_penalty = 0;
+            }
+
+            int final_score = base_score + time_penalty + player_hp * 114;
             if (final_score < 0) final_score = 0;
             ScoreManager::instance()->setScore(final_score);
         }
@@ -152,6 +162,7 @@ void GameScene::on_update(float delta)  {
                 paddle->set_hp(paddle->get_hp() - 1);
                 SoundManager::instance()->playSound(_T("ball_down"), false);
                 if (paddle->get_hp() <= 0 ) {
+                    level_end_time = GetTickCount(); // 记录结束时间
                     is_game_overed = true;
                 }
                 else {
