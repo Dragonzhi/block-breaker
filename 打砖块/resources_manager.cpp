@@ -27,6 +27,7 @@ static const vector<ImageResInfo> image_info_list = {
 	{ "brick_green",								_T(R"(resources\element_green_rectangle_glossy.png)") },
 	{ "brick_grey",									_T(R"(resources\element_grey_rectangle_glossy.png)") },
 	{ "brick_purple",								_T(R"(resources\element_purple_rectangle_glossy.png)") },
+	{ "brick_unbreakable",							_T(R"(resources\element_black_rectangle.png)") },
 	{ "end_game_background",						_T(R"(resources\endGame_back.png)") },
 	{ "end_game_background_star_left",				_T(R"(resources\endGame_star_left.png)") },
 	{ "end_game_background_star_right",				_T(R"(resources\endGame_star_right.png)") },

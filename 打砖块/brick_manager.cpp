@@ -290,6 +290,7 @@ void BrickManager::fillFromCSV(const std::string& csvPath, int screenWidth, int 
             else if (val == 4) type = Brick::Double;
             else if (val == 5) type = Brick::Glass;
             else if (val == 6) type = Brick::More;
+            else if (val == 7) type = Brick::Unbreakable;
 
             int x = startX + col * (brickWidth + spacing);
             int y = startY + row * (brickHeight + spacing);

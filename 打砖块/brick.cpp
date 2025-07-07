@@ -183,6 +183,14 @@ void Brick::init() {
         color.g = 205;
         color.b = 205;
         break;
+    case Brick::Unbreakable:
+        animation_brick.add_frame(ResourcesManager::instance()->find_image("brick_unbreakable"), 1);
+        is_destoryed = false; // 不可被击中
+        counts = 1;
+        points = 0;
+        color.r = 113;
+        color.g = 113;
+        color.b = 113;
     default:
         break;
     }

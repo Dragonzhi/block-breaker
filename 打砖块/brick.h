@@ -18,7 +18,8 @@ public:
         Powerup,
         Double,
         Glass,
-        More
+        More,
+        Unbreakable,
     };
     struct ColorBrick
     {
