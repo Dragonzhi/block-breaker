@@ -6,6 +6,10 @@
 
 class BrickManager
 {
+private:
+    BrickManager();
+    ~BrickManager();
+
 public:
     static BrickManager* instance();
     void on_input(const ExMessage& msg);
@@ -20,18 +24,17 @@ public:
     void rest(int screenWidth, int screenHeight);
 
     bool isAllBroken() const {
-        if (bricks.empty())
-            return true;
-        return false;
+        if (bricks.empty()) return true;
+        for (const auto& element : bricks) {
+            if (element->check_can_destoryed()) return false;
+        }
+        return true;
     }
 
 private:
     static BrickManager* manager;
     std::vector<Brick*> bricks;
 
-private:
-    BrickManager();
-    ~BrickManager();
 
 
     bool isOverlapping(const Brick* newBrick);
