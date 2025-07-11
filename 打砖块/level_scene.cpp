@@ -13,6 +13,8 @@ LevelScene::LevelScene() {
     button_level4 = new Button(0, 0, 128, 128);
     button_level5 = new Button(0, 0, 128, 128);
     button_level6 = new Button(0, 0, 128, 128);
+    button_level_random = new Button(0, 0, 128, 128);
+    button_level_diy = new Button(0, 0, 128, 128);
 
     // 设置按钮的背景、悬停和点击图片
     IMAGE* idle_image = ResourcesManager::instance()->find_image("end_game_background_button_Next_idle");
@@ -43,6 +45,15 @@ LevelScene::LevelScene() {
     button_level6->set_click_image(press_image);
     button_level6->set_hover_image(hover_image);
 
+    button_level_random->set_background_image(idle_image);
+    button_level_random->set_click_image(press_image);
+    button_level_random->set_hover_image(hover_image);
+
+    button_level_diy->set_background_image(idle_image);
+    button_level_diy->set_click_image(press_image);
+    button_level_diy->set_hover_image(hover_image);
+
+
     // 设置按钮的点击事件
     button_level1->on_click([]() {         
         SceneManager::instance()->set_current_level(1);
@@ -68,6 +79,14 @@ LevelScene::LevelScene() {
         SceneManager::instance()->set_current_level(6);
         SceneManager::instance()->switch_to(SceneManager::SceneType::Game);
         });
+    button_level_random->on_click([]() {
+        SceneManager::instance()->set_current_level(101);
+        SceneManager::instance()->switch_to(SceneManager::SceneType::Game);
+        });
+    button_level_diy->on_click([]() {
+        SceneManager::instance()->set_current_level(102);
+        SceneManager::instance()->switch_to(SceneManager::SceneType::Game);
+        });
 
     // 计算按钮的位置，使其位于场景偏上方
     int scene_width = getwidth();
@@ -77,7 +96,7 @@ LevelScene::LevelScene() {
     spacing = 80; 
 
     int total_width = 3 * button_level1->get_width() + 2 * spacing;
-    int start_x = (scene_width - total_width) / 2;
+    int start_x = (scene_width - total_width) / 3;
     int start_y = scene_height / 4;
 
     button_level1->set_position(start_x, start_y);
@@ -86,6 +105,8 @@ LevelScene::LevelScene() {
     button_level4->set_position(start_x, start_y + button_height + spacing * 2);
     button_level5->set_position(start_x + button_width + spacing, start_y + button_height + spacing * 2);
     button_level6->set_position(start_x + 2 * (button_width + spacing), start_y + button_height + spacing * 2);
+    button_level_random->set_position(start_x + 3 * (button_width + spacing), start_y);
+    button_level_diy->set_position(start_x + 3 * (button_width + spacing), start_y + button_height + spacing * 2);
 }
 
 LevelScene::~LevelScene() {
@@ -95,6 +116,8 @@ LevelScene::~LevelScene() {
     delete button_level4;
     delete button_level5;
     delete button_level6;
+    delete button_level_random;
+    delete button_level_diy;
 }
 
 void LevelScene::on_update(float delta) {
@@ -104,6 +127,8 @@ void LevelScene::on_update(float delta) {
     button_level4->on_update(delta);
     button_level5->on_update(delta);
     button_level6->on_update(delta);
+    button_level_random->on_update(delta);
+    button_level_diy->on_update(delta);
 }
 
 void LevelScene::on_input(const ExMessage& msg) {
@@ -113,6 +138,8 @@ void LevelScene::on_input(const ExMessage& msg) {
     button_level4->on_input(msg);
     button_level5->on_input(msg);
     button_level6->on_input(msg);
+    button_level_random->on_input(msg);
+    button_level_diy->on_input(msg);
 
     // 检查是否按下ESC键退出到菜单
     if (msg.message == WM_KEYDOWN && msg.vkcode == VK_ESCAPE) {
@@ -144,6 +171,8 @@ void LevelScene::on_render(const Camera& camera) {
     button_level4->on_render(camera);
     button_level5->on_render(camera);
     button_level6->on_render(camera);
+    button_level_random->on_render(camera);
+    button_level_diy->on_render(camera);
     
     LOGFONT f;
     gettextstyle(&f);
@@ -182,6 +211,29 @@ void LevelScene::on_render(const Camera& camera) {
         int scoreWidth = textwidth(str_cmd);
         outtextxy(btn_x + b_width / 2 - scoreWidth / 2, btn_y + b_height + textHeight / 2, str_cmd);
     }
+
+    _stprintf_s(str_cmd, _T("Random Level"));
+    int textWidth = textwidth(str_cmd);
+    int textHeight = textheight(str_cmd);
+    int btn_x = button_level_random->get_position().x;
+    int btn_y = button_level_random->get_position().y;
+    outtextxy(btn_x + b_width / 2 - textWidth / 2, btn_y - textHeight * 2, str_cmd);
+    int highScore = ScoreManager::instance()->getHighScore(101);
+    _stprintf_s(str_cmd, _T("High: %d"), highScore);
+    int scoreWidth = textwidth(str_cmd);
+    outtextxy(btn_x + b_width / 2 - scoreWidth / 2, btn_y + b_height + textHeight / 2, str_cmd);
+
+    _stprintf_s(str_cmd, _T("DIY Level"));
+    textWidth = textwidth(str_cmd);
+    textHeight = textheight(str_cmd);
+    btn_x = button_level_diy->get_position().x;
+    btn_y = button_level_diy->get_position().y;
+    outtextxy(btn_x + b_width / 2 - textWidth / 2, btn_y - textHeight * 2, str_cmd);
+    highScore = ScoreManager::instance()->getHighScore(102);
+    _stprintf_s(str_cmd, _T("High: %d"), highScore);
+    scoreWidth = textwidth(str_cmd);
+    outtextxy(btn_x + b_width / 2 - scoreWidth / 2, btn_y + b_height + textHeight / 2, str_cmd);
+
 
     // 绘制总分
     int totalScore = ScoreManager::instance()->getTotalScore();

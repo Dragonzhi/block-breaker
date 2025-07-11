@@ -13,7 +13,7 @@ ScoreManager* ScoreManager::instance() {
     return manager;
 }
 ScoreManager::ScoreManager(const std::string& highScoreFilePath)
-    : score(0), highScores(6, 0), highScoreFile(highScoreFilePath) {
+    : score(0), highScores(114, 0), highScoreFile(highScoreFilePath) {
     loadHighScores();
 }
 

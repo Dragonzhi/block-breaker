@@ -242,14 +242,17 @@ void GameScene::on_enter()  {
         CharacterManager::instance()->add_ball(0, 700, temp_velo, true);
     }
 
-
     int levelNumber = SceneManager::instance()->get_current_level();
-    std::stringstream ss;
-    ss << "level/level_" << levelNumber << ".csv";
+    if (levelNumber == 101) {
+        BrickManager::instance()->fillUpperHalfRandomly_int(WINDOWS_WIDTH, WINDOWS_HEIGHT, SceneManager::instance()->get_current_level() > 6 ? 6 : SceneManager::instance()->get_current_level());
+    }
+    else {
+        std::stringstream ss;
+        ss << "level/level_" << levelNumber << ".csv";
 
-    BrickManager::instance()->fillFromCSV(ss.str(), WINDOWS_WIDTH, WINDOWS_HEIGHT);
+        BrickManager::instance()->fillFromCSV(ss.str(), WINDOWS_WIDTH, WINDOWS_HEIGHT);
+    }
 
-    //BrickManager::instance()->fillUpperHalfRandomly_int(WINDOWS_WIDTH, WINDOWS_HEIGHT, SceneManager::instance()->get_current_level() > 6 ? 6 : SceneManager::instance()->get_current_level());
 }
 
 void GameScene::on_exit()  {
